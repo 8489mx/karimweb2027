@@ -1,11 +1,38 @@
-<div align="center">
+# Elite Personal Training Landing Page
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+## Overview
 
-  <h1>Built with AI Studio</h2>
+Arabic landing page for online fitness and nutrition coaching with packages, calorie calculator, client results, WhatsApp CTAs, SEO metadata.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## Tech Stack
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+* React
+* TypeScript
+* Vite
+* Tailwind CSS
+* Framer Motion
 
-</div>
+## Getting Started
+
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+## Preview
+
+```bash
+npm run preview
+```
+
+## Notes
+
+This project is a static landing page. It does not include authentication, backend, database, or SaaS features.
+WhatsApp is used for lead conversion.
+
