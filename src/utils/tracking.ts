@@ -86,6 +86,10 @@ export const trackFinalCtaClick = (data: { cta_location: string; button_text: st
   trackEvent('final_cta_click', data, true);
 };
 
+export const trackStartNowClick = (data: { cta_location: string; button_text?: string }) => {
+  trackEvent('start_now_click', data, true);
+};
+
 export const trackCheckoutStart = (data: { package_name: string; cta_location: string }) => {
   trackEvent('begin_checkout', data, true);
 };
@@ -95,5 +99,5 @@ export const trackCheckoutStep = (data: { step_name: string; package_name: strin
 };
 
 export const trackCheckoutComplete = (data: { package_name: string; price: string; currency: string }) => {
-  trackEvent('purchase', data, true);
+  trackEvent('InitiateCheckout', data, true);
 };

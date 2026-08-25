@@ -111,3 +111,58 @@ html[dir="rtl"] .animate-marquee {
 }
 
 
+
+/* Hide number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+
+/* Custom Scrollbar for the Country Dropdown */
+.custom-country-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-country-dropdown::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+.custom-country-dropdown::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.custom-country-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Override react-phone-number-input default outline */
+.PhoneInput,
+.PhoneInput:focus-within,
+.PhoneInputInput,
+.PhoneInputInput:focus {
+  outline: none !important;
+}
+
+/* Override react-phone-number-input flag borders and apply rounding */
+.PhoneInputCountryIcon--border {
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+.PhoneInputCountryIconImg {
+  border-radius: 4px !important;
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+.PhoneInputCountryIcon {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}

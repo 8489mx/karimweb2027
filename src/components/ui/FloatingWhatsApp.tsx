@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../../context/LanguageContext';
+import { useSettings } from '../../context/SettingsContext';
 import { trackWhatsAppClick } from '../../utils/tracking';
 
 const WhatsAppIcon = ({ size = 28 }) => (
@@ -17,9 +18,10 @@ const WhatsAppIcon = ({ size = 28 }) => (
 
 export function FloatingWhatsApp() {
   const { lang } = useLanguage();
+  const { settings } = useSettings();
   return (
     <motion.a
-      href="https://wa.me/201001060503?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%86%D8%A7%20%D9%85%D9%87%D8%AA%D9%85%20%D8%A3%D8%A8%D8%AF%D8%A3%20%D8%AE%D8%B7%D8%A9%20%D8%AA%D8%AF%D8%B1%D9%8A%D8%A8%20%D9%88%D8%AA%D8%BA%D8%B0%D9%8A%D8%A9%20%D8%A3%D9%88%D9%86%D9%84%D8%A7%D9%8A%D9%86%20%D9%88%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B9%D8%B1%D9%81%20%D8%A3%D9%86%D8%B3%D8%A8%20%D8%A8%D8%A7%D9%82%D8%A9%20%D9%84%D9%8A%D8%A7."
+      href={`https://wa.me/${settings.whatsappNumber}?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%86%D8%A7%20%D9%85%D9%87%D8%AA%D9%85%20%D8%A3%D8%A8%D8%AF%D8%A3%20%D8%AE%D8%B7%D8%A9%20%D8%AA%D8%AF%D8%B1%D9%8A%D8%A8%20%D9%88%D8%AA%D8%BA%D8%B0%D9%8A%D8%A9%20%D8%A3%D9%88%D9%86%D9%84%D8%A7%D9%8A%D9%86%20%D9%88%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B9%D8%B1%D9%81%20%D8%A3%D9%86%D8%B3%D8%A8%20%D8%A8%D8%A7%D9%82%D8%A9%20%D9%84%D9%8A%D8%A7.`}
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => trackWhatsAppClick({ cta_location: 'floating_button' })}

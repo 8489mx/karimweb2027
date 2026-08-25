@@ -30,12 +30,12 @@ export function SocialProof() {
                   >
                     <span 
                       dir="ltr" 
-                      className="font-black text-brand-primary tracking-tight leading-none mb-1 text-[1.8rem] md:text-[2rem] transition-transform duration-300 group-hover:scale-105"
+                      className="font-bold text-brand-primary tracking-tight leading-none mb-1 text-[1.8rem] md:text-[2rem] transition-transform duration-300 group-hover:scale-105"
                     >
                       {stat.value}
                     </span>
                     <span 
-                      className="text-slate-500 font-medium text-[0.85rem] md:text-[0.95rem] uppercase"
+                      className="text-slate-500 font-medium text-[0.85rem] md:text-[0.95rem] uppercase whitespace-pre-line"
                     >
                       {stat.label}
                     </span>
@@ -58,10 +58,10 @@ export function SocialProof() {
           {/* Repeat stats to ensure seamless marquee scroll */}
           {[...stats, ...stats, ...stats, ...stats].map((stat, i) => (
             <div key={`stat-mobile-${i}`} className="flex items-center mx-4 sm:mx-6 shrink-0" dir={stat.value === 'ISSA' ? 'ltr' : 'rtl'}>
-              <span className={`font-bold text-white tracking-wider text-[1.2rem] ${stat.value === 'ISSA' ? 'mr-2' : 'ml-2'}`}>
+              <span className={`font-medium text-white tracking-wider text-[1.2rem] ${stat.value === 'ISSA' ? 'mr-2' : 'ml-2'}`}>
                 {stat.value}
               </span>
-              <span className="text-white/90 font-medium text-[0.85rem] uppercase tracking-wide">
+              <span className="text-white/90 font-medium text-[0.85rem] uppercase tracking-wide whitespace-pre-line">
                 {stat.label}
               </span>
             </div>

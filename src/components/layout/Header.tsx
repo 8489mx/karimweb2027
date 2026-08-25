@@ -1,4 +1,4 @@
-import { trackWhatsAppClick } from "../../utils/tracking";
+import { trackStartNowClick } from "../../utils/tracking";
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '../ui/Button';
@@ -6,16 +6,28 @@ import { cn } from '@/src/lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
 import { animate } from 'framer-motion';
 import { useLanguage } from '../../context/LanguageContext';
-import { useLocation } from 'react-router-dom';
-import { HashLink as Link } from 'react-router-hash-link';
+import { useSettings } from '../../context/SettingsContext';
+import { useLocation, Link } from 'react-router-dom';
 
 export function Header() {
+  const { settings } = useSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [mobileMenuOpen]);
+
   const [scrolled, setScrolled] = useState(false);
   const { lang, t, dir } = useLanguage();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
-
+  
   const headerActive = scrolled || !isHomePage;
 
   const navLinks = useMemo(() => [
@@ -25,21 +37,19 @@ export function Header() {
     { name: t.nav.programs, href: '/#programs', id: 'programs' },
     { name: t.nav.process, href: '/#process', id: 'process' },
     { name: t.nav.packages, href: '/#packages', id: 'packages' },
+    ...(settings.enableStore ? [{ name: t.nav.store || 'المتجر', href: '/#store', id: 'store' }] : []),
     { name: t.nav.calculator, href: '/#calculator', id: 'calculator' },
-  ], [t]);
+  ], [t, settings.enableStore]);
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [hoverX, setHoverX] = useState<number | null>(null);
-  const navRef = useRef<HTMLUListElement>(null);
-  const spotlightX = useRef(0);
-  const ambienceX = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-
+      
       // Detect active section
       if (!isHomePage) return;
+      
       let currentSectionIndex = 0;
       for (let i = navLinks.length - 1; i >= 0; i--) {
         const sectionId = navLinks[i].id;
@@ -61,75 +71,11 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [navLinks, isHomePage]);
 
-  useEffect(() => {
-    if (!navRef.current) return;
-    const nav = navRef.current;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = nav.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      setHoverX(x);
-      spotlightX.current = x;
-      nav.style.setProperty("--spotlight-x", `${x}px`);
-    };
-
-    const handleMouseLeave = () => {
-      setHoverX(null);
-      const activeItem = nav.querySelector(`[data-index="${activeIndex}"]`);
-      if (activeItem) {
-        const navRect = nav.getBoundingClientRect();
-        const itemRect = activeItem.getBoundingClientRect();
-        const targetX = itemRect.left - navRect.left + itemRect.width / 2;
-
-        animate(spotlightX.current, targetX, {
-          type: "spring",
-          stiffness: 200,
-          damping: 20,
-          onUpdate: (v) => {
-            spotlightX.current = v;
-            nav.style.setProperty("--spotlight-x", `${v}px`);
-          }
-        });
-      }
-    };
-
-    nav.addEventListener("mousemove", handleMouseMove);
-    nav.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      nav.removeEventListener("mousemove", handleMouseMove);
-      nav.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, [activeIndex]);
-
-  // Handle the "Ambience" (Active Item) Movement
-  useEffect(() => {
-    if (!navRef.current) return;
-    const nav = navRef.current;
-    const activeItem = nav.querySelector(`[data-index="${activeIndex}"]`);
-
-    if (activeItem) {
-      const navRect = nav.getBoundingClientRect();
-      const itemRect = activeItem.getBoundingClientRect();
-      const targetX = itemRect.left - navRect.left + itemRect.width / 2;
-
-      animate(ambienceX.current, targetX, {
-        type: "spring",
-        stiffness: 200,
-        damping: 20,
-        onUpdate: (v) => {
-          ambienceX.current = v;
-          nav.style.setProperty("--ambience-x", `${v}px`);
-        },
-      });
-    }
-  }, [activeIndex]);
-
   return (
     <header className="fixed top-0 left-0 w-full z-50 pointer-events-none" dir="ltr">
       <div 
         className={cn(
-          "mx-auto pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] relative flex items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-4",
+          "mx-auto pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] relative flex items-center justify-between lg:gap-4",
           headerActive 
             ? "w-[calc(100%-32px)] max-w-7xl md:w-[calc(100%-40px)] bg-white shadow-[0_14px_40px_rgba(0,0,0,0.05)] h-[46px] md:h-[62px] px-5 sm:px-6 lg:px-8 rounded-full mt-3 md:mt-4"
             : "w-full bg-transparent h-[60px] md:h-[96px] px-5 sm:px-6 lg:px-10 mt-0"
@@ -137,7 +83,16 @@ export function Header() {
       >
         {/* Logo */}
         <div className="flex justify-start items-center z-10 flex-shrink-0">
-          <Link smooth to="/#hero" className="block transition-opacity hover:opacity-80">
+          <Link 
+            to="/#hero" 
+            onClick={(e) => {
+              if (isHomePage) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+            className="block transition-opacity hover:opacity-80"
+          >
             <img 
               src="/assets/images/logo/2.png"
               alt={lang === 'ar' ? "لوجو كابتن كريم زكريا" : "Karim Zakaria Logo"}
@@ -159,7 +114,15 @@ export function Header() {
         
         {/* Centered Mobile CTA Button */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:hidden flex items-center justify-center z-20">
-          <Button onClick={() => trackWhatsAppClick({ cta_location: "header", button_text: t.hero.cta })} href="https://wa.me/201001060503?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%86%D8%A7%20%D9%85%D9%87%D8%AA%D9%85%20%D8%A3%D8%A8%D8%AF%D8%A3%20%D8%AE%D8%B7%D8%A9%20%D8%AA%D8%AF%D8%B1%D9%8A%D8%A8%20%D9%88%D8%AA%D8%BA%D8%B0%D9%8A%D8%A9%20%D8%A3%D9%88%D9%86%D9%84%D8%A7%D9%8A%D9%86%20%D9%88%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B9%D8%B1%D9%81%20%D8%A3%D9%86%D8%B3%D8%A8%20%D8%A8%D8%A7%D9%82%D8%A9%20%D9%84%D9%8A%D8%A7." 
+          <Button 
+            href="/#packages"
+            onClick={(e) => {
+              if (window.location.pathname === '/') {
+                e.preventDefault();
+                document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' });
+              }
+              trackStartNowClick({ cta_location: "header", button_text: t.hero.cta });
+            }} 
             className={cn(
               "px-4 py-1.5 text-[11px] sm:text-xs font-bold rounded-full shadow-sm whitespace-nowrap transition-all duration-300",
               headerActive 
@@ -177,7 +140,7 @@ export function Header() {
           <button
             aria-expanded={mobileMenuOpen}
             aria-label="Toggle mobile menu"
-            className={cn("transition-colors duration-500", headerActive ? "text-[#0F172A]" : "text-white")}
+            className={cn("focus-visible:ring-2 focus-visible:ring-brand-primary rounded-md focus:outline-none transition-colors duration-500", headerActive ? "text-[#0F172A]" : "text-white")}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={22} /> : (
@@ -191,62 +154,51 @@ export function Header() {
         </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex justify-center items-center relative h-full">
+        <nav className="hidden lg:flex justify-center items-center relative h-full flex-1">
           <ul 
-            ref={navRef}
             className="relative flex items-center h-full gap-1 z-[10]" 
             dir={dir}
           >
             {navLinks.map((link, idx) => (
               <li key={link.name} className="relative h-full flex items-center justify-center">
-                <Link smooth
+                <Link
                   to={link.href}
-                  data-index={idx}
-                  onClick={() => setActiveIndex(idx)}
+                  onClick={(e) => {
+                    setActiveIndex(idx);
+                    if (isHomePage) {
+                      const el = document.getElementById(link.id);
+                      if (el) {
+                        e.preventDefault();
+                        el.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }
+                  }}
                   className={cn(
                     "px-4 py-2 text-[12px] xl:text-[13px] whitespace-nowrap font-bold uppercase transition-colors duration-200 rounded-full",
                     // Active vs Inactive Text
                     activeIndex === idx
                       ? (headerActive ? "text-brand-primary" : "text-white")
-                      : (headerActive ? "text-slate-700 hover:text-slate-900" : "text-white/90 hover:text-white")
+                      : (headerActive ? "text-slate-700 hover:text-brand-primary" : "text-white/90 hover:text-white")
                   )}
                 >
                   {link.name}
                 </Link>
               </li>
             ))}
-
-            {/* The Moving Spotlight (Follows Mouse) */}
-            <div
-                className="pointer-events-none absolute top-1/2 -translate-y-1/2 left-0 w-full h-[calc(100%+16px)] z-[1] opacity-0 transition-opacity duration-300"
-                style={{
-                    opacity: hoverX !== null ? 1 : 0,
-                    background: `
-                      radial-gradient(
-                        80px circle at var(--spotlight-x) 50%, 
-                        ${headerActive ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.08)'} 0%, 
-                        transparent 100%
-                      )
-                    `,
-                    borderRadius: '999px'
-                }}
-            />
-
-            {/* The Active State Ambience (Stays on Active) */}
-            <div
-                className="pointer-events-none absolute top-[calc(50%+16px)] left-0 h-[2px] z-[2] rounded-full transition-colors duration-300"
-                style={{
-                    width: '24px',
-                    transform: 'translateX(calc(var(--ambience-x) - 50%))',
-                    backgroundColor: headerActive ? '#94a3b8' : 'rgba(255,255,255,0.7)'
-                }}
-            />
           </ul>
         </nav>
           
         {/* Desktop Utilities */}
-        <div className="hidden lg:flex items-center gap-4 xl:gap-6 justify-end">
-          <Button onClick={() => trackWhatsAppClick({ cta_location: "header", button_text: t.hero.cta })} href="https://wa.me/201001060503?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%86%D8%A7%20%D9%85%D9%87%D8%AA%D9%85%20%D8%A3%D8%A8%D8%AF%D8%A3%20%D8%AE%D8%B7%D8%A9%20%D8%AA%D8%AF%D8%B1%D9%8A%D8%A8%20%D9%88%D8%AA%D8%BA%D8%B0%D9%8A%D8%A9%20%D8%A3%D9%88%D9%86%D9%84%D8%A7%D9%8A%D9%86%20%D9%88%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B9%D8%B1%D9%81%20%D8%A3%D9%86%D8%B3%D8%A8%20%D8%A8%D8%A7%D9%82%D8%A9%20%D9%84%D9%8A%D8%A7." 
+        <div className="hidden lg:flex items-center gap-4 xl:gap-6 justify-end flex-shrink-0">
+          <Button 
+            href="/#packages"
+            onClick={(e) => {
+              if (window.location.pathname === '/') {
+                e.preventDefault();
+                document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' });
+              }
+              trackStartNowClick({ cta_location: "header", button_text: t.hero.cta });
+            }} 
             className={cn(
               "rounded-full font-bold whitespace-nowrap transition-all duration-300 px-6 xl:px-7 py-2 text-xs xl:text-sm shadow-sm",
               headerActive 
@@ -281,17 +233,37 @@ export function Header() {
             >
             <div className="flex flex-col px-6 py-6 pb-8 gap-4">
               {navLinks.map((link) => (
-                <Link smooth
+                <Link
                   key={link.name}
                   to={link.href}
                   className="text-sm font-bold uppercase text-slate-800 py-3 border-b border-slate-100"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => {
+                    setMobileMenuOpen(false);
+                    if (isHomePage) {
+                      const el = document.getElementById(link.id);
+                      if (el) {
+                        e.preventDefault();
+                        el.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }
+                  }}
                 >
                   {link.name}
                 </Link>
               ))}
               <div className="pt-4 flex justify-center">
-                <Button onClick={() => trackWhatsAppClick({ cta_location: "header", button_text: t.hero.cta })} href="https://wa.me/201001060503?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%86%D8%A7%20%D9%85%D9%87%D8%AA%D9%85%20%D8%A3%D8%A8%D8%AF%D8%A3%20%D8%AE%D8%B7%D8%A9%20%D8%AA%D8%AF%D8%B1%D9%8A%D8%A8%20%D9%88%D8%AA%D8%BA%D8%B0%D9%8A%D8%A9%20%D8%A3%D9%88%D9%86%D9%84%D8%A7%D9%8A%D9%86%20%D9%88%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B9%D8%B1%D9%81%20%D8%A3%D9%86%D8%B3%D8%A8%20%D8%A8%D8%A7%D9%82%D8%A9%20%D9%84%D9%8A%D8%A7." className="rounded-xl bg-brand-primary text-white shadow-md">
+                <Button 
+                  href="/#packages"
+                  onClick={(e) => {
+                    if (window.location.pathname === '/') {
+                      e.preventDefault();
+                      document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' });
+                      setMobileMenuOpen(false);
+                    }
+                    trackStartNowClick({ cta_location: "header", button_text: t.hero.cta });
+                  }} 
+                  className="rounded-xl bg-brand-primary text-white shadow-md"
+                >
                   {t.nav.contact}
                 </Button>
               </div>

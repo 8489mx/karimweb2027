@@ -2,7 +2,6 @@ import React from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { CornerDownLeft, CornerDownRight } from 'lucide-react';
 import { trackFinalCtaClick } from '../../utils/tracking';
-import { HashLink } from 'react-router-hash-link';
 
 export function FinalCTA() {
   const { t, lang, dir } = useLanguage();
@@ -44,9 +43,13 @@ export function FinalCTA() {
             </h2>
           </div>
           
-          <HashLink 
-            smooth to="/#packages"
-            onClick={() => {
+          <a 
+            href="/#packages"
+            onClick={(e) => {
+              if (window.location.pathname === '/') {
+                e.preventDefault();
+                document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' });
+              }
               trackFinalCtaClick({ cta_location: 'final_cta', button_text: t.finalCta.ctaBtn });
             }}
             className="group/btn relative inline-flex items-center justify-center gap-2 px-6 py-2.5 md:px-8 md:py-3 bg-brand-primary text-white rounded-lg font-bold text-[15px] md:text-base overflow-hidden transition-all hover:-translate-y-0.5 shadow-[0_4px_15px_rgba(78,129,182,0.3)] hover:shadow-[0_8px_25px_rgba(78,129,182,0.5)] border border-white/20 whitespace-nowrap shrink-0"
@@ -60,7 +63,7 @@ export function FinalCTA() {
             ) : (
               <CornerDownRight strokeWidth={2.5} size={16} className="relative z-10" />
             )}
-          </HashLink>
+          </a>
           
         </div>
       </div>

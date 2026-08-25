@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { useSettings } from '../context/SettingsContext';
 import { Header } from '../components/layout/Header';
 import { Footer } from '../components/layout/Footer';
 import { FloatingWhatsApp } from '../components/ui/FloatingWhatsApp';
@@ -8,6 +9,7 @@ import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { SEO } from '../components/SEO';
 
 export function PrivacyPolicy() {
+  const { settings } = useSettings();
   return (
     <div className="min-h-screen text-brand-text font-sans selection:bg-brand-primary selection:text-white pb-20 md:pb-0 relative w-full flex flex-col">
       <SEO 
@@ -22,7 +24,7 @@ export function PrivacyPolicy() {
         }}
       />
       <Header />
-      <main className="flex-1 relative z-10 pt-32 pb-24 container mx-auto px-4 md:px-8 max-w-5xl">
+      <main className="flex-1 relative z-10 pt-28 pb-16 container mx-auto px-4 md:px-8 max-w-5xl">
         <div className="mb-6 flex justify-start">
           <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 bg-white/50 hover:bg-white/80 border border-white shadow-sm rounded-full transition-all text-slate-800 font-medium group text-sm">
             <ArrowRight size={16} className="group-hover:-translate-x-1 transition-transform" />
@@ -30,13 +32,10 @@ export function PrivacyPolicy() {
           </Link>
         </div>
         
-        <div className="mb-12 md:mb-16 text-center">
-          <h1 className="text-xl md:text-3xl font-bold mb-4 tracking-tight text-slate-900">
+        <div className="mb-8 md:mb-10 text-center">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">
             سياسة الخصوصية وسرية البيانات
           </h1>
-          <p className="text-slate-600 max-w-2xl mx-auto text-[17px] md:text-xl leading-relaxed md:leading-loose">
-            <>خصوصيتك وثقتك فينا مهمين جدًا.<br />أي بيانات أو صور أو معلومات بتشاركها معانا بنستخدمها فقط عشان نقدر نقدم لك خدمة تدريب، تغذية، ومتابعة مناسبة ليك، وبنتعامل معاها بسرية واحترام كامل.</>
-          </p>
         </div>
 
         <div 
@@ -45,16 +44,23 @@ export function PrivacyPolicy() {
           <div className="absolute -top-32 -left-32 w-64 h-64 bg-brand-primary/20 rounded-full blur-[80px]"></div>
           <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-slate-900/10 rounded-full blur-[80px]"></div>
 
-          <div className="relative z-10 space-y-10 md:space-y-12">
+          <div className="relative z-10 space-y-6 md:space-y-8">
+            
+            <div className="text-center space-y-3 pb-2">
+              <p className="text-[17px] md:text-[19px] font-medium text-slate-700">
+                خصوصيتك وثقتك فينا مهمين جدًا.
+              </p>
+              <p className="text-slate-600 max-w-3xl mx-auto text-[15px] md:text-[17px] leading-relaxed md:leading-loose">
+                أي بيانات أو صور أو معلومات بتشاركها معانا بنستخدمها فقط عشان نقدر نقدم لك خدمة تدريب، تغذية، ومتابعة مناسبة ليك، وبنتعامل معاها بسرية واحترام كامل.
+              </p>
+            </div>
             
             {/* Section 1 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
-                البيانات اللي ممكن نطلبها منك
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
+                البيانات التي قد نطلبها
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
-                {/* Fluid Accent Corner */}
                 <div 
                   className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
                   style={{
@@ -64,28 +70,24 @@ export function PrivacyPolicy() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>
-                  عشان نقدر نفهم هدفك ونصمم لك برنامج مناسب، ممكن نطلب بعض البيانات اللي بتقدمها بنفسك، زي:
+                  قد نطلب بعض البيانات التي تقدمها بنفسك، مثل:
                 </p>
-                <ul className="list-disc list-inside space-y-2 mt-2">
+                <ul className="list-disc list-inside space-y-3 mt-4 marker:text-brand-primary">
                   <li>الاسم ووسائل التواصل.</li>
-                  <li>العمر، الطول، الوزن، والقياسات.</li>
-                  <li>هدفك من البرنامج.</li>
-                  <li>مستوى نشاطك وطبيعة يومك وأسلوب حياتك.</li>
-                  <li>معلومات عن أكلك، تمرينك، نومك، وعاداتك اليومية.</li>
-                  <li>أي إصابة، حالة صحية، أو أدوية تختار إنك تشاركها معانا.</li>
-                  <li>صور المتابعة أو صور التحول لو حبيت تبعتها بنفسك.</li>
+                  <li>العمر والطول والوزن والقياسات.</li>
+                  <li>هدفك ومستوى نشاطك وطبيعة يومك.</li>
+                  <li>معلومات عن التدريب والتغذية والنوم والعادات اليومية.</li>
+                  <li>أي إصابة أو حالة صحية أو حساسية أو أدوية تفصح عنها.</li>
+                  <li>صور المتابعة التي تختار إرسالها.</li>
                 </ul>
               </div></div>
             </section>
 
-            {/* Section 2 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
-                بنستخدم بياناتك إزاي؟
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
+                استخدام البيانات
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
-                {/* Fluid Accent Corner */}
                 <div 
                   className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
                   style={{
@@ -95,31 +97,25 @@ export function PrivacyPolicy() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>
-                  بنستخدم البيانات دي عشان:
+                  تُستخدم البيانات من أجل:
                 </p>
-                <ul className="list-disc list-inside space-y-2 mt-2 mb-4">
-                  <li>نصمم لك برنامج تدريب وتغذية مناسب لهدفك وجسمك.</li>
-                  <li>نتابع تقدمك ونعدّل خطتك حسب احتياجك.</li>
-                  <li>نتواصل معاك بخصوص الاشتراك أو المتابعة.</li>
-                  <li>نحسن جودة الخدمة وتجربة المتابعة.</li>
+                <ul className="list-disc list-inside space-y-3 mt-4 marker:text-brand-primary">
+                  <li>إعداد البرنامج ومتابعة تقدمك.</li>
+                  <li>تعديل البرنامج وفق البيانات التي ترسلها.</li>
+                  <li>التواصل معك بشأن الاشتراك والمتابعة.</li>
+                  <li>إدارة سجلات الخدمة وتحسين جودتها.</li>
                 </ul>
                 <p>
-                  بياناتك مش للبيع، ومش بنشاركها مع أي جهة غير مخوّلة.
-                </p>
-                <p>
-                  وكمان صورك، قياساتك، محادثاتك، أو أي تفاصيل خاصة بيك مش بتُستخدم في أي محتوى تسويقي إلا بعد موافقتك الصريحة.
+                  لا يتم بيع بياناتك أو إتاحتها لأشخاص غير مخولين بالاطلاع عليها.
                 </p>
               </div></div>
             </section>
 
-            {/* Section 3 (خصوصية المشتركات) */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
-                خصوصية المشتركات
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
+                البيانات الصحية
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
-                {/* Fluid Accent Corner */}
                 <div 
                   className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
                   style={{
@@ -129,25 +125,22 @@ export function PrivacyPolicy() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>
-                  إرسال صور المتابعة للمشتركات اختياري بالكامل.
+                  قد نحتاج إلى بعض المعلومات الصحية المرتبطة بسلامة التدريب أو التغذية.
                 </p>
                 <p>
-                  تقدري تكتفي بإرسال القياسات والملاحظات فقط، من غير أي إلزام بإرسال صور.
+                  يتم استخدام هذه المعلومات فقط لأغراض إعداد ومتابعة البرنامج، ولا تعتبر الخدمة تشخيصًا أو علاجًا طبيًا.
                 </p>
                 <p>
-                  عدم إرسال الصور لا يقلل من جودة المتابعة، وبيتم التعامل مع أي بيانات أو صور يتم إرسالها بسرية تامة.
+                  ويتحمل العميل مسؤولية صحة البيانات التي يقدمها والإفصاح عن أي حالة أو دواء أو إصابة قد تؤثر على البرنامج.
                 </p>
               </div></div>
             </section>
 
-            {/* Section 4 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
-                حماية بياناتك
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
+                صور المتابعة
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
-                {/* Fluid Accent Corner */}
                 <div 
                   className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
                   style={{
@@ -157,26 +150,41 @@ export function PrivacyPolicy() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>
-                  بنحرص على حماية بياناتك قدر الإمكان من أي وصول أو استخدام غير مصرح به.
+                  تخضع صور المتابعة للقواعد التالية:
                 </p>
-                <p>
-                  سجلات المتابعة والمحادثات بيتم الاحتفاظ بها فقط عشان:
-                </p>
-                <ul className="list-disc list-inside space-y-2 mt-2 mb-4">
-                  <li>نتابع تقدمك بدقة.</li>
-                  <li>نقدر نرجع لتاريخك لو حبيت ترجع تتمرن معانا بعد فترة.</li>
-                  <li>نحسن جودة المتابعة والخدمة.</li>
+                <ul className="list-disc list-inside space-y-3 mt-4 marker:text-brand-primary">
+                  <li>إرسال صور المتابعة <strong>اختياري بالكامل</strong>.</li>
+                  <li>يمكنك الاكتفاء بالوزن والقياسات والملاحظات، وعدم إرسال الصور لا يمنعك من الحصول على المتابعة وفق نظام باقتك.</li>
+                  <li>لا يتم نشر صورك أو نتائجك أو محادثاتك لأغراض تسويقية إلا بعد الحصول على موافقتك الصريحة.</li>
+                  <li>في حالة الموافقة على النشر، يتم استخدام المحتوى في النطاق المتفق عليه، مع إخفاء الوجه أو البيانات الشخصية.</li>
                 </ul>
+              </div></div>
+            </section>
+
+            <section>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
+                حماية البيانات
+              </h2>
+              <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
+                <div 
+                  className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
+                  style={{
+                    WebkitMaskImage: 'radial-gradient(circle at top right, black 0%, transparent 150px)',
+                    maskImage: 'radial-gradient(circle at top right, black 0%, transparent 150px)'
+                  }}
+                />
+                <div className="relative z-10 space-y-4">
                 <p>
-                  ولا يتم إتاحة بياناتك لأي شخص غير مخوّل بالاطلاع عليها.
+                  يتم اتخاذ إجراءات مناسبة ومعقولة لحماية البيانات من الوصول أو الاستخدام أو الإفصاح غير المصرح به.
+                </p>
+                <p>
+                  ويقتصر الاطلاع عليها على الأشخاص الذين يحتاجون إليها لتقديم أو إدارة الخدمة.
                 </p>
               </div></div>
             </section>
 
-            {/* Section 5 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 المدفوعات
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
@@ -190,52 +198,23 @@ export function PrivacyPolicy() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>
-                  طرق الدفع المتاحة بيتم توضيحها للعميل قبل الاشتراك.
+                  طرق الدفع المتاحة يتم توضيحها للعميل قبل إتمام الاشتراك.
                 </p>
                 <p>
-                  الموقع لا يطلب ولا يخزن بيانات بطاقات بنكية أو حسابات مالية حساسة.
+                  تتم عمليات الدفع من خلال مزود دفع إلكتروني خارجي، ولا يقوم الموقع بطلب أو تخزين بيانات البطاقات البنكية أو الحسابات المالية الحساسة.
                 </p>
                 <p>
-                  ولو تم استخدام مزود دفع خارجي مستقبلًا، فبيتم الدفع من خلاله وفقًا لسياساته ومعايير الأمان الخاصة به.
+                  وتخضع معالجة بيانات الدفع لأنظمة وسياسات الأمان والخصوصية الخاصة بمزود الدفع.
                 </p>
               </div></div>
             </section>
 
             {/* Section 6 */}
-            <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
-                مشاركة صور ونتائج التحول
-              </h2>
-              <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
-                {/* Fluid Accent Corner */}
-                <div 
-                  className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
-                  style={{
-                    WebkitMaskImage: 'radial-gradient(circle at top right, black 0%, transparent 150px)',
-                    maskImage: 'radial-gradient(circle at top right, black 0%, transparent 150px)'
-                  }}
-                />
-                <div className="relative z-10 space-y-4">
-                <p>
-                  بنفتخر بنتائج عملائنا، لكن خصوصيتك دايمًا أهم.
-                </p>
-                <p>
-                  مش هننشر أي صور قبل وبعد، نتائج، لقطات شاشة، أو أجزاء من المحادثات على الموقع أو السوشيال ميديا إلا بعد موافقتك الصريحة.
-                </p>
-                <p>
-                  ولو وافقت على النشر، بنخفي ملامح الوجه أو أي بيانات شخصية ظاهرة، إلا لو طلبت غير كده بنفسك.
-                </p>
-                <p className="font-medium text-slate-900">
-                  ومن حقك ترفض النشر أو تطلب عدم استخدام صورك أو نتائجك، وده مش هيأثر على جودة المتابعة أو مستوى الخدمة.
-                </p>
-              </div></div>
-            </section>
+            
 
             {/* Section 7 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 الكوكيز والتحليلات
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
@@ -257,16 +236,12 @@ export function PrivacyPolicy() {
                 <p>
                   البيانات دي لا تُستخدم للتعرف عليك داخل برنامج المتابعة الشخصي.
                 </p>
-                <p>
-                  تقدر تقبل أو ترفض الكوكيز غير الضرورية، وتقدر تعدّل اختيارك من إعدادات الكوكيز في أي وقت.
-                </p>
               </div></div>
             </section>
 
             {/* Section 8 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 حقوقك
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
@@ -282,7 +257,7 @@ export function PrivacyPolicy() {
                 <p>
                   تقدر تتواصل معانا في أي وقت لو حبيت:
                 </p>
-                <ul className="list-disc list-inside space-y-2 mt-2">
+                <ul className="list-disc list-inside space-y-3 mt-4 marker:text-brand-primary">
                   <li>تعرف البيانات اللي محتفظين بيها عنك.</li>
                   <li>تعدّل أو تصحح بياناتك.</li>
                   <li>تطلب حذف بياناتك الشخصية لما ميبقاش وجودها ضروري لتقديم الخدمة.</li>
@@ -294,12 +269,10 @@ export function PrivacyPolicy() {
 
             {/* Section 9 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
-                مدة الاحتفاظ بالبيانات
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
+                الاحتفاظ بالبيانات
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
-                {/* Fluid Accent Corner */}
                 <div 
                   className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
                   style={{
@@ -309,21 +282,16 @@ export function PrivacyPolicy() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>
-                  ممكن نحتفظ بسجل متابعتك بعد انتهاء الاشتراك عشان لو حبيت ترجع تتمرن معانا مستقبلًا، نقدر نكمل من تاريخك السابق بدل ما نبدأ من الصفر.
+                  يتم الاحتفاظ ببيانات وسجل المتابعة طوال مدة الاشتراك، وقد يتم الاحتفاظ بها بعد انتهاء الاشتراك للمدة اللازمة لتسهيل عودة العميل للمتابعة أو للوفاء بأي التزامات مرتبطة بالخدمة.
                 </p>
                 <p>
-                  بياناتك تفضل محفوظة بسرية، ولا تُستخدم إلا لتقديم الخدمة أو تحسينها.
-                </p>
-                <p>
-                  وتقدر تطلب حذف بياناتك الشخصية لما ميبقاش الاحتفاظ بها ضروري.
+                  ولا يتم الاحتفاظ بالبيانات لمدة أطول من اللازم للغرض الذي جُمعت من أجله، ما لم يوجد سبب قانوني يقتضي الاحتفاظ بها لمدة أطول.
                 </p>
               </div></div>
             </section>
 
-            {/* Section 10 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 تحديث سياسة الخصوصية
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
@@ -337,10 +305,10 @@ export function PrivacyPolicy() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>
-                  ممكن نحدّث سياسة الخصوصية من وقت للتاني حسب تطوير الخدمة أو تحسينها.
+                  ممكن نحدّث سياسة الخصوصية من وقت للتاني حسب تطوير الخدمة أو المتطلبات المتعلقة بها.
                 </p>
                 <p>
-                  أي تحديث هيتم نشره على نفس الصفحة، واستمرار استخدامك للموقع أو الخدمة بعد التحديث يعني موافقتك على النسخة الجديدة.
+                  أي تحديث يتم نشره على نفس الصفحة، ولا يتم تطبيق أي تعديل جوهري بأثر رجعي على حقوق العميل السابقة إلا وفقًا للقانون.
                 </p>
               </div></div>
             </section>
@@ -369,10 +337,10 @@ export function PrivacyPolicy() {
                 <h3 className="text-lg font-bold mb-2 relative z-10">
                   للتواصل والاستفسارات
                 </h3>
-                <p className="text-slate-200 mb-4 text-sm relative z-10">
+                <p className="text-slate-200 mb-4 text-sm relative z-10 leading-relaxed md:leading-loose">
                   لو عندك أي استفسار يتعلق بسياسة الخصوصية أو بطريقة التعامل مع بياناتك الشخصية،<br />تقدر تتواصل معانا في أي وقت عبر الواتساب.
                 </p>
-                <a href="https://wa.me/201001060503" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#25D366]/90 hover:bg-[#25D366] text-white backdrop-blur-md border border-white/20 transition-all px-6 py-2.5 rounded-lg font-medium tracking-wide text-sm relative z-10 shadow-sm hover:scale-105">
+                <a href={`https://wa.me/${settings.whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#25D366]/90 hover:bg-[#25D366] text-white backdrop-blur-md border border-white/20 transition-all px-6 py-2.5 rounded-lg font-medium tracking-wide text-sm relative z-10 shadow-sm hover:scale-105">
                   تواصل معنا عبر الواتساب
                 </a>
               </div>

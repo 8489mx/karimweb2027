@@ -1,6 +1,7 @@
 // src/utils/api.ts
 
-import { CountryCode, DurationCode, PackageCode, getPrice } from '../config/pricing';
+import { CountryCode, DurationCode, PackageCode } from '../config/pricing';
+import type { PackagePrice } from '../config/pricing';
 
 export interface CreateOrderData {
     customer_name: string;
@@ -10,6 +11,7 @@ export interface CreateOrderData {
     detected_country?: string;
     package_code: PackageCode;
     duration_code: DurationCode;
+    priceData?: PackagePrice;
 }
 
 export interface OrderDetails {
@@ -47,22 +49,27 @@ const MOCK_ORDERS_DB: Record<string, OrderDetails> = {};
 export const createOrder = async (data: CreateOrderData): Promise<{ success: boolean; order_number?: string; error?: string }> => {
     // Try to call actual backend if deployed
     try {
-        const response = await fetch('/api/create_order.php', {
+        const response = await fetch('/api/orders.php?action=create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
         
         if (response.ok) {
-            const result = await response.json();
-            return result;
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                const result = await response.json();
+                return result;
+            } else {
+                throw new Error("Not JSON");
+            }
         }
     } catch (err) {
         console.warn('Real API not available, falling back to mock (useful for dev/preview).');
     }
 
     // Fallback Mock Logic
-    const priceData = getPrice(data.residence_country, data.package_code, data.duration_code);
+    const priceData = data.priceData;
     if (!priceData) {
         return { success: false, error: 'Invalid package or country.' };
     }
@@ -95,10 +102,15 @@ export const createOrder = async (data: CreateOrderData): Promise<{ success: boo
 export const getOrder = async (orderNumber: string): Promise<{ success: boolean; order?: OrderDetails; error?: string }> => {
     // Try real API
     try {
-        const response = await fetch(`/api/get_order.php?order_number=${orderNumber}`);
+        const response = await fetch(`/api/orders.php?id=${orderNumber}`);
         if (response.ok) {
-            const result = await response.json();
-            return result;
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                const result = await response.json();
+                return result;
+            } else {
+                throw new Error("Not JSON");
+            }
         }
     } catch (err) {
         console.warn('Real API not available, falling back to mock.');

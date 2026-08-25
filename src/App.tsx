@@ -14,6 +14,8 @@ import { ClientResults } from './components/sections/ClientResults';
 import { Programs } from './components/sections/Programs';
 import { Process } from './components/sections/Process';
 import { Packages } from './components/sections/Packages';
+import { StoreSection } from './components/sections/StoreSection';
+
 import { FAQ } from './components/sections/FAQ';
 import { FinalCTA } from './components/sections/FinalCTA';
 import { Footer } from './components/layout/Footer';
@@ -23,8 +25,9 @@ import { FloatingWhatsApp } from './components/ui/FloatingWhatsApp';
 
 const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy').then(module => ({ default: module.PrivacyPolicy })));
 const TermsAndConditions = React.lazy(() => import('./pages/TermsAndConditions').then(module => ({ default: module.TermsAndConditions })));
-const Checkout = React.lazy(() => import('./pages/Checkout').then(module => ({ default: module.Checkout })));
-
+const Checkout = React.lazy(() => import('./pages/Checkout'));
+const StorePage = React.lazy(() => import('./pages/Store').then(module => ({ default: module.default })));
+const AdminDashboard = React.lazy(() => import('./pages/Admin'));
 import { SEO } from './components/SEO';
 
 function Home() {
@@ -40,6 +43,7 @@ function Home() {
         <Programs />
         <Process />
         <Packages />
+        <StoreSection />
         <FAQ />
         <CalorieCalculator />
         <FinalCTA />
@@ -65,7 +69,7 @@ function AppContent() {
       { /* Radial Gradient Background */ }
       <ScrollToTop />
       <div
-        className="fixed inset-0 z-0 pointer-events-none"
+        className="fixed inset-0 -z-10 pointer-events-none"
         style={{
           background: "radial-gradient(125% 125% at 50% 10%, #fff 40%, rgba(88, 180, 229, 0.15) 100%)",
         }}
@@ -73,9 +77,11 @@ function AppContent() {
       <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-black"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-primary"></div></div>}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/store" element={<StorePage />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </React.Suspense>
     </div>
@@ -83,15 +89,16 @@ function AppContent() {
 }
 
 import { HelmetProvider } from 'react-helmet-async';
+import { SettingsProvider } from './context/SettingsContext';
 
 export default function App() {
   return (
     <HelmetProvider>
-      <Router>
+      <SettingsProvider><Router>
         <LanguageProvider>
           <AppContent />
         </LanguageProvider>
-      </Router>
+      </Router></SettingsProvider>
     </HelmetProvider>
   );
 }

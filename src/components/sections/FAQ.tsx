@@ -4,11 +4,16 @@ import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 import { useLanguage } from '../../context/LanguageContext';
+import { useSettings } from '../../context/SettingsContext';
 import { SectionHeading } from '../ui/SectionHeading';
 
 export function FAQ() {
   const { t, dir, lang } = useLanguage();
+  const { settings } = useSettings();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  
+  // Use settings.faq if available and not empty, otherwise fallback to translations
+  const faqData = settings?.faq && settings.faq.length > 0 ? settings.faq : t.faq.questions;
   const [showAll, setShowAll] = useState(false);
 
   const toggle = (index: number) => {
@@ -19,63 +24,78 @@ export function FAQ() {
     }
   };
 
-  const displayedQuestions = showAll ? t.faq.questions : t.faq.questions.slice(0, 8);
+  const displayedQuestions = showAll ? faqData : faqData.slice(0, 8);
 
   return (
     <Section className="relative z-10">
       <div 
         className="text-center mb-10 max-w-3xl mx-auto"
       >
-        <SectionHeading className="mb-4">
-          <span className="text-brand-primary">{t.faq.title.split(' ').slice(0, 1).join(' ')}</span> {t.faq.title.split(' ').slice(1).join(' ')}
+        <SectionHeading className="mb-2">
+          {t.faq.title}
         </SectionHeading>
-        <p className="text-base sm:text-[1.1rem] md:text-xl lg:text-2xl text-brand-muted leading-relaxed px-2 font-medium">
+        <p className="text-base sm:text-[1.1rem] md:text-xl lg:text-2xl text-brand-muted leading-relaxed px-2 font-medium mb-6">
           {t.faq.description}
         </p>
       </div>
 
       <div 
-        className="max-w-2xl mx-auto space-y-3"
+        className="max-w-2xl mx-auto space-y-3.5"
       >
-        {displayedQuestions.map((faq, index) => (
-          <div 
-            key={index}
-            className="group relative rounded-xl bg-white/20 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:bg-white/30"
-          >
-            {/* Animated Side Accent Line */}
+        {displayedQuestions.map((faq, index) => {
+          const isOpen = openIndex === index;
+          return (
             <div 
+              key={index}
               className={cn(
-                "absolute top-1/2 -translate-y-1/2 w-[3px] sm:w-[4px] bg-brand-primary transition-all duration-500 ease-out z-30 rounded-full",
-                dir === 'rtl' ? 'right-[2px]' : 'left-[2px]',
-                openIndex === index 
-                  ? "h-[calc(100%-12px)] opacity-100 shadow-[0_0_12px_rgba(78,129,182,0.6)]" 
-                  : "h-0 opacity-0 group-hover:h-[50%] group-hover:opacity-40"
+                "group relative rounded-2xl transition-all duration-300 overflow-hidden",
+                isOpen
+                  ? "bg-white border-2 border-brand-primary shadow-[0_8px_25px_rgba(88,180,229,0.15)] ring-4 ring-brand-primary/10"
+                  : "bg-white/75 backdrop-blur-xl border border-slate-200/75 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:bg-white hover:border-brand-primary/45 hover:shadow-[0_6px_20px_rgba(88,180,229,0.08)] hover:-translate-y-[1px]"
               )}
-            ></div>
-
-            <div className="relative z-20 overflow-hidden rounded-[inherit]">
-              <button aria-expanded={openIndex === index}
+            >
+              <button 
+                aria-expanded={isOpen}
                 onClick={() => toggle(index)}
-                className={cn("w-full px-3 sm:px-5 py-3 sm:py-3.5 flex items-center justify-between gap-2 focus:outline-none", dir === 'rtl' ? 'text-right' : 'text-left')}
+                className={cn(
+                  "w-full px-4.5 sm:px-5.5 py-3.5 sm:py-4 flex items-center justify-between gap-3.5 text-start cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary",
+                  dir === 'rtl' ? 'text-right' : 'text-left'
+                )}
               >
-                <span className={cn("font-semibold text-brand-text text-xs sm:text-sm md:text-[15px] leading-relaxed md:leading-relaxed text-start", dir === 'rtl' ? 'pr-1 sm:pr-2' : 'pl-1 sm:pl-2')}>{faq.q}</span>
-                <ChevronDown 
-                  className={cn("w-4 h-4 text-brand-muted shrink-0 transition-transform duration-200", 
-                  openIndex === index ? "rotate-180 text-brand-primary" : "")} 
-                />
+                <span className={cn(
+                  "font-bold text-[13.5px] sm:text-[15px] md:text-[15.5px] leading-snug transition-colors duration-300 select-none", 
+                  isOpen ? "text-brand-primary" : "text-brand-text group-hover:text-brand-primary"
+                )}>
+                  {faq.q}
+                </span>
+
+                <div 
+                  className={cn(
+                    "w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-300",
+                    isOpen 
+                      ? "bg-brand-primary text-white shadow-[0_2px_8px_rgba(88,180,229,0.35)] rotate-180" 
+                      : "bg-slate-100/90 text-slate-500 group-hover:bg-brand-primary/15 group-hover:text-brand-primary"
+                  )}
+                >
+                  <ChevronDown className="w-4 h-4 transition-transform duration-300" />
+                </div>
               </button>
+
               <AnimatePresence initial={false}>
-                {openIndex === index && (
+                {isOpen && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2, ease: 'easeInOut' }}
+                    transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                     className="overflow-hidden"
                   >
-                    <div className="px-5 pb-4 pt-0 mt-1">
-                      <div className="h-[1px] w-full bg-white/20 mb-3" />
-                      <p className={cn("text-brand-muted text-[14px] leading-relaxed text-start", dir === 'rtl' ? 'pr-2' : 'pl-2')}>
+                    <div className="px-4.5 sm:px-5.5 pb-4 pt-0">
+                      <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent mb-3.5" />
+                      <p className={cn(
+                        "text-[#1E3A5F] font-medium text-xs sm:text-[14.5px] leading-relaxed",
+                        dir === 'rtl' ? 'pr-1' : 'pl-1'
+                      )}>
                         {faq.a}
                       </p>
                     </div>
@@ -83,11 +103,11 @@ export function FAQ() {
                 )}
               </AnimatePresence>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {t.faq.questions.length > 8 && (
+      {faqData.length > 8 && (
         <div className="flex justify-center mt-8">
           <button
             onClick={() => setShowAll(!showAll)}

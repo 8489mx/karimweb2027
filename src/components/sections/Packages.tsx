@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Section } from '../ui/Section';
 import { ArrowLeft, ArrowRight, Check, ChevronDown, Globe } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useSettings } from '../../context/SettingsContext';
 import { detectCountryCode } from '../../utils/location';
 import { SectionHeading } from '../ui/SectionHeading';
-import { CountryCode, getPrice } from '../../config/pricing';
+import { CountryCode } from '../../config/pricing';
 import { getCurrencyCode } from '../../utils/api';
 
 import { trackPackageClick } from '../../utils/tracking';
@@ -13,8 +14,24 @@ import { cn } from '../../lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function Packages() {
+  const { getPrice, settings } = useSettings();
+  const { t, dir, lang: language } = useLanguage();
 const highlightKeywords = (text: string, pkgKey: string) => {
-  const keywords = [t.packages.keywords.every14Days, t.packages.keywords.every10Days, t.packages.keywords.everyWeek, t.packages.keywords.hours48, t.packages.keywords.hours24];
+  const keywords = [
+    t.packages?.keywords?.every14Days,
+    t.packages?.keywords?.every10Days,
+    t.packages?.keywords?.everyWeek,
+    t.packages?.keywords?.hours48,
+    t.packages?.keywords?.hours24,
+    'كل 14 يوم',
+    'كل أسبوع',
+    '24 ساعة عمل',
+    'أولوية قصوى',
+    'الرسائل الصوتية المباشرة',
+    'مكالمة مراجعة مباشرة',
+    'فحص وتصحيح مفتوح',
+    'Cardio - Mobility - Stretching'
+  ].filter(Boolean) as string[];
   const regex = new RegExp(`(${keywords.join('|')})`, 'g');
   const parts = text.split(regex);
   
@@ -27,6 +44,14 @@ const highlightKeywords = (text: string, pkgKey: string) => {
     return part;
   });
 };
+
+const getDurationLabel = (opt: number) => {
+    const key = opt + 'm';
+    if (settings?.packagesData?.durations?.[key as '3m' | '6m']) {
+      return settings.packagesData.durations[key as '3m' | '6m'];
+    }
+    return t.packages.durationOptions[opt as keyof typeof t.packages.durationOptions];
+  };
 
 const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: boolean = false) => {
   const keywords = [t.packages.keywords.oneMonthFree, t.packages.keywords.twoMonthsFree];
@@ -47,10 +72,9 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
 
 
   const navigate = useNavigate();
-  const { t, lang: language } = useLanguage();
   const [detectedCountry, setDetectedCountry] = useState<CountryCode | null>(null);
   const [manualOverride, setManualOverride] = useState<CountryCode | null>(null);
-  const [durations, setDurations] = useState<Record<number, 3 | 6 | 12>>({ 0: 3, 1: 3, 2: 3 });
+  const [durations, setDurations] = useState<Record<number, 3 | 6>>({ 0: 3, 1: 3, 2: 3 });
   const [openDropdownIdx, setOpenDropdownIdx] = useState<number | null>(null);
   const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
 
@@ -64,26 +88,33 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
   }, []);
 
   const activeCountry = manualOverride || detectedCountry;
+  const dropdownsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent | TouchEvent) {
-      const target = event.target as Element;
-      if (!target.closest('.duration-dropdown-container')) {
+      if (dropdownsRef.current && !dropdownsRef.current.contains(event.target as Node)) {
         setOpenDropdownIdx(null);
-      }
-      if (!target.closest('.country-dropdown-container')) {
         setIsCountryDropdownOpen(false);
       }
     }
     
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setOpenDropdownIdx(null);
+        setIsCountryDropdownOpen(false);
+      }
+    }
+
     if (openDropdownIdx !== null || isCountryDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('touchstart', handleClickOutside, { passive: true });
+      document.addEventListener('keydown', handleEscape);
     }
     
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
     };
   }, [openDropdownIdx, isCountryDropdownOpen]);
   
@@ -92,15 +123,17 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
   const packages = [
     {
       name: "Elite",
-      isPopular: false,
-      features: t.packages.elite,
-      priceKey: 'elite' as const
+      isPopular: true,
+      features: settings?.packagesData?.elite?.length > 0 ? settings.packagesData.elite : t.packages.elite,
+      priceKey: 'elite' as const,
+      subtitle: settings?.packagesData?.subtitles?.elite || t.packages.subtitles.elite
     },
     {
       name: "MAX",
-      features: t.packages.max,
+      features: settings?.packagesData?.max?.length > 0 ? settings.packagesData.max : t.packages.max,
       priceKey: 'max' as const,
-      isPopular: false
+      isPopular: false,
+      subtitle: settings?.packagesData?.subtitles?.max || t.packages.subtitles.max
     }
   ];
 
@@ -113,16 +146,10 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
     return (
       <Section id="packages" className="relative z-10 bg-transparent">
         <div className="text-center mb-8 max-w-none mx-auto">
-          <SectionHeading className="mb-4">
-            {language === 'ar' ? (
-              <>
-                <span className="text-brand-primary">{t.packages.titleHighlight}</span>{t.packages.titleRest}
-              </>
-            ) : (
-              t.packages.title
-            )}
+          <SectionHeading className="mb-2">
+            {t.packages.title}
           </SectionHeading>
-          <p className="text-base sm:text-[1.1rem] md:text-xl lg:text-2xl text-brand-muted leading-relaxed px-2 font-medium mb-8">
+          <p className="text-base sm:text-[1.1rem] md:text-xl lg:text-2xl text-brand-muted leading-relaxed px-2 font-medium mb-6">
             {t.packages.description}
           </p>
 
@@ -131,7 +158,7 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-[900px] mx-auto items-stretch px-4 sm:px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-[900px] mx-auto items-center px-4 sm:px-6">
           <div className="h-[600px] rounded-[32px] bg-slate-200 animate-pulse"></div>
           <div className="h-[600px] rounded-[32px] bg-slate-200 animate-pulse"></div>
         </div>
@@ -142,24 +169,18 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
   return (
     <Section id="packages" className="relative z-10 bg-transparent">
       <div className="text-center mb-8 max-w-none mx-auto">
-        <SectionHeading className="mb-4">
-          {language === 'ar' ? (
-            <>
-              <span className="text-brand-primary">{t.packages.titleHighlight}</span>{t.packages.titleRest}
-            </>
-          ) : (
-            t.packages.title
-          )}
+        <SectionHeading className="mb-2">
+          {t.packages.title}
         </SectionHeading>
-        <p className="text-base sm:text-[1.1rem] md:text-xl lg:text-2xl text-brand-muted leading-relaxed px-2 font-medium mb-8">
+        <p className="text-base sm:text-[1.1rem] md:text-xl lg:text-2xl text-brand-muted leading-relaxed px-2 font-medium mb-6">
           {t.packages.description}
         </p>
 
         {/* Country Selector */}
-        <div className="relative inline-block w-full max-w-[280px] mx-auto country-dropdown-container">
+        <div className="relative inline-flex justify-center w-auto mx-auto country-dropdown-container">
           <button 
             onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
-            className="w-full bg-white/80 backdrop-blur-md border border-slate-200/80 rounded-[14px] px-5 py-3.5 flex items-center justify-between text-slate-800 font-bold hover:bg-slate-50 transition-colors shadow-sm"
+            className="bg-white/80 backdrop-blur-md border border-slate-200/80 rounded-[14px] px-6 py-3 flex items-center gap-4 text-slate-800 font-bold hover:bg-slate-50 transition-colors shadow-sm min-w-[160px] justify-center"
           >
             <div className="flex items-center gap-3">
               {activeCountry === 'OTHER' ? (
@@ -183,7 +204,7 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ duration: 0.2 }}
-                className="absolute top-full left-0 right-0 mt-2 bg-white rounded-[14px] border border-slate-200 shadow-xl overflow-hidden z-50 py-1"
+                className="absolute top-full left-1/2 -translate-x-1/2 w-[240px] mt-2 bg-white rounded-[14px] border border-slate-200 shadow-xl overflow-hidden z-50 py-1"
               >
                 {visibleCountries.map(([code, name]) => (
                   <button
@@ -215,10 +236,10 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-[900px] mx-auto items-stretch px-4 sm:px-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-[900px] mx-auto items-center px-4 sm:px-6">
         {packages.map((pkg, idx) => {
           const currentDurationNum = durations[idx] || 3;
-          const currentDurationCode = `${currentDurationNum}m` as '3m' | '6m' | '12m';
+          const currentDurationCode = `${currentDurationNum}m` as '3m' | '6m';
           
           const priceObj = getPrice(activeCountry, pkg.priceKey, currentDurationCode);
           const currency = getCurrencyCode(activeCountry);
@@ -229,13 +250,11 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
             
             const p3m = getPrice(activeCountry, pkg.priceKey, '3m');
             const p6m = getPrice(activeCountry, pkg.priceKey, '6m');
-            const p12m = getPrice(activeCountry, pkg.priceKey, '12m');
             
             const perMonth3m = p3m ? p3m.finalAmount / (p3m.baseDurationMonths + p3m.freeMonths) : Infinity;
             const perMonth6m = p6m ? p6m.finalAmount / (p6m.baseDurationMonths + p6m.freeMonths) : Infinity;
-            const perMonth12m = p12m ? p12m.finalAmount / (p12m.baseDurationMonths + p12m.freeMonths) : Infinity;
             
-            const minPerMonth = Math.min(perMonth3m, perMonth6m, perMonth12m);
+            const minPerMonth = Math.min(perMonth3m, perMonth6m);
             // It's the best value if it has the absolute lowest monthly rate, and it's actually cheaper than at least one other option
             if (currentPerMonth <= minPerMonth && currentPerMonth < perMonth3m) {
                 isBestValue = true;
@@ -255,13 +274,13 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
           return (
             <div 
               key={idx}
-              className={`group relative flex flex-col rounded-[32px] bg-white/90 backdrop-blur-2xl transition-all duration-500 hover:-translate-y-2 active:scale-[0.98] cursor-pointer h-full ${
+              className={`group relative flex flex-col rounded-[32px] bg-white/90 backdrop-blur-2xl transition-all duration-500 hover:-translate-y-2 active:scale-[0.98] cursor-pointer ${
                 pkg.isPopular 
                   ? 'shadow-[0_16px_40px_-15px_rgba(58,155,207,0.3)] border-[1.5px] border-brand-primary md:scale-[1.03] z-10 hover:shadow-[0_20px_50px_-15px_rgba(58,155,207,0.4)] active:shadow-md mt-4 md:mt-0' 
-                  : `border-[1.5px] border-slate-200/80 shadow-[0_12px_30px_-15px_rgba(0,0,0,0.08)] z-0 active:shadow-sm ${
+                  : `border-[1.5px] shadow-[0_12px_30px_-15px_rgba(0,0,0,0.08)] z-0 active:shadow-sm ${
                       pkg.priceKey === 'max'
-                        ? 'hover:border-[#C4952D]/40 hover:shadow-[0_20px_40px_-15px_rgba(196,149,45,0.15)]'
-                        : 'hover:border-brand-primary/40 hover:shadow-[0_20px_40px_-15px_rgba(58,155,207,0.15)]'
+                        ? 'border-[#C4952D]/40 hover:border-[#C4952D]/60 hover:shadow-[0_20px_40px_-15px_rgba(196,149,45,0.15)]'
+                        : 'border-slate-200/80 hover:border-brand-primary/40 hover:shadow-[0_20px_40px_-15px_rgba(58,155,207,0.15)]'
                     }`
               }`}
               onTouchStart={() => {}}
@@ -278,7 +297,7 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
               {/* Badges */}
               {pkg.isPopular && (
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-brand-primary text-white text-[12px] md:text-[13px] font-bold py-1 px-4 rounded-full shadow-[0_4px_10px_rgba(58,155,207,0.4)] flex items-center justify-center z-20 whitespace-nowrap">
-                   <span>{t.packages.popular || 'الأكثر اختيارًا'}</span>
+                   <span>{t.packages.popular || 'الأكثر مبيعاً'}</span>
                 </div>
               )}
               
@@ -290,20 +309,19 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
                   {pkg.name}
                 </h3>
                 
-                <div className="flex flex-col h-[130px] justify-start items-center">
+                <div className="flex items-center justify-center gap-1.5 mt-3 mb-4">
+                  <span className={`h-1.5 w-3 rounded-full transition-all duration-500 group-hover:w-8 ${pkg.priceKey === 'elite' ? 'bg-[#38bdf8]/20 group-hover:bg-[#38bdf8]/40' : 'bg-[#C4952D]/20 group-hover:bg-[#C4952D]/40'}`}></span>
+                  <span className={`h-1.5 w-16 rounded-full transition-all duration-500 group-hover:w-10 ${pkg.priceKey === 'elite' ? 'bg-[#38bdf8]/60 group-hover:bg-[#38bdf8]' : 'bg-[#C4952D]/60 group-hover:bg-[#C4952D]'}`}></span>
+                  <span className={`h-1.5 w-3 rounded-full transition-all duration-500 group-hover:w-8 ${pkg.priceKey === 'elite' ? 'bg-[#38bdf8]/20 group-hover:bg-[#38bdf8]/40' : 'bg-[#C4952D]/20 group-hover:bg-[#C4952D]/40'}`}></span>
+                </div>
+                
+                <div className="flex flex-col justify-start items-center mb-6">
                   <p className="text-sm text-center text-slate-500 leading-relaxed px-1">
-                    {t.packages.subtitles[pkg.priceKey as keyof typeof t.packages.subtitles]}
-                  </p>
-                  <p className="text-[13px] text-center text-slate-400 mt-2 mb-4 leading-relaxed px-1 font-medium">
-                    {pkg.priceKey === 'max' ? (
-                      <>{t.packages.maxSubTitle}<br className="hidden sm:block" />{t.packages.maxSubTitleBr}</>
-                    ) : (
-                      <>{t.packages.eliteSubTitle}<br className="hidden sm:block" />{t.packages.eliteSubTitleBr}</>
-                    )}
+                    {pkg.subtitle}
                   </p>
                 </div>
                 
-                <div className="text-center mb-4 min-h-[100px] flex flex-col items-center justify-center">
+                <div className="text-center mb-6 flex flex-col items-center justify-center">
                     <>
                       <div className="flex items-center justify-center gap-1.5 flex-row-reverse" dir="ltr">
                         <span className="text-[38px] lg:text-[44px] font-black text-slate-900 tracking-tighter leading-none font-en">
@@ -311,6 +329,16 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
                         </span>
                         {currency && <span className="text-[18px] font-bold text-slate-900 mt-2">{currency}</span>}
                       </div>
+                      {priceObj && priceObj.originalAmount > 0 && (
+                        <div className="flex items-center justify-center text-slate-400/80 mt-1" dir="ltr">
+                          <span className="line-through decoration-slate-400/60 inline-flex items-baseline gap-1.5 flex-row-reverse">
+                            <span className="text-[20px] font-bold tracking-tight font-en">
+                              {priceObj.originalAmount}
+                            </span>
+                            {currency && <span className="text-[13px] font-bold">{currency}</span>}
+                          </span>
+                        </div>
+                      )}
                     </>
                 </div>
 
@@ -365,10 +393,10 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
                     <button 
                       onClick={() => setOpenDropdownIdx(openDropdownIdx === idx ? null : idx)}
                       className={`bg-[#F8FAFC] border rounded-[14px] py-3.5 px-4 text-[15px] font-bold w-full flex items-center justify-center transition-all hover:bg-slate-50 focus:outline-none focus:ring-2 ${
-                        pkg.priceKey === 'max' ? 'text-slate-800 focus:ring-[#C4952D]/30 border-[#C4952D]/30' : 'text-slate-700 focus:ring-brand-primary/30 border-slate-200/60'
+                        pkg.priceKey === 'max' ? 'text-slate-800 focus:ring-[#C4952D]/30 border-[#C4952D]/40' : 'text-slate-700 focus:ring-[#0ea5e9]/30 border-[#0ea5e9]/40'
                       }`}
                     >
-                      <span>{highlightBonusText(t.packages.durationOptions[currentDurationNum as keyof typeof t.packages.durationOptions], pkg.priceKey)}</span>
+                      <span>{highlightBonusText(getDurationLabel(currentDurationNum), pkg.priceKey)}</span>
                       <div className={cn(
                         "absolute top-1/2 -translate-y-1/2 transition-transform duration-300",
                         language === 'ar' ? 'left-4' : 'right-4',
@@ -386,10 +414,10 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
                           exit={{ opacity: 0, y: -10, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
                           className={`absolute top-[calc(100%+8px)] left-0 w-full bg-white border rounded-[14px] shadow-[0_10px_40px_rgba(0,0,0,0.08)] overflow-hidden z-50 p-1.5 ${
-                            pkg.priceKey === 'max' ? 'border-[#C4952D]/20' : 'border-slate-200/80'
+                            pkg.priceKey === 'max' ? 'border-[#C4952D]/20' : 'border-[#0ea5e9]/30'
                           }`}
                         >
-                          {[3, 6, 12].map((opt) => {
+                          {[3, 6].map((opt) => {
                             const isSelected = currentDurationNum === opt;
                             let activeBg = 'bg-[#0ea5e9] text-white';
                             if (pkg.priceKey === 'max') activeBg = 'bg-gradient-to-r from-[#C4952D] via-[#FDF0A6] to-[#C4952D] text-slate-900 animate-shimmer-gold';
@@ -398,7 +426,7 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
                               <button
                                 key={opt}
                                 onClick={() => {
-                                  setDurations(prev => ({ ...prev, [idx]: opt as 3 | 6 | 12 }));
+                                  setDurations(prev => ({ ...prev, [idx]: opt as 3 | 6 }));
                                   setOpenDropdownIdx(null);
                                 }}
                                 className={cn(
@@ -408,7 +436,7 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
                                     : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                                 )}
                               >
-                                {isSelected ? t.packages.durationOptions[opt as keyof typeof t.packages.durationOptions] : highlightBonusText(t.packages.durationOptions[opt as keyof typeof t.packages.durationOptions], pkg.priceKey)}
+                                {isSelected ? getDurationLabel(opt) : highlightBonusText(getDurationLabel(opt), pkg.priceKey)}
                               </button>
                             );
                           })}

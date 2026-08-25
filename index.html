@@ -17,8 +17,7 @@
     <!-- Preconnect for Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"></noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 
     <!-- Open Graph / Facebook -->
@@ -28,9 +27,9 @@
     <meta property="og:title" content="كريم زكريا | تدريب أونلاين وتغذية مخصصة" />
     <meta property="og:description" content="ابدأ خطة تدريب وتغذية مناسبة لهدفك ومستواك، مع متابعة وتعديلات تساعدك تلتزم وتحقق نتيجة واقعية ومستدامة." />
     <meta property="og:site_name" content="Karim Zakaria" />
-    <meta property="og:image" content="https://karimzakaria.com/og-image.jpg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image" content="/assets/images/logo/2.png" />
+    <meta property="og:image:width" content="500" />
+    <meta property="og:image:height" content="500" />
     <meta property="og:image:alt" content="Karim Zakaria - تدريب أونلاين وتغذية مع كريم زكريا" />
 
     <!-- Twitter -->
@@ -38,7 +37,7 @@
     <meta name="twitter:url" content="https://karimzakaria.com/" />
     <meta name="twitter:title" content="كريم زكريا | تدريب أونلاين وتغذية مخصصة" />
     <meta name="twitter:description" content="برامج تدريب أونلاين وتغذية مخصصة مع كريم زكريا، مصممة حسب هدفك ومستواك وجدولك، مع متابعة وتعديلات واقعية تساعدك تلتزم وتحقق نتائج مستدامة." />
-    <meta name="twitter:image" content="https://karimzakaria.com/og-image.jpg" />
+    <meta name="twitter:image" content="https://karimzakaria.com/assets/images/logo/2.png" />
     <meta name="twitter:image:alt" content="Karim Zakaria - تدريب أونلاين وتغذية مع كريم زكريا" />
     
     <!-- Structured Data (Schema Markup) -->
@@ -97,10 +96,17 @@
       function gtag(){dataLayer.push(arguments);}
       window.gtag = gtag;
       gtag('consent', 'default', {
+        'ad_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted',
+        'analytics_storage': 'granted'
+      });
+      gtag('consent', 'default', {
         'ad_storage': 'denied',
         'ad_user_data': 'denied',
         'ad_personalization': 'denied',
-        'analytics_storage': 'denied'
+        'analytics_storage': 'denied',
+        'region': ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB', 'CH']
       });
       gtag('js', new Date());
       gtag('config', 'G-GPVFVXEZCE');
@@ -111,13 +117,19 @@
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
       if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
       n.queue=[];}(window, document,'script');
-      fbq('consent', 'revoke');
+      // Auto-detect EU region heuristically by TimeZone to respect GDPR for FB & Clarity
+      const isEU = Intl.DateTimeFormat().resolvedOptions().timeZone.startsWith('Europe');
+      if (isEU) {
+        fbq('consent', 'revoke');
+      } else {
+        fbq('consent', 'grant');
+      }
       fbq('init', '1657243195381382');
       fbq('track', 'PageView');
 
       // Clarity
       window.clarity = window.clarity || function() { (window.clarity.q = window.clarity.q || []).push(arguments) };
-      window.clarity('consent', false);
+      window.clarity('consent', !isEU);
 
       // 2. Load actual external scripts after page load
       window.addEventListener('load', function() {
@@ -141,12 +153,66 @@
     </script>
     <!-- End Tracking Scripts -->
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="/favicon-light.png" media="(prefers-color-scheme: light)" />
-    <link rel="icon" type="image/png" href="/favicon-dark.png" media="(prefers-color-scheme: dark)" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="icon" type="image/png" href="/assets/images/logo/2.png" />
+    <link rel="apple-touch-icon" href="/assets/images/logo/2.png" />
   </head>
   <body>
+    <!-- Preloader -->
+    <style>
+      #app-preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 999999;
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.6s cubic-bezier(0.65, 0, 0.35, 1), visibility 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+      }
+      .app-preloader-spinner {
+        width: 44px;
+        height: 44px;
+        border: 3px solid rgba(15, 23, 42, 0.1);
+        border-top-color: #0f172a;
+        border-radius: 50%;
+        animation: app-preloader-spin 0.8s infinite cubic-bezier(0.55, 0.15, 0.45, 0.85);
+      }
+      @keyframes app-preloader-spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .app-preloader-hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+    </style>
+    <div id="app-preloader">
+      <div class="app-preloader-spinner"></div>
+    </div>
+    <script>
+      (function() {
+        function hidePreloader() {
+          var preloader = document.getElementById('app-preloader');
+          if (preloader) {
+            preloader.classList.add('app-preloader-hidden');
+            setTimeout(function() {
+              if (preloader && preloader.parentNode) {
+                preloader.remove();
+              }
+            }, 600);
+          }
+        }
+
+        if (document.readyState === 'complete') {
+          setTimeout(hidePreloader, 100);
+        } else {
+          window.addEventListener('load', hidePreloader);
+          // Safety timeout so preloader never blocks the screen if a tracking script or image delays
+          setTimeout(hidePreloader, 1500);
+        }
+      })();
+    </script>
+
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1657243195381382&ev=PageView&noscript=1"
     /></noscript>

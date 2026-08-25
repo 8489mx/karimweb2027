@@ -1,0 +1,125 @@
+{
+  "packages": {
+    "silver": {
+      "active": true,
+      "order": 1,
+      "title": "الباقة الفضية",
+      "subtitle": "خطة تدريبية متكاملة لـ 3 أيام",
+      "features": [
+        "جدول تدريبي مخصص لـ 3 أيام في الأسبوع",
+        "خطة تغذية مرنة ومتجددة",
+        "متابعة أسبوعية عبر الواتساب",
+        "شرح بالفيديو لكل التمارين",
+        "تعديل الخطة عند الحاجة"
+      ],
+      "isPopular": false,
+      "pricing": {
+        "EG": {
+          "currency": "EGP",
+          "3m": {
+            "freeMonths": 0,
+            "baseDurationMonths": 3,
+            "finalAmount": 1500,
+            "originalAmount": 2000
+          },
+          "6m": {
+            "freeMonths": 1,
+            "baseDurationMonths": 6,
+            "finalAmount": 2500,
+            "originalAmount": 3500
+          }
+        },
+        "OTHER": {
+          "currency": "USD",
+          "3m": {
+            "freeMonths": 0,
+            "baseDurationMonths": 3,
+            "finalAmount": 150,
+            "originalAmount": 200
+          },
+          "6m": {
+            "freeMonths": 1,
+            "baseDurationMonths": 6,
+            "finalAmount": 250,
+            "originalAmount": 350
+          }
+        }
+      }
+    },
+    "elite": {
+      "active": true,
+      "order": 2,
+      "title": "الباقة الذهبية",
+      "subtitle": "خطة تدريبية شاملة لـ 5 أيام",
+      "features": [
+        "جدول تدريبي مخصص لـ 5 أيام في الأسبوع",
+        "خطة تغذية مرنة ومتجددة أسبوعياً",
+        "متابعة يومية عبر الواتساب للرد على الاستفسارات",
+        "مكالمة فيديو شهرية لتقييم الأداء",
+        "شرح بالفيديو لكل التمارين",
+        "تعديل الخطة في أي وقت"
+      ],
+      "isPopular": true,
+      "pricing": {
+        "EG": {
+          "currency": "EGP",
+          "3m": {
+            "freeMonths": 0,
+            "baseDurationMonths": 3,
+            "finalAmount": 2500,
+            "originalAmount": 3500
+          },
+          "6m": {
+            "freeMonths": 2,
+            "baseDurationMonths": 6,
+            "finalAmount": 4500,
+            "originalAmount": 6000
+          }
+        },
+        "OTHER": {
+          "currency": "USD",
+          "3m": {
+            "freeMonths": 0,
+            "baseDurationMonths": 3,
+            "finalAmount": 250,
+            "originalAmount": 350
+          },
+          "6m": {
+            "freeMonths": 2,
+            "baseDurationMonths": 6,
+            "finalAmount": 450,
+            "originalAmount": 600
+          }
+        }
+      }
+    }
+  },
+  "whatsappNumber": "201018894170",
+  "cms": {
+    "heroTitle": "",
+    "heroSubtitle": "",
+    "aboutText": "أنا مدرب شخصي متخصص...",
+    "heroVideoUrl": ""
+  },
+  "seo": {
+    "title": "Karim Zakaria | مدرب شخصي",
+    "description": "حقق هدفك مع كابتن كريم زكريا."
+  },
+  "faq": [],
+  "orders": [
+    {
+      "id": "ORD-1785951908958",
+      "customerName": "Test",
+      "phone": "123",
+      "country": "",
+      "packageName": "",
+      "packageCode": "",
+      "duration": "",
+      "amount": 500,
+      "currency": "",
+      "paymentMethod": "",
+      "status": "pending",
+      "date": "٥ أغسطس ٢٠٢٦"
+    }
+  ]
+}

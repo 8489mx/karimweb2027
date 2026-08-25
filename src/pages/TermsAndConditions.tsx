@@ -22,7 +22,7 @@ export function TermsAndConditions() {
         }}
       />
       <Header />
-      <main className="flex-1 relative z-10 pt-32 pb-24 container mx-auto px-4 md:px-8 max-w-5xl">
+      <main className="flex-1 relative z-10 pt-28 pb-16 container mx-auto px-4 md:px-8 max-w-5xl">
         <div className="mb-6 flex justify-start">
           <Link to="/" className="inline-flex items-center gap-2 px-4 py-2 bg-white/50 hover:bg-white/80 border border-white shadow-sm rounded-full transition-all text-slate-800 font-medium group text-sm">
             <ArrowRight size={16} className="group-hover:-translate-x-1 transition-transform" />
@@ -30,13 +30,10 @@ export function TermsAndConditions() {
           </Link>
         </div>
         
-        <div className="mb-12 md:mb-16 text-center">
-          <h1 className="text-xl md:text-3xl font-bold mb-4 tracking-tight text-slate-900 leading-tight">
+        <div className="mb-8 md:mb-10 text-center">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 leading-normal">
             الشروط والأحكام وسياسات الاشتراك
           </h1>
-          <p className="text-slate-600 max-w-2xl mx-auto text-[17px] md:text-xl leading-relaxed md:leading-loose">
-            <>تهدف هذه الشروط إلى توضيح طريقة تقديم الخدمة، وتنظيم العلاقة بين العميل وفريق المتابعة، وحفظ حقوق جميع الأطراف.<br />بمجرد الاشتراك في أي من برامجنا، يُعد العميل موافقًا على البنود التالية.</>
-          </p>
         </div>
 
         <div 
@@ -45,16 +42,23 @@ export function TermsAndConditions() {
           <div className="absolute -top-32 -left-32 w-64 h-64 bg-brand-primary/20 rounded-full blur-[80px]"></div>
           <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-slate-900/10 rounded-full blur-[80px]"></div>
 
-          <div className="relative z-10 space-y-10 md:space-y-12">
+          <div className="relative z-10 space-y-6 md:space-y-8">
             
+            <div className="text-center space-y-3 pb-2">
+              <p className="text-[17px] md:text-[19px] font-medium text-slate-700">
+                تهدف هذه الشروط إلى توضيح طريقة تقديم الخدمة، وتنظيم العلاقة بين العميل وفريق المتابعة، وحفظ حقوق جميع الأطراف.
+              </p>
+              <p className="text-slate-600 max-w-3xl mx-auto text-[15px] md:text-[17px] leading-relaxed md:leading-loose">
+                بإتمام الاشتراك وسداد قيمة الباقة، يؤكد العميل اطلاعه على تفاصيل الباقة والشروط والأحكام وسياسة الخصوصية المعروضة بالموقع وتعاقده على أساسها.
+              </p>
+            </div>
+
             {/* Section 1 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 طبيعة الخدمة
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
-                {/* Fluid Accent Corner */}
                 <div 
                   className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
                   style={{
@@ -64,22 +68,19 @@ export function TermsAndConditions() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>
-                  نقدم برامج تدريب وتغذية ومتابعة أونلاين يتم تصميمها حسب بيانات العميل، هدفه، مستواه، وأسلوب حياته.
+                  يقدم كابتن كريم زكريا خدمات تدريب وتغذية غير علاجية ومتابعة أونلاين يتم إعدادها وفق البيانات والهدف والمستوى وأسلوب الحياة الذي يقدمه العميل.
                 </p>
                 <p>
-                  الخدمة لا تعتمد على ملف جاهز واحد لكل الأشخاص، بل يتم إعداد الخطة بناءً على البيانات التي يرسلها العميل قبل بداية البرنامج.
+                  الخدمة مخصصة للعميل المشترك، ولا تعتبر تشخيصًا أو علاجًا طبيًا أو بديلًا عن الطبيب أو المختص الصحي.
                 </p>
               </div></div>
             </section>
 
-            {/* Section 2 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
-                تسليم البرنامج والمتابعة
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
+                تسليم البرنامج
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
-                {/* Fluid Accent Corner */}
                 <div 
                   className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
                   style={{
@@ -89,25 +90,22 @@ export function TermsAndConditions() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>
-                  يتم تصميم وإرسال البرنامج التدريبي والغذائي خلال مدة تصل إلى 7 أيام عمل من تاريخ استلام جميع البيانات المطلوبة وتأكيد الاشتراك.
+                  يتم إعداد وإرسال البرنامج خلال مدة تصل إلى 3 إلى 7 أيام عمل من تاريخ تأكيد الاشتراك واستلام جميع البيانات المطلوبة.
                 </p>
                 <p>
-                  قد تختلف مدة الرد وسرعة المتابعة حسب نوع الباقة المشترك بها، وفق تفاصيل كل باقة الموضحة قبل الاشتراك.
+                  ولا تبدأ مدة التجهيز إلا بعد اكتمال البيانات المطلوبة من العميل.
                 </p>
                 <p>
-                  تختلف النتائج من شخص لآخر حسب الالتزام، الحالة الصحية، النوم، التغذية، مستوى النشاط، وطريقة استجابة الجسم.
+                  وتختلف طريقة وسرعة ومواعيد المتابعة وفق الباقة التي اختارها العميل والتفاصيل الموضحة قبل الاشتراك.
                 </p>
               </div></div>
             </section>
 
-            {/* Section 3 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
-                التزام العميل بالمتابعة
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
+                النتائج
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
-                {/* Fluid Accent Corner */}
                 <div 
                   className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
                   style={{
@@ -117,22 +115,44 @@ export function TermsAndConditions() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>
-                  جودة المتابعة تعتمد على التزام العميل بإرسال التحديثات المطلوبة في مواعيدها، مثل الوزن، القياسات، صور المتابعة إن وجدت، ومستوى الأداء والطاقة.
+                  لا يتم ضمان نتيجة محددة أو مقدار معين من فقدان الوزن أو زيادة العضلات أو تغير القياسات.
                 </p>
                 <p>
-                  في حالة انقطاع العميل عن المتابعة لفترة بدون إبلاغ مسبق، قد يحتاج الفريق إلى إعادة تقييم الحالة أو تعديل الخطة قبل استكمال المتابعة.
+                  تختلف النتائج من شخص لآخر حسب الالتزام والحالة الصحية والنوم والتغذية ومستوى النشاط وطبيعة واستجابة الجسم وغيرها من العوامل الفردية.
                 </p>
               </div></div>
             </section>
 
-            {/* Section 4 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
+                المتابعة والانقطاع
+              </h2>
+              <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
+                <div 
+                  className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
+                  style={{
+                    WebkitMaskImage: 'radial-gradient(circle at top right, black 0%, transparent 150px)',
+                    maskImage: 'radial-gradient(circle at top right, black 0%, transparent 150px)'
+                  }}
+                />
+                <div className="relative z-10 space-y-4">
+                <p>
+                  تعتمد جودة المتابعة على التزام العميل بإرسال التحديثات المطلوبة في مواعيدها.
+                </p>
+                <p>
+                  وفي حالة انقطاع العميل عن المتابعة دون إبلاغ مسبق، لا يتم تلقائيًا تمديد مدة الاشتراك أو تعويض الأيام الناتجة عن عدم تواصل العميل، إلا إذا كانت شروط الباقة تنص على غير ذلك.
+                </p>
+                <p>
+                  وقد يحتاج العميل إلى إعادة تقييم حالته عند العودة بعد انقطاع طويل.
+                </p>
+              </div></div>
+            </section>
+
+            <section>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 التزامات العميل
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
-                {/* Fluid Accent Corner */}
                 <div 
                   className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
                   style={{
@@ -142,27 +162,25 @@ export function TermsAndConditions() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>يلتزم العميل بما يلي:</p>
-                <ul className="list-disc list-inside space-y-2 mt-2 mb-4">
+                <ul className="list-disc list-inside space-y-3 mt-4 marker:text-brand-primary">
                   <li>تقديم بيانات صحيحة ودقيقة.</li>
-                  <li>الإفصاح عن أي إصابة، حالة صحية، حساسية، أدوية، أو ظروف قد تؤثر على التدريب أو التغذية.</li>
-                  <li>تنفيذ البرنامج وفق الإرشادات الموضحة.</li>
-                  <li>إرسال المتابعات المطلوبة حسب نظام الباقة.</li>
+                  <li>الإفصاح عن الإصابات والحالات الصحية والحساسية والأدوية وأي معلومات مؤثرة.</li>
+                  <li>اتباع التعليمات المقدمة.</li>
+                  <li>إرسال المتابعات المطلوبة وفق نظام الباقة.</li>
+                  <li>إبلاغ فريق المتابعة بأي تغيير صحي مهم.</li>
                   <li>عدم مشاركة البرنامج مع أي شخص آخر.</li>
                 </ul>
                 <p>
-                  ويتحمل العميل مسؤولية أي تأثيرات ناتجة عن تقديم معلومات غير صحيحة أو إخفاء معلومات مهمة.
+                  ويتحمل العميل مسؤولية النتائج أو الأضرار الناتجة عن تقديم معلومات غير صحيحة أو إخفاء معلومات مهمة أو مخالفة التعليمات أو إساءة استخدام البرنامج، وذلك في الحدود التي يسمح بها القانون.
                 </p>
               </div></div>
             </section>
 
-            {/* Section 5 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
-                سياسة الاشتراك والاسترداد
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
+                الإلغاء والاسترداد
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
-                {/* Fluid Accent Corner */}
                 <div 
                   className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
                   style={{
@@ -172,22 +190,22 @@ export function TermsAndConditions() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>
-                  لأن البرامج يتم إعدادها بشكل مخصص لكل عميل، فهي تُعد خدمة شخصية غير جاهزة.
+                  نظرًا لأن البرامج يتم إعدادها بصورة مخصصة بناءً على بيانات كل عميل، تتم مراجعة طلبات الإلغاء والاسترداد وفق مرحلة تنفيذ الخدمة وما تم تقديمه أو الانتفاع به، وبما يتفق مع الحقوق والالتزامات المقررة قانونًا.
                 </p>
                 <p>
-                  قبل بدء إعداد البرنامج، يمكن طلب إلغاء الاشتراك، ويتم مراجعة الطلب حسب مرحلة التجهيز.
+                  في حالة طلب الإلغاء قبل بدء تنفيذ الخدمة، يتم التعامل مع الطلب وفقًا للقانون.
                 </p>
                 <p>
-                  بعد بدء إعداد البرنامج أو تسليمه، لا يمكن استرداد المبلغ المدفوع، لأن الخدمة تكون قد بدأت بالفعل وتم تخصيصها للعميل.
+                  وبعد بدء تقديم الخدمة أو الانتفاع بها، يتم تقييم أي طلب استرداد وفق الجزء الذي تم تنفيذه وطبيعة الخدمة والحالات التي يسمح فيها القانون بالرجوع أو الاسترداد.
+                </p>
+                <p>
+                  ولا يُفسر أي بند في هذه الشروط على أنه إلغاء لحق إلزامي يقرره القانون للعميل.
                 </p>
               </div></div>
             </section>
 
-            
-            {/* Section 6 (New) */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 تجميد أو إيقاف الاشتراك
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
@@ -211,8 +229,7 @@ export function TermsAndConditions() {
 
             {/* Section 8 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 سياسة الدعم عند عدم التقدم
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
@@ -234,7 +251,7 @@ export function TermsAndConditions() {
                 <p>
                   للاستفادة من هذه المراجعة، يجب توفر الآتي:
                 </p>
-                <ul className="list-disc list-inside space-y-2 mt-2 mb-4">
+                <ul className="list-disc list-inside space-y-3 mt-4 marker:text-brand-primary">
                   <li>الالتزام بالخطة قدر الإمكان.</li>
                   <li>إرسال المتابعات والقياسات في مواعيدها.</li>
                   <li>تنفيذ التعليمات بشكل صحيح.</li>
@@ -249,8 +266,7 @@ export function TermsAndConditions() {
 
             {/* Section 8 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 تعديل البرنامج
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
@@ -274,8 +290,7 @@ export function TermsAndConditions() {
 
             {/* Section 9 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 الحالات الصحية والإصابات
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
@@ -302,8 +317,7 @@ export function TermsAndConditions() {
 
             {/* Section 10 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 تنفيذ التمارين والسلامة
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
@@ -323,19 +337,17 @@ export function TermsAndConditions() {
                   في حالة الشعور بألم غير طبيعي، دوخة، ضيق تنفس، أو أي أعراض غير معتادة، يجب إيقاف التمرين فورًا والرجوع لطبيب أو مختص عند الحاجة.
                 </p>
                 <p>
-                  لا نتحمل مسؤولية أي ضرر ناتج عن سوء تنفيذ التمارين، تجاهل الإرشادات، إخفاء معلومات صحية، أو استخدام البرنامج بطريقة غير صحيحة.
+                  لا يتحمل مقدم الخدمة مسؤولية الأضرار الناتجة عن سوء تنفيذ التمارين، أو تجاهل الإرشادات، أو إخفاء معلومات صحية، أو استخدام البرنامج بطريقة غير صحيحة، وذلك في الحدود التي يسمح بها القانون.
                 </p>
               </div></div>
             </section>
 
             {/* Section 11 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 الملكية الفكرية
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
-                {/* Fluid Accent Corner */}
                 <div 
                   className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
                   style={{
@@ -345,26 +357,23 @@ export function TermsAndConditions() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>
-                  جميع البرامج، الخطط، المواد، الشروحات، وأي محتوى يتم تقديمه للعميل هي ملكية فكرية خاصة بكابتن كريم زكريا.
+                  جميع البرامج والخطط والشروحات والمواد المقدمة للعميل مخصصة لاستخدامه الشخصي فقط، وتظل حقوقها مملوكة لكابتن كريم زكريا.
                 </p>
-                <p>يُمنع:</p>
-                <ul className="list-disc list-inside space-y-2 mt-2 mb-4">
-                  <li>نسخ المحتوى.</li>
-                  <li>إعادة نشره.</li>
-                  <li>بيعه أو مشاركته.</li>
-                  <li>استخدامه لأي غرض تجاري.</li>
-                  <li>إرساله لأي شخص غير مشترك في البرنامج.</li>
+                <p>يُمنع دون إذن مسبق:</p>
+                <ul className="list-disc list-inside space-y-3 mt-4 marker:text-brand-primary">
+                  <li>إعادة بيع البرنامج.</li>
+                  <li>نشره أو توزيعه.</li>
+                  <li>مشاركته مع شخص آخر.</li>
+                  <li>نسخه أو استخدامه لأغراض تجارية.</li>
                 </ul>
                 <p>
-                  الاشتراك شخصي ولا يجوز استخدامه من قبل أي شخص آخر.
+                  ولا يمنح دفع قيمة الاشتراك العميل حق ملكية أو استغلال تجاري للمحتوى.
                 </p>
               </div></div>
             </section>
 
-            {/* Section 12 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 الخصوصية والبيانات
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
@@ -388,12 +397,10 @@ export function TermsAndConditions() {
 
             {/* Section 13 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
-                سياسة السلوك والتواصل
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
+                السلوك والتواصل
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
-                {/* Fluid Accent Corner */}
                 <div 
                   className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-50 group-hover:opacity-100 z-0"
                   style={{
@@ -403,18 +410,19 @@ export function TermsAndConditions() {
                 />
                 <div className="relative z-10 space-y-4">
                 <p>
-                  نحرص على أن تكون المتابعة مبنية على الاحترام المتبادل.
+                  يجب أن يكون التواصل قائمًا على الاحترام المتبادل.
                 </p>
                 <p>
-                  في حالة وجود إساءة، تهديد، تجاوز لفظي، أو سلوك غير لائق تجاه فريق المتابعة، يحق لإدارة البرنامج إيقاف الخدمة دون استرداد المبلغ المدفوع.
+                  وفي حالة الإساءة أو التهديد أو التحرش أو التجاوز المتكرر أو أي سلوك يجعل استمرار المتابعة غير ممكن بشكل معقول، يحق لإدارة الخدمة تعليق أو إنهاء المتابعة.
+                </p>
+                <p>
+                  ويتم التعامل مع أي مستحقات مالية مرتبطة بإنهاء الخدمة وفق ظروف الحالة وما تم تقديمه من الخدمة وفي الحدود التي يسمح بها القانون.
                 </p>
               </div></div>
             </section>
 
-            {/* Section 14 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 تغيير الباقة أو تجديد الاشتراك
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
@@ -438,8 +446,7 @@ export function TermsAndConditions() {
 
             {/* Section 15 */}
             <section>
-              <h2 className="text-lg md:text-xl font-bold mb-4 flex items-start gap-3 text-slate-900">
-                <span className="flex items-center justify-center w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-3"></span>
+              <h2 className="text-lg md:text-xl font-bold mb-3 flex items-start gap-3 text-slate-900">
                 تحديث الشروط والأحكام
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed md:leading-loose text-start">
@@ -456,18 +463,18 @@ export function TermsAndConditions() {
                   قد يتم تحديث هذه الشروط من وقت لآخر حسب تطوير الخدمة أو تحسين طريقة تقديمها.
                 </p>
                 <p>
-                  يتم نشر أي تحديث على هذه الصفحة، ويُعد استمرار استخدام الموقع أو الخدمة بعد نشر التحديث موافقة على النسخة المحدثة.
+                  يتم نشر أي تحديث على هذه الصفحة، ولا يتم تطبيق أي تعديل جوهري بأثر رجعي على اشتراك تم تأكيده وسداد قيمته بالفعل، إلا إذا كان ذلك مطلوبًا قانونًا أو تم الاتفاق عليه مع العميل.
                 </p>
               </div></div>
             </section>
 
             {/* Final note */}
-            <div className="bg-brand-secondary/30 rounded-2xl p-5 md:p-6 border border-brand-primary/20 shadow-sm text-center space-y-3">
-              <p className="font-medium text-slate-900 text-base md:text-lg">
+            <div className="bg-brand-secondary/30 rounded-2xl p-6 md:p-8 border border-brand-primary/20 shadow-sm text-center">
+              <h3 className="font-bold text-slate-900 text-[18px] md:text-[20px] mb-3">
                 ملاحظة مهمة
-              </p>
-              <p className="text-slate-700 text-sm md:text-base">
-                هدف البرنامج هو مساعدتك على تحسين التدريب، التغذية، والعادات الصحية بطريقة مناسبة لهدفك وأسلوب حياتك.<br />لكن النتائج تختلف من شخص لآخر، ولا يمكن اعتبار البرنامج بديلًا عن الاستشارة أو التشخيص أو العلاج الطبي.
+              </h3>
+              <p className="text-slate-700 text-[15px] md:text-[16px] leading-relaxed md:leading-loose max-w-3xl mx-auto">
+                هدف البرنامج هو مساعدتك على تحسين التدريب، التغذية، والعادات الصحية بطريقة مناسبة لهدفك وأسلوب حياتك لكن النتائج تختلف من شخص لآخر، ولا يمكن اعتبار البرنامج بديلًا عن الاستشارة أو التشخيص أو العلاج الطبي.
               </p>
             </div>
 

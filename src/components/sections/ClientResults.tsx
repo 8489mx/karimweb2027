@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Button } from '../ui/Button';
 import { useLanguage } from '../../context/LanguageContext';
+import { useSettings } from '../../context/SettingsContext';
 import { cn } from '../../lib/utils';
 import { SectionHeading } from '../ui/SectionHeading';
 import { motion } from 'framer-motion';
@@ -145,31 +146,10 @@ function useAutoScrollMarquee(speed: number = 1) {
   };
 }
 
-// مصفوفة صور الشات (روابط خارجية من ImgBB)
-// يرجى وضع روابط الصور المباشرة هنا
-const whatsappScreenshots = [
-  "https://i.ibb.co/pvVGJj4x/2.jpg",
-  "https://i.ibb.co/DgT1PGCH/4.jpg",
-  "https://i.ibb.co/Xfdg3nbY/05.jpg",
-  "https://i.ibb.co/xqsW9TsM/5.jpg",
-  "https://i.ibb.co/RGKZYr5j/6.jpg",
-  "https://i.ibb.co/LdLtPxN2/7.jpg",
-  "https://i.ibb.co/PzxknxCn/8.jpg",
-  "https://i.ibb.co/BxSbXKF/9.jpg",
-  "https://i.ibb.co/cStv1Rw6/10.jpg",
-  "https://i.ibb.co/MD6C8jvD/11.jpg",
-  "https://i.ibb.co/HLxn4hwk/12.jpg",
-  "https://i.ibb.co/ycBgJjCS/13.jpg",
-  "https://i.ibb.co/fdyPM9s7/14.jpg",
-  "https://i.ibb.co/s947tRST/15.jpg",
-  "https://i.ibb.co/bRFGcpc5/16.jpg",
-  "https://i.ibb.co/4wSh2pvR/17.jpg",
-  "https://i.ibb.co/gFwy8C7G/18.jpg",
-  "https://i.ibb.co/Q3FXQ3wg/20.jpg"
-];
+export const whatsappScreenshots: string[] = [];
 
 // بيانات التحولات (صور قبل وبعد من روابط خارجية من ImgBB)
-const transformations = [
+export const transformations = [
   {
     id: 1,
     name: 'Ahmed Mahmoud',
@@ -180,8 +160,8 @@ const transformations = [
     durationAr: 'في 3 أشهـر',
     quote: 'Captain Karim changed my concept of dieting. I reached this result without feeling deprived.',
     quoteAr: 'كابتن كريم غير مفهومي عن الدايت، وصلت للنتيجة دي من غير ما أحس بأي حرمان أو تعب في يومي.',
-    beforeImage: "https://i.ibb.co/RGHBt1DR/before-after-1.jpg",
-    afterImage: "https://i.ibb.co/dsz5rD8Z/before-after-2.jpg"
+    beforeImage: "/assets/images/before-after-1.jpg",
+    afterImage: "/assets/images/before-after-2.jpg"
   },
   {
     id: 2,
@@ -193,8 +173,8 @@ const transformations = [
     durationAr: 'في شهرين',
     quote: 'The accuracy of macros and calories helped me reach the shape of my life.',
     quoteAr: 'دقة حاسبة السعرات والماكروز اللي كابتن كريم بيعملها خلتني أوصل لفورمة عمري ما تخيلت أوصلها.',
-    beforeImage: "https://i.ibb.co/rf2npW6z/before-after-3.jpg",
-    afterImage: "https://i.ibb.co/PsHzWzwk/before-after-4.jpg"
+    beforeImage: "/assets/images/before-after-3.jpg",
+    afterImage: "/assets/images/before-after-4.jpg"
   },
   {
     id: 3,
@@ -206,8 +186,8 @@ const transformations = [
     durationAr: 'في 5 أشهـر',
     quote: 'Changed my whole lifestyle. Fitness is no longer a burden thanks to right guidance.',
     quoteAr: 'غيرت أسلوب حياتي بالكامل، الفتنس مابقاش عبء، بقى جزء من يومي بفضل التوجيه الصح.',
-    beforeImage: "https://i.ibb.co/8gxj26P8/before-after-5.jpg",
-    afterImage: "https://i.ibb.co/bMGX2vZ4/before-after-6.jpg"
+    beforeImage: "/assets/images/before-after-5.jpg",
+    afterImage: "/assets/images/before-after-6.jpg"
   },
   {
     id: 4,
@@ -219,8 +199,8 @@ const transformations = [
     durationAr: 'في 4 أشهـر',
     quote: 'The personalized program helped me break my plateau and see real muscle growth.',
     quoteAr: 'البرنامج المخصص ساعدني أكسر ثبات الوزن وأشوف زيادة حقيقية في العضلات.',
-    beforeImage: "https://i.ibb.co/WWp9y0rm/before-after-7.jpg",
-    afterImage: "https://i.ibb.co/XZ7qr3Bk/before-after-8.jpg"
+    beforeImage: "/assets/images/before-after-7.jpg",
+    afterImage: "/assets/images/before-after-8.jpg"
   },
   {
     id: 5,
@@ -232,8 +212,8 @@ const transformations = [
     durationAr: 'في 3 أشهـر',
     quote: 'A great transformation with proper guidance and commitment.',
     quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "https://i.ibb.co/wNWppYgg/before-after-9.jpg",
-    afterImage: "https://i.ibb.co/0RnJyWn3/before-after-10.jpg"
+    beforeImage: "/assets/images/before-after-9.jpg",
+    afterImage: "/assets/images/before-after-10.jpg"
   },
   {
     id: 6,
@@ -245,8 +225,8 @@ const transformations = [
     durationAr: 'في 3 أشهـر',
     quote: 'A great transformation with proper guidance and commitment.',
     quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "https://i.ibb.co/gL2PbY0d/before-after-11.jpg",
-    afterImage: "https://i.ibb.co/zVvsSh0R/before-after-12.jpg"
+    beforeImage: "/assets/images/before-after-11.jpg",
+    afterImage: "/assets/images/before-after-12.jpg"
   },
   {
     id: 7,
@@ -258,8 +238,8 @@ const transformations = [
     durationAr: 'في 3 أشهـر',
     quote: 'A great transformation with proper guidance and commitment.',
     quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "https://i.ibb.co/Nnk4gHr1/before-after-0013.jpg",
-    afterImage: "https://i.ibb.co/VYB7DP95/before-after-013.jpg"
+    beforeImage: "/assets/images/before-after-0013.jpg",
+    afterImage: "/assets/images/before-after-013.jpg"
   },
   {
     id: 8,
@@ -271,8 +251,8 @@ const transformations = [
     durationAr: 'في 3 أشهـر',
     quote: 'A great transformation with proper guidance and commitment.',
     quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "https://i.ibb.co/mdpBG5s/before-after-13.jpg",
-    afterImage: "https://i.ibb.co/Hfv97j8n/before-after-14.jpg"
+    beforeImage: "/assets/images/before-after-13.jpg",
+    afterImage: "/assets/images/before-after-14.jpg"
   },
   {
     id: 9,
@@ -284,8 +264,8 @@ const transformations = [
     durationAr: 'في 3 أشهـر',
     quote: 'A great transformation with proper guidance and commitment.',
     quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "https://i.ibb.co/twQsfcL8/before-after-15.jpg",
-    afterImage: "https://i.ibb.co/RpVpxLng/before-after-16.jpg"
+    beforeImage: "/assets/images/before-after-15.jpg",
+    afterImage: "/assets/images/before-after-16.jpg"
   },
   {
     id: 10,
@@ -297,8 +277,8 @@ const transformations = [
     durationAr: 'في 3 أشهـر',
     quote: 'A great transformation with proper guidance and commitment.',
     quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "https://i.ibb.co/4wwQ6mP5/before-after-17.jpg",
-    afterImage: "https://i.ibb.co/MDXKt8xq/before-after-18.jpg"
+    beforeImage: "/assets/images/before-after-17.jpg",
+    afterImage: "/assets/images/before-after-18.jpg"
   },
   {
     id: 11,
@@ -310,8 +290,8 @@ const transformations = [
     durationAr: 'في 3 أشهـر',
     quote: 'A great transformation with proper guidance and commitment.',
     quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "https://i.ibb.co/rRTyRbMX/before-after-0019.jpg",
-    afterImage: "https://i.ibb.co/My73QTR3/before-after-019.jpg"
+    beforeImage: "/assets/images/before-after-0019.jpg",
+    afterImage: "/assets/images/before-after-019.jpg"
   },
   {
     id: 12,
@@ -323,8 +303,8 @@ const transformations = [
     durationAr: 'في 3 أشهـر',
     quote: 'A great transformation with proper guidance and commitment.',
     quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "https://i.ibb.co/QFzkMJbG/before-after-19.jpg",
-    afterImage: "https://i.ibb.co/TDBq2M3G/before-after-20.jpg"
+    beforeImage: "/assets/images/before-after-19.jpg",
+    afterImage: "/assets/images/before-after-20.jpg"
   }
 ];
 
@@ -338,7 +318,10 @@ const TransformationCard: React.FC<{ item: any, t: any, lang: string }> = ({ ite
           <img loading="lazy" referrerPolicy="no-referrer" src="/assets/images/logo/2.png" alt="Logo" width="180" height="45" draggable={false} className="w-full h-auto brightness-0 invert select-none pointer-events-none" />
         </div>
         <img loading="lazy" referrerPolicy="no-referrer"
-          src={item.beforeImage} onError={(e) => { e.currentTarget.src = "https://placehold.co/600x800/1e293b/ffffff?text=Not+Found"; }}
+          src={item.beforeImage} onError={(e) => { 
+            const idx = ((item.id || 0) % 12);
+            e.currentTarget.src = `/assets/generated/result_${idx}_before.jpg`; 
+          }}
           alt={t.results.before}
           width="600"
           height="800"
@@ -361,7 +344,10 @@ const TransformationCard: React.FC<{ item: any, t: any, lang: string }> = ({ ite
       {/* Right Half: After (Full Color) */}
       <div className="relative w-1/2 h-full overflow-hidden bg-slate-900/40">
         <img loading="lazy" referrerPolicy="no-referrer"
-          src={item.afterImage} onError={(e) => { e.currentTarget.src = "https://placehold.co/600x800/1e293b/ffffff?text=Not+Found"; }}
+          src={item.afterImage} onError={(e) => { 
+            const idx = ((item.id || 0) % 12);
+            e.currentTarget.src = `/assets/generated/result_${idx}_after.jpg`; 
+          }}
           alt={t.results.after}
           width="600"
           height="800"
@@ -390,8 +376,28 @@ const TransformationCard: React.FC<{ item: any, t: any, lang: string }> = ({ ite
 
 export function ClientResults() {
   const { t, lang: language } = useLanguage();
+  const { settings } = useSettings();
   const drag1 = useAutoScrollMarquee(1);
+  
+  const sanitizeUrl = (url?: string) => {
+    if (!url) return '';
+    return url;
+  };
+
+  const loadedResults = settings?.results?.map(r => ({
+    ...r,
+    beforeImage: sanitizeUrl(r.beforeImage),
+    afterImage: sanitizeUrl(r.afterImage),
+  })).filter((r: any) => r.beforeImage && r.afterImage);
+
+  const finalTransformations = (loadedResults && loadedResults.length > 0) ? loadedResults : transformations;
+
+  const loadedScreenshots = settings?.whatsappScreenshots?.map(sanitizeUrl).filter(Boolean);
+  const finalScreenshots = (loadedScreenshots && loadedScreenshots.length > 0) ? loadedScreenshots : whatsappScreenshots;
+
   const drag2 = useAutoScrollMarquee(-1);
+
+  if (finalTransformations.length === 0 && finalScreenshots.length === 0) return null;
 
   return (
     <section className="py-12 md:py-20 overflow-hidden bg-transparent text-brand-text relative max-w-[100vw]" id="results">
@@ -411,39 +417,12 @@ export function ClientResults() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-white/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto px-4 mb-12 text-center relative z-10">
-        <SectionHeading className="mb-4 text-slate-900">
-          {language === 'ar' ? (
-            <>
-              <span className="sm:hidden block leading-tight"><span className="text-brand-primary">{t.results.realTransformations}</span><br/>{t.results.calculatedPlan}</span>
-              <span className="hidden sm:inline">
-                {t.results.title.split(t.results.realTransformations).map((part, i, arr) => (
-                  <React.Fragment key={i}>
-                    {i < arr.length - 1 && <span className="text-brand-primary" dir="auto">{t.results.realTransformations}</span>}
-                    {part}
-                  </React.Fragment>
-                ))}
-              </span>
-            </>
-          ) : (
-            <>
-              <span className="sm:hidden block leading-tight">
-                <span className="text-brand-primary">Real Transformations</span><br/>from a Calculated Plan
-              </span>
-              <span className="hidden sm:inline">
-                {t.results.title.split('Real Transformations').map((part, i, arr) => (
-                  <React.Fragment key={i}>
-                    {i < arr.length - 1 && <span className="text-brand-primary" dir="auto">Real Transformations</span>}
-                    {part}
-                  </React.Fragment>
-                ))}
-              </span>
-            </>
-          )}
+        <SectionHeading className="mb-2 text-slate-900">
+          {t.results.title}
         </SectionHeading>
         {t.results.subtitle && (
           <p 
-            className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2 bg-clip-text text-transparent bg-[linear-gradient(110deg,var(--color-brand-primary)_48.5%,#fff_50%,var(--color-brand-primary)_51.5%)] bg-[length:250%_auto] animate-shimmer-gold pb-2" 
-            style={{ animationDuration: '6s' }}
+            className="text-base sm:text-[1.1rem] md:text-xl lg:text-2xl text-brand-muted leading-relaxed px-2 font-medium max-w-3xl mx-auto mb-6" 
           >
             {t.results.subtitle}
           </p>
@@ -461,13 +440,13 @@ export function ClientResults() {
       >
         <div className={cn("flex w-max px-4 sm:px-6", drag1.isDragging && "pointer-events-none")}>
           <div className="flex gap-4 sm:gap-6 pr-4 sm:pr-6 shrink-0">
-            {transformations.map((item) => (
-              <TransformationCard key={`set1-${item.id}`} item={item} t={t} lang={language} />
+            {finalTransformations.map((item, i) => (
+              <TransformationCard key={`set1-${item.id || i}`} item={item} t={t} lang={language} />
             ))}
           </div>
           <div className="flex gap-4 sm:gap-6 pr-4 sm:pr-6 shrink-0">
-            {transformations.map((item) => (
-              <TransformationCard key={`set2-${item.id}`} item={item} t={t} lang={language} />
+            {finalTransformations.map((item, i) => (
+              <TransformationCard key={`set2-${item.id || i}`} item={item} t={t} lang={language} />
             ))}
           </div>
         </div>
@@ -482,22 +461,32 @@ export function ClientResults() {
         )} 
         dir="ltr"
       >
+        {finalScreenshots.length <= 2 ? (
+          <div className="flex w-full justify-center gap-4 sm:gap-6 px-4 sm:px-6">
+            {finalScreenshots.map((item, index) => (
+              <div key={`wa1-${index}`} className="relative w-[240px] sm:w-[280px] md:w-[320px] lg:w-[360px] h-auto aspect-[9/16] rounded-2xl overflow-hidden border border-white/5 bg-slate-900 shadow-xl shrink-0 pointer-events-none">
+                <img src={item} loading="lazy" referrerPolicy="no-referrer" alt="WhatsApp Testimonial" onError={(e) => { e.currentTarget.src = `/assets/generated/wa_${index % 17}.jpg`; }} width={1080} height={1920} draggable={false} className="w-full h-full object-contain pointer-events-none select-none" />
+              </div>
+            ))}
+          </div>
+        ) : (
         <div className={cn("flex w-max px-4 sm:px-6", drag2.isDragging && "pointer-events-none")}>
           <div className="flex gap-4 sm:gap-6 pr-4 sm:pr-6 shrink-0">
-            {whatsappScreenshots.map((item, index) => (
+            {finalScreenshots.map((item, index) => (
               <div key={`wa1-${index}`} className="relative w-[240px] sm:w-[280px] md:w-[320px] lg:w-[360px] h-auto aspect-[9/16] rounded-2xl overflow-hidden border border-white/5 bg-slate-900 shadow-xl shrink-0 pointer-events-none">
-                <img loading="lazy" referrerPolicy="no-referrer" src={item} alt="WhatsApp Testimonial" onError={(e) => { e.currentTarget.src = "https://placehold.co/1080x1920/1e293b/ffffff?text=Chat+Not+Found"; }} width="1080" height="1920" draggable={false} className="w-full h-full object-contain pointer-events-none select-none" />
+                <img src={item} loading="lazy" referrerPolicy="no-referrer" alt="WhatsApp Testimonial" onError={(e) => { e.currentTarget.src = `/assets/generated/wa_${index % 17}.jpg`; }} width={1080} height={1920} draggable={false} className="w-full h-full object-contain pointer-events-none select-none" />
               </div>
             ))}
           </div>
           <div className="flex gap-4 sm:gap-6 pr-4 sm:pr-6 shrink-0">
-            {whatsappScreenshots.map((item, index) => (
+            {finalScreenshots.map((item, index) => (
               <div key={`wa2-${index}`} className="relative w-[240px] sm:w-[280px] md:w-[320px] lg:w-[360px] h-auto aspect-[9/16] rounded-2xl overflow-hidden border border-white/5 bg-slate-900 shadow-xl shrink-0 pointer-events-none">
-                <img loading="lazy" referrerPolicy="no-referrer" src={item} alt="WhatsApp Testimonial" onError={(e) => { e.currentTarget.src = "https://placehold.co/1080x1920/1e293b/ffffff?text=Chat+Not+Found"; }} width="1080" height="1920" draggable={false} className="w-full h-full object-contain pointer-events-none select-none" />
+                <img src={item} loading="lazy" referrerPolicy="no-referrer" alt="WhatsApp Testimonial" onError={(e) => { e.currentTarget.src = `/assets/generated/wa_${index % 17}.jpg`; }} width={1080} height={1920} draggable={false} className="w-full h-full object-contain pointer-events-none select-none" />
               </div>
             ))}
           </div>
         </div>
+        )}
       </div>
 
     </section>

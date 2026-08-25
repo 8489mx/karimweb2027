@@ -2,97 +2,84 @@
 
 export type CountryCode = 'EG' | 'SA' | 'KW' | 'AE' | 'QA' | 'BH' | 'OTHER';
 export type PackageCode = 'elite' | 'max';
-export type DurationCode = '3m' | '6m' | '12m';
+export type DurationCode = '3m' | '6m';
 
 export interface PackagePrice {
     baseDurationMonths: number;
     freeMonths: number;
     finalAmount: number;
+    originalAmount?: number;
 }
 
 export const PRICING_DATA: Record<CountryCode, Record<PackageCode, Record<DurationCode, PackagePrice>>> = {
     EG: {
         elite: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 3000 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 5500 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 10000 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 3000, originalAmount: 5000 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 5500, originalAmount: 9000 },
         },
         max: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 4500 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 8000 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 15000 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 4500, originalAmount: 7500 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 8000, originalAmount: 13000 },
         }
     },
     SA: {
         elite: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 400 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 750 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 1400 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 400, originalAmount: 650 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 750, originalAmount: 1200 },
         },
         max: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 600 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 1100 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 2000 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 600, originalAmount: 1000 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 1100, originalAmount: 1800 },
         }
     },
     KW: {
         elite: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 30 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 55 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 100 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 30, originalAmount: 50 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 55, originalAmount: 90 },
         },
         max: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 45 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 80 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 150 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 45, originalAmount: 75 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 80, originalAmount: 130 },
         }
     },
     AE: {
         elite: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 400 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 750 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 1400 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 400, originalAmount: 650 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 750, originalAmount: 1200 },
         },
         max: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 600 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 1100 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 2000 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 600, originalAmount: 1000 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 1100, originalAmount: 1800 },
         }
     },
     QA: {
         elite: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 400 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 750 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 1400 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 400, originalAmount: 650 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 750, originalAmount: 1200 },
         },
         max: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 600 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 1100 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 2000 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 600, originalAmount: 1000 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 1100, originalAmount: 1800 },
         }
     },
     BH: {
         elite: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 40 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 75 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 140 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 40, originalAmount: 65 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 75, originalAmount: 120 },
         },
         max: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 60 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 110 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 200 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 60, originalAmount: 100 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 110, originalAmount: 180 },
         }
     },
     OTHER: {
         elite: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 100 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 180 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 320 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 100, originalAmount: 160 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 180, originalAmount: 300 },
         },
         max: {
-            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 150 },
-            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 270 },
-            '12m': { baseDurationMonths: 12, freeMonths: 3, finalAmount: 480 },
+            '3m': { baseDurationMonths: 3, freeMonths: 1, finalAmount: 150, originalAmount: 250 },
+            '6m': { baseDurationMonths: 6, freeMonths: 2, finalAmount: 270, originalAmount: 450 },
         }
     }
 };
