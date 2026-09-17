@@ -81,10 +81,10 @@ export function About() {
         {/* Section Header (Focused, Direct & Inspiring) */}
         <div className="text-center mb-8 sm:mb-12">
           <SectionHeading className="mb-3 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
-            {lang === 'ar' ? 'ليه تبدأ معايا' : 'Why Start With Me'}
+            {lang === 'ar' ? 'إزاي هنوصل لهدفك بدون حرمان؟' : 'How we reach your goal without restriction?'}
           </SectionHeading>
           
-          <p className="text-slate-600 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed mt-2 font-medium">
+          <p className="text-slate-600 text-sm sm:text-base md:text-lg max-w-4xl mx-auto leading-relaxed mt-2 font-medium sm:whitespace-nowrap text-balance">
             {lang === 'ar' 
               ? 'اعرف إزاي بنصمم خطتك خطوة بخطوة، عشان تضمن الوصول لأفضل نتيجة ممكنة.' 
               : 'Discover how we design your plan step-by-step to ensure the best possible results.'}
