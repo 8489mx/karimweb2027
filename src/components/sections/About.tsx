@@ -86,7 +86,7 @@ export function About() {
           
           <p className="text-slate-600 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed mt-2 font-medium">
             {lang === 'ar' 
-              ? 'شوف إزاي بنبني خطتك وبنفصلها عليك بدون حرمان ولا تعقيد.. عشان توصل لهدفك وتقدر إنك تستمر عليه' 
+              ? 'في أقل من دقيقتين، بشرحلك إزاي بنصمم خطتك التدريبية والغذائية خطوة بخطوة عشان تناسب حياتك وتضمنلك نتيجة مستدامة.. شغل الفيديو واعرف التفاصيل!' 
               : 'See how we build and customize your plan without restriction, so you reach your goal and sustain it.'}
           </p>
         </div>
