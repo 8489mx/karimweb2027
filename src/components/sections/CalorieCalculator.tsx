@@ -85,7 +85,7 @@ export function CalorieCalculator() {
 
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
-  const [activeHelp, setActiveHelp] = useState<'dailyActivity' | 'workoutFrequency' | 'resistance' | 'bodyFat' | 'goal' | 'disclaimer' | null>(null);
+  const [activeHelp, setActiveHelp] = useState<'dailyActivity' | 'workoutFrequency' | 'resistance' | 'bodyFat' | 'bodyFatVisual' | 'goal' | 'disclaimer' | null>(null);
 
   const helpTopics = getHelpTopics();
   const clearResults = () => {
@@ -575,8 +575,7 @@ export function CalorieCalculator() {
                 {" "}
                 <div className="flex items-center justify-between px-1">
                     <label className="flex items-center gap-1.5 text-[13px] md:text-sm font-bold text-brand-text">
-                      <span>{t.calculator.bodyFat}</span>
-                      
+                      <span>{t.calculator.bodyFat} <span className="text-slate-400 font-normal text-xs">(اختياري)</span></span>
                     </label>
                     <button type="button" aria-label="مساعدة" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('bodyFat'); }} className="cursor-pointer relative z-10 text-amber-500 hover:text-amber-600 p-1 md:p-2 md:-m-1 rounded-full transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-amber-500/40">
                       <AlertCircle className="w-3.5 h-3.5 md:w-4 md:h-4 pointer-events-none" />
@@ -594,9 +593,18 @@ export function CalorieCalculator() {
                   placeholder="15"
                   dir="ltr"
                 />{" "}
-                <p className="text-[12px] text-slate-500 mt-1 px-1">
-                  {t.calculator.bodyFatNote}
-                </p>{" "}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mt-2 px-1">
+                  <p className="text-[12px] text-slate-500">
+                    {t.calculator.bodyFatNote}
+                  </p>
+                  <button 
+                    type="button" 
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('bodyFatVisual'); }} 
+                    className="text-[12px] font-bold text-brand-primary hover:text-brand-secondary transition-colors text-right flex items-center gap-1 w-fit"
+                  >
+                    مش عارف نسبتك؟ شوف الدليل بالصور 📸
+                  </button>
+                </div>
               </div>{" "}
               {/* Pregnancy / Nursing */}
               {gender === "female" && parseInt(age) >= 16 && (

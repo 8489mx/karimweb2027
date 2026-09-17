@@ -62,6 +62,66 @@ export const getHelpTopics = () => {
         </div>
       )
     },
+    bodyFatVisual: {
+      title: "دليل تقدير نسبة الدهون التقريبية",
+      content: (
+        <div className="space-y-6 text-sm leading-relaxed text-slate-700 text-right text-base">
+          <p className="text-slate-500 font-medium">لو معندكش جهاز InBody، دي طريقة تقريبية ممتازة بناءً على شكل الجسم العام في المراية لتسهيل الحساب:</p>
+          
+          <div>
+            <h4 className="font-black text-brand-primary mb-3 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-blue-500 block"></span> للرجال
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
+                <span className="font-bold text-lg text-slate-800">10% - 12%</span>
+                <p className="text-slate-600 mt-1">تقسيمات البطن الستة (Six-pack) واضحة جداً، وعضلات الجسم بارزة ومفصلة.</p>
+              </div>
+              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
+                <span className="font-bold text-lg text-slate-800">15%</span>
+                <p className="text-slate-600 mt-1">تحديد بسيط لعضلات البطن العلوية، جسم رياضي ومشدود.</p>
+              </div>
+              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
+                <span className="font-bold text-lg text-slate-800">20%</span>
+                <p className="text-slate-600 mt-1">مفيش تقسيمات بطن، بداية ظهور الكرش البسيط وتخزين دهون في الخصر.</p>
+              </div>
+              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
+                <span className="font-bold text-lg text-slate-800">25% - 30%+</span>
+                <p className="text-slate-600 mt-1">كرش واضح، وزن زائد ملحوظ وتراكم كبير للدهون في الجناب والصدر.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-2">
+            <h4 className="font-black text-pink-500 mb-3 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-pink-500 block"></span> للنساء
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
+                <span className="font-bold text-lg text-slate-800">18% - 20%</span>
+                <p className="text-slate-600 mt-1">جسم رياضي جداً وناشف، تقسيمات خفيفة في البطن (شكل الفيتنس).</p>
+              </div>
+              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
+                <span className="font-bold text-lg text-slate-800">25%</span>
+                <p className="text-slate-600 mt-1">جسم مشدود ورفيع، بدون تقسيمات عضلية واضحة (النسبة المثالية).</p>
+              </div>
+              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
+                <span className="font-bold text-lg text-slate-800">30%</span>
+                <p className="text-slate-600 mt-1">بداية تخزين الدهون بشكل ملحوظ في الأرداف، الفخذين، والبطن السفلية.</p>
+              </div>
+              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
+                <span className="font-bold text-lg text-slate-800">35% - 40%+</span>
+                <p className="text-slate-600 mt-1">وزن زائد وممتلئ، توزيع كبير للدهون في أغلب مناطق الجسم.</p>
+              </div>
+            </div>
+          </div>
+
+          <p className="bg-blue-50 text-blue-700 p-3 rounded-lg border border-blue-100/50 font-medium text-sm text-center">
+            بمجرد تحديدك للنسبة الأقرب لجسمك، اكتبها في الخانة وهنحسبلك السعرات بدقة.
+          </p>
+        </div>
+      )
+    },
     goal: {
       title: "كيف تختار معدل النزول/الزيادة؟",
       content: (
