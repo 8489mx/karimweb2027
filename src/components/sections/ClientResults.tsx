@@ -433,15 +433,16 @@ export function ClientResults() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-white/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto px-4 mb-12 text-center relative z-10">
-        <SectionHeading className="mb-2 text-slate-900">
-          {t.results.title}
+        <SectionHeading className="mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight">
+          <span className="text-slate-900 block mb-2">{t.results.title}</span>
+          <span className="text-[#FF4500]">{t.results.subtitle}</span>
         </SectionHeading>
-        {t.results.subtitle && (
+        {t.results.description && (
           <p 
-            className="text-base sm:text-[1.1rem] md:text-xl lg:text-2xl text-brand-muted leading-relaxed px-2 font-medium max-w-3xl mx-auto mb-6" 
+            className="text-sm sm:text-base md:text-lg text-slate-600 leading-relaxed font-medium max-w-3xl mx-auto mb-8 whitespace-pre-line text-balance"
             dir="auto"
           >
-            {t.results.subtitle}
+            {t.results.description}
           </p>
         )}
       </div>
