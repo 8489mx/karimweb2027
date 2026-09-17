@@ -70,7 +70,7 @@ export function Hero() {
             href="/#packages"
             variant="primary" 
             size="md" 
-            className="rounded-xl px-5 sm:px-6 py-2.5 shadow-xl shadow-brand-primary/20 sm:text-lg min-w-[100px] sm:min-w-[120px] flex items-center gap-2" 
+            className="rounded-xl h-11 sm:h-12 px-4 sm:px-5 py-0 shadow-xl shadow-brand-primary/20 sm:text-lg min-w-[120px] sm:min-w-[130px] flex items-center justify-center gap-1.5" 
             showWhatsAppIcon={false}
             onClick={(e) => {
               if (window.location.pathname === '/') {
@@ -81,14 +81,14 @@ export function Hero() {
             }}
           >
             <span>الباقات</span>
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-0.5" />
           </Button>
 
           <Button 
             href="/#calculator"
             variant="outline" 
             size="md" 
-            className="rounded-xl px-5 sm:px-6 py-2.5 shadow-xl sm:text-lg bg-white border-none text-slate-900 hover:bg-slate-50 transition-all active:scale-[0.98] flex items-center gap-2" 
+            className="rounded-xl h-11 sm:h-12 px-4 sm:px-5 py-0 shadow-xl sm:text-lg bg-white border-none text-slate-900 hover:bg-slate-50 transition-all active:scale-[0.98] min-w-[120px] sm:min-w-[130px] flex items-center justify-center gap-1.5" 
             showWhatsAppIcon={false}
             onClick={(e) => {
               if (window.location.pathname === '/') {
@@ -99,7 +99,7 @@ export function Hero() {
             }}
           >
             <span>احسب سعراتك</span>
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-0.5" />
           </Button>
         </div>
       </div>
