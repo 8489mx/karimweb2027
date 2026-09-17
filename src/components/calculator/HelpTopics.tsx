@@ -72,38 +72,38 @@ export const getHelpTopics = () => {
             <h4 className="font-black text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-500 mb-4 flex items-center gap-2 text-lg">
               <span className="w-2 h-6 rounded-full bg-blue-500 block shrink-0"></span> للرجال
             </h4>
-            <div className="grid grid-cols-1 gap-3 sm:gap-4">
-              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 sm:p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 text-right">
+            <div className="grid grid-cols-1 gap-4 sm:gap-5">
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 text-right">
                 <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-blue-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50 pointer-events-none"></div>
-                <div className="relative z-10 flex items-baseline gap-1 mb-2">
-                  <span className="font-black text-2xl sm:text-3xl text-slate-800 tracking-tight leading-none">10-12</span>
+                <div className="relative z-10 flex items-baseline gap-1.5 mb-2.5">
+                  <span className="font-black text-xl sm:text-2xl text-slate-800 tracking-tight leading-none">10-12</span>
                   <span className="text-sm sm:text-base text-slate-400 font-bold">%</span>
                 </div>
-                <p className="text-slate-600 font-medium leading-relaxed text-sm sm:text-base">تقسيمات البطن الستة (Six-pack) واضحة جداً، وعضلات الجسم بارزة ومفصلة بقوة.</p>
+                <p className="text-slate-600 font-medium leading-relaxed text-[13px] sm:text-[15px]">تقسيمات البطن الستة (Six-pack) واضحة جداً، وعضلات الجسم بارزة ومفصلة بقوة.</p>
               </div>
-              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 sm:p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 text-right">
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 text-right">
                 <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-blue-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50 pointer-events-none"></div>
-                <div className="relative z-10 flex items-baseline gap-1 mb-2">
-                  <span className="font-black text-2xl sm:text-3xl text-slate-800 tracking-tight leading-none">15</span>
+                <div className="relative z-10 flex items-baseline gap-1.5 mb-2.5">
+                  <span className="font-black text-xl sm:text-2xl text-slate-800 tracking-tight leading-none">15</span>
                   <span className="text-sm sm:text-base text-slate-400 font-bold">%</span>
                 </div>
-                <p className="text-slate-600 font-medium leading-relaxed text-sm sm:text-base">تحديد بسيط لعضلات البطن العلوية، جسم رياضي ومشدود بشكل عام.</p>
+                <p className="text-slate-600 font-medium leading-relaxed text-[13px] sm:text-[15px]">تحديد بسيط لعضلات البطن العلوية، جسم رياضي ومشدود بشكل عام.</p>
               </div>
-              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 sm:p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 text-right">
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 text-right">
                 <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-blue-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50 pointer-events-none"></div>
-                <div className="relative z-10 flex items-baseline gap-1 mb-2">
-                  <span className="font-black text-2xl sm:text-3xl text-slate-800 tracking-tight leading-none">20</span>
+                <div className="relative z-10 flex items-baseline gap-1.5 mb-2.5">
+                  <span className="font-black text-xl sm:text-2xl text-slate-800 tracking-tight leading-none">20</span>
                   <span className="text-sm sm:text-base text-slate-400 font-bold">%</span>
                 </div>
-                <p className="text-slate-600 font-medium leading-relaxed text-sm sm:text-base">بدون تقسيمات للبطن، بداية ظهور الكرش البسيط وتخزين دهون في الخصر.</p>
+                <p className="text-slate-600 font-medium leading-relaxed text-[13px] sm:text-[15px]">بدون تقسيمات للبطن، بداية ظهور الكرش البسيط وتخزين دهون في الخصر.</p>
               </div>
-              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 sm:p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 text-right">
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 text-right">
                 <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-blue-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50 pointer-events-none"></div>
-                <div className="relative z-10 flex items-baseline gap-1 mb-2">
-                  <span className="font-black text-2xl sm:text-3xl text-slate-800 tracking-tight leading-none">25-30</span>
+                <div className="relative z-10 flex items-baseline gap-1.5 mb-2.5">
+                  <span className="font-black text-xl sm:text-2xl text-slate-800 tracking-tight leading-none">25-30</span>
                   <span className="text-sm sm:text-base text-slate-400 font-bold">%+</span>
                 </div>
-                <p className="text-slate-600 font-medium leading-relaxed text-sm sm:text-base">كرش واضح، وزن زائد ملحوظ وتراكم كبير للدهون في الجناب والصدر.</p>
+                <p className="text-slate-600 font-medium leading-relaxed text-[13px] sm:text-[15px]">كرش واضح، وزن زائد ملحوظ وتراكم كبير للدهون في الجناب والصدر.</p>
               </div>
             </div>
           </div>
@@ -112,38 +112,38 @@ export const getHelpTopics = () => {
             <h4 className="font-black text-transparent bg-clip-text bg-gradient-to-l from-pink-500 to-rose-400 mb-4 flex items-center gap-2 text-lg">
               <span className="w-2 h-6 rounded-full bg-pink-500 block shrink-0"></span> للنساء
             </h4>
-            <div className="grid grid-cols-1 gap-3 sm:gap-4">
-              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 sm:p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 text-right">
+            <div className="grid grid-cols-1 gap-4 sm:gap-5">
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 text-right">
                 <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-pink-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50 pointer-events-none"></div>
-                <div className="relative z-10 flex items-baseline gap-1 mb-2">
-                  <span className="font-black text-2xl sm:text-3xl text-slate-800 tracking-tight leading-none">18-20</span>
+                <div className="relative z-10 flex items-baseline gap-1.5 mb-2.5">
+                  <span className="font-black text-xl sm:text-2xl text-slate-800 tracking-tight leading-none">18-20</span>
                   <span className="text-sm sm:text-base text-slate-400 font-bold">%</span>
                 </div>
-                <p className="text-slate-600 font-medium leading-relaxed text-sm sm:text-base">جسم رياضي جداً وناشف، تقسيمات خفيفة في البطن (شكل الفيتنس).</p>
+                <p className="text-slate-600 font-medium leading-relaxed text-[13px] sm:text-[15px]">جسم رياضي جداً وناشف، تقسيمات خفيفة في البطن (شكل الفيتنس).</p>
               </div>
-              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 sm:p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 text-right">
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 text-right">
                 <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-pink-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50 pointer-events-none"></div>
-                <div className="relative z-10 flex items-baseline gap-1 mb-2">
-                  <span className="font-black text-2xl sm:text-3xl text-slate-800 tracking-tight leading-none">25</span>
+                <div className="relative z-10 flex items-baseline gap-1.5 mb-2.5">
+                  <span className="font-black text-xl sm:text-2xl text-slate-800 tracking-tight leading-none">25</span>
                   <span className="text-sm sm:text-base text-slate-400 font-bold">%</span>
                 </div>
-                <p className="text-slate-600 font-medium leading-relaxed text-sm sm:text-base">جسم مشدود ورفيع، بدون تقسيمات عضلية واضحة (النسبة المثالية).</p>
+                <p className="text-slate-600 font-medium leading-relaxed text-[13px] sm:text-[15px]">جسم مشدود ورفيع، بدون تقسيمات عضلية واضحة (النسبة المثالية).</p>
               </div>
-              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 sm:p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 text-right">
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 text-right">
                 <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-pink-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50 pointer-events-none"></div>
-                <div className="relative z-10 flex items-baseline gap-1 mb-2">
-                  <span className="font-black text-2xl sm:text-3xl text-slate-800 tracking-tight leading-none">30</span>
+                <div className="relative z-10 flex items-baseline gap-1.5 mb-2.5">
+                  <span className="font-black text-xl sm:text-2xl text-slate-800 tracking-tight leading-none">30</span>
                   <span className="text-sm sm:text-base text-slate-400 font-bold">%</span>
                 </div>
-                <p className="text-slate-600 font-medium leading-relaxed text-sm sm:text-base">بداية تخزين الدهون بشكل ملحوظ في الأرداف، الفخذين، والبطن السفلية.</p>
+                <p className="text-slate-600 font-medium leading-relaxed text-[13px] sm:text-[15px]">بداية تخزين الدهون بشكل ملحوظ في الأرداف، الفخذين، والبطن السفلية.</p>
               </div>
-              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 sm:p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 text-right">
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 text-right">
                 <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-pink-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50 pointer-events-none"></div>
-                <div className="relative z-10 flex items-baseline gap-1 mb-2">
-                  <span className="font-black text-2xl sm:text-3xl text-slate-800 tracking-tight leading-none">35-40</span>
+                <div className="relative z-10 flex items-baseline gap-1.5 mb-2.5">
+                  <span className="font-black text-xl sm:text-2xl text-slate-800 tracking-tight leading-none">35-40</span>
                   <span className="text-sm sm:text-base text-slate-400 font-bold">%+</span>
                 </div>
-                <p className="text-slate-600 font-medium leading-relaxed text-sm sm:text-base">وزن زائد وممتلئ، توزيع كبير للدهون في أغلب مناطق الجسم.</p>
+                <p className="text-slate-600 font-medium leading-relaxed text-[13px] sm:text-[15px]">وزن زائد وممتلئ، توزيع كبير للدهون في أغلب مناطق الجسم.</p>
               </div>
             </div>
           </div>

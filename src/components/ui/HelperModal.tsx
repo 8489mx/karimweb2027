@@ -67,39 +67,45 @@ export function HelperModal({ isOpen, onClose, title, content }: HelperModalProp
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-slate-900/70  z-[100]"
-          />
-          <div className="fixed inset-0 flex items-center justify-center z-[101] p-4 pointer-events-none">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className={`bg-white rounded-[24px] overflow-hidden shadow-2xl border border-slate-100 w-full max-h-[90vh] flex flex-col pointer-events-auto sm:max-w-[540px]`} role="dialog" aria-modal="true" aria-labelledby="modal-title"
-              dir="rtl"
-            >
-              <div className="flex items-center justify-between p-4 sm:p-5 border-b border-slate-100/60 bg-slate-50/50 shrink-0 touch-none">
-                <h3 id="modal-title" className="text-base sm:text-lg font-bold text-brand-text pr-1">{title}</h3>
-                <button
-                  onClick={onClose}
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200/50 text-slate-500 hover:bg-slate-200 hover:text-slate-900 transition-colors shrink-0"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-              <div 
-                className="p-5 sm:p-8 text-slate-700 text-right overflow-y-auto flex-1 relative"
-                style={{ 
-                  overscrollBehavior: 'contain',
-                  WebkitOverflowScrolling: 'touch'
-                }}
+            className="fixed inset-0 bg-slate-900/70 z-[100]"
+          >
+            <div 
+              className="absolute inset-0" 
+              onClick={onClose}
+              aria-label="Close modal"
+            />
+            <div className="absolute inset-0 flex items-center justify-center p-4" style={{ pointerEvents: 'none' }}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                className={`bg-white rounded-[24px] overflow-hidden shadow-2xl border border-slate-100 w-full max-h-[90vh] flex flex-col pointer-events-auto sm:max-w-[540px]`} role="dialog" aria-modal="true" aria-labelledby="modal-title"
+                dir="rtl"
+                onClick={(e) => e.stopPropagation()}
               >
-                <div className="pb-4">
-                  {content}
+                <div className="flex items-center justify-between p-4 sm:p-5 border-b border-slate-100/60 bg-slate-50/50 shrink-0 touch-none">
+                  <h3 id="modal-title" className="text-base sm:text-lg font-bold text-brand-text pr-1">{title}</h3>
+                  <button
+                    onClick={onClose}
+                    className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200/50 text-slate-500 hover:bg-slate-200 hover:text-slate-900 transition-colors shrink-0"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
-              </div>
-            </motion.div>
-          </div>
+                <div 
+                  className="p-5 sm:p-8 text-slate-700 text-right overflow-y-auto flex-1 relative pointer-events-auto"
+                  style={{ 
+                    overscrollBehavior: 'contain',
+                    WebkitOverflowScrolling: 'touch'
+                  }}
+                >
+                  <div className="pb-4">
+                    {content}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
         </>
       )}
     </AnimatePresence>
