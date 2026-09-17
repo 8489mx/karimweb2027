@@ -75,7 +75,7 @@ export function HelperModal({ isOpen, onClose, title, content }: HelperModalProp
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className={`bg-white rounded-[24px] shadow-xl border border-slate-100 w-full max-h-[90vh] flex flex-col pointer-events-auto max-w-md`} role="dialog" aria-modal="true" aria-labelledby="modal-title"
+              className={`bg-white rounded-[24px] overflow-hidden shadow-2xl border border-slate-100 w-full max-h-[90vh] flex flex-col pointer-events-auto sm:max-w-[540px]`} role="dialog" aria-modal="true" aria-labelledby="modal-title"
               dir="rtl"
             >
               <div className="flex items-center justify-between p-4 sm:p-5 border-b border-slate-100/60 bg-slate-50/50 shrink-0 touch-none">
@@ -88,7 +88,7 @@ export function HelperModal({ isOpen, onClose, title, content }: HelperModalProp
                 </button>
               </div>
               <div 
-                className="p-4 sm:p-6 text-slate-700 text-right overflow-y-auto flex-1 relative"
+                className="p-5 sm:p-8 text-slate-700 text-right overflow-y-auto flex-1 relative"
                 style={{ 
                   overscrollBehavior: 'contain',
                   WebkitOverflowScrolling: 'touch'
