@@ -86,8 +86,8 @@ export function About() {
           
           <p className="text-slate-600 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed mt-2 font-medium">
             {lang === 'ar' 
-              ? 'شغل الفيديو عشان تعرف إزاي بنصمم خطتك خطوة بخطوة وتوصل لنتيجة مستدامة.' 
-              : 'Watch the video to see how we build your plan step-by-step for sustainable results.'}
+              ? 'اعرف إزاي بنصمم خطتك خطوة بخطوة، عشان تضمن الوصول لأفضل نتيجة ممكنة.' 
+              : 'Discover how we design your plan step-by-step to ensure the best possible results.'}
           </p>
         </div>
 
