@@ -34,7 +34,7 @@ export const translations = {
     },
     hero: {
       title: 'أفضل نسخة منك تبدأ هنا',
-      description: 'خطة مخصصة لهدفك،\nبلا حرمان ولا تعقيد',
+      description: 'خطة مخصصة لهدفك، بلا حرمان ولا تعقيد',
       cta: 'ابدأ خطتك الآن',
     },
     stats: {
