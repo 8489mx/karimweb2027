@@ -70,25 +70,24 @@ export function Hero() {
             href="/#packages"
             variant="primary" 
             size="md" 
-            className="rounded-xl px-5 sm:px-6 py-2.5 shadow-xl shadow-brand-primary/20 sm:text-lg min-w-[100px] sm:min-w-[120px] flex items-center gap-2" 
+            className="rounded-xl px-5 sm:px-6 py-2.5 shadow-xl shadow-brand-primary/20 sm:text-lg min-w-[100px] sm:min-w-[120px]" 
             showWhatsAppIcon={false}
             onClick={(e) => {
               if (window.location.pathname === '/') {
                 e.preventDefault();
                 document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' });
               }
-              trackStartNowClick({ cta_location: 'hero', button_text: t.hero.cta });
+              trackStartNowClick({ cta_location: 'hero', button_text: 'الباقات' });
             }}
           >
-            <span>{t.hero.cta}</span>
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
+            الباقات
           </Button>
 
           <Button 
             href="/#calculator"
             variant="outline" 
             size="md" 
-            className="rounded-xl px-5 sm:px-6 py-2.5 shadow-xl sm:text-lg bg-white border-none text-slate-900 hover:bg-slate-50 transition-all active:scale-[0.98] flex items-center gap-2" 
+            className="rounded-xl px-5 sm:px-6 py-2.5 shadow-xl sm:text-lg bg-white border-none text-slate-900 hover:bg-slate-50 transition-all active:scale-[0.98]" 
             showWhatsAppIcon={false}
             onClick={(e) => {
               if (window.location.pathname === '/') {
@@ -98,8 +97,7 @@ export function Hero() {
               trackStartNowClick({ cta_location: 'hero_calculator', button_text: 'احسب سعراتك' });
             }}
           >
-            <span>احسب سعراتك</span>
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
+            احسب سعراتك
           </Button>
         </div>
       </div>
