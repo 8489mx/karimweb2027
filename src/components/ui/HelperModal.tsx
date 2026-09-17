@@ -21,9 +21,16 @@ export function HelperModal({ isOpen, onClose, title, content }: HelperModalProp
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
+      // Prevent iOS Safari bounce
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.height = '100%';
     } else {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
     }
 
     const handleEscape = (e: KeyboardEvent) => {
@@ -35,6 +42,9 @@ export function HelperModal({ isOpen, onClose, title, content }: HelperModalProp
     return () => {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
       document.removeEventListener('keydown', handleEscape);
     }
   }, [isOpen, onClose]);
@@ -58,7 +68,7 @@ export function HelperModal({ isOpen, onClose, title, content }: HelperModalProp
               className="bg-white rounded-[24px] shadow-xl border border-slate-100 w-full max-w-md max-h-[90vh] flex flex-col pointer-events-auto" role="dialog" aria-modal="true" aria-labelledby="modal-title"
               dir="rtl"
             >
-              <div className="flex items-center justify-between p-4 sm:p-5 border-b border-slate-100/60 bg-slate-50/50 shrink-0">
+              <div className="flex items-center justify-between p-4 sm:p-5 border-b border-slate-100/60 bg-slate-50/50 shrink-0 touch-none">
                 <h3 id="modal-title" className="text-base sm:text-lg font-bold text-brand-text pr-1">{title}</h3>
                 <button
                   onClick={onClose}
@@ -67,8 +77,16 @@ export function HelperModal({ isOpen, onClose, title, content }: HelperModalProp
                   <X className="w-4 h-4" />
                 </button>
               </div>
-              <div className="p-4 sm:p-6 text-slate-700 text-right overflow-y-auto overscroll-contain">
-                {content}
+              <div 
+                className="p-4 sm:p-6 text-slate-700 text-right overflow-y-auto flex-1 relative"
+                style={{ 
+                  overscrollBehavior: 'contain',
+                  WebkitOverflowScrolling: 'touch'
+                }}
+              >
+                <div className="pb-4">
+                  {content}
+                </div>
               </div>
             </motion.div>
           </div>
