@@ -55,19 +55,19 @@ export function HelperModal({ isOpen, onClose, title, content }: HelperModalProp
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white rounded-[24px] shadow-xl border border-slate-100 w-full max-w-md overflow-hidden pointer-events-auto" role="dialog" aria-modal="true" aria-labelledby="modal-title"
+              className="bg-white rounded-[24px] shadow-xl border border-slate-100 w-full max-w-md max-h-[90vh] flex flex-col pointer-events-auto" role="dialog" aria-modal="true" aria-labelledby="modal-title"
               dir="rtl"
             >
-              <div className="flex items-center justify-between p-5 border-b border-slate-100/60 bg-slate-50/50">
-                <h3 id="modal-title" className="text-lg font-bold text-brand-text">{title}</h3>
+              <div className="flex items-center justify-between p-4 sm:p-5 border-b border-slate-100/60 bg-slate-50/50 shrink-0">
+                <h3 id="modal-title" className="text-base sm:text-lg font-bold text-brand-text pr-1">{title}</h3>
                 <button
                   onClick={onClose}
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200/50 text-slate-500 hover:bg-slate-200 hover:text-slate-900 transition-colors"
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200/50 text-slate-500 hover:bg-slate-200 hover:text-slate-900 transition-colors shrink-0"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
-              <div className="p-6 text-slate-700 text-right">
+              <div className="p-4 sm:p-6 text-slate-700 text-right overflow-y-auto overscroll-contain">
                 {content}
               </div>
             </motion.div>
