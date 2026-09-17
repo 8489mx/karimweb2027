@@ -57,14 +57,10 @@ export function Hero() {
         </h1>
         
         <p 
-          className="text-sm sm:text-base md:text-xl lg:text-2xl text-white/90 w-full mb-6 sm:mb-8 md:mb-10 leading-relaxed font-medium text-center max-w-4xl mx-auto lg:whitespace-nowrap"
+          className="text-[0.8rem] min-[360px]:text-sm sm:text-base md:text-xl lg:text-2xl text-white/90 w-full mb-6 sm:mb-8 md:mb-10 leading-relaxed font-medium text-center max-w-4xl mx-auto whitespace-nowrap"
+          dir="auto"
         >
-          {(settings.cms?.heroSubtitle || t.hero.description).split('\n').map((line: string, i: number) => (
-            <React.Fragment key={i}>
-              {line}
-              {i !== (settings.cms?.heroSubtitle || t.hero.description).split('\n').length - 1 && <br />}
-            </React.Fragment>
-          ))}
+          {settings.cms?.heroSubtitle || t.hero.description}
         </p>
         
         <div>
