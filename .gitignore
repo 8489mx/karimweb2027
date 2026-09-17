@@ -6,3 +6,11 @@ coverage/
 *.log
 .env*
 !.env.example
+*.tar.gz
+*.zip
+scripts/
+*.cjs
+*.sh
+test_progress.jsx
+rewrite_settings.js
+

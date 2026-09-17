@@ -16,34 +16,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export function Packages() {
   const { getPrice, settings } = useSettings();
   const { t, dir, lang: language } = useLanguage();
-const highlightKeywords = (text: string, pkgKey: string) => {
-  const keywords = [
-    t.packages?.keywords?.every14Days,
-    t.packages?.keywords?.every10Days,
-    t.packages?.keywords?.everyWeek,
-    t.packages?.keywords?.hours48,
-    t.packages?.keywords?.hours24,
-    'كل 14 يوم',
-    'كل أسبوع',
-    '24 ساعة عمل',
-    'أولوية قصوى',
-    'الرسائل الصوتية المباشرة',
-    'مكالمة مراجعة مباشرة',
-    'فحص وتصحيح مفتوح',
-    'Cardio - Mobility - Stretching'
-  ].filter(Boolean) as string[];
-  const regex = new RegExp(`(${keywords.join('|')})`, 'g');
-  const parts = text.split(regex);
-  
-  const colorClass = pkgKey === 'max' ? 'text-[#C4952D]' : pkgKey === 'elite' ? 'text-[#0ea5e9]' : 'text-slate-900';
-
-  return parts.map((part, i) => {
-    if (keywords.includes(part)) {
-      return <span key={i} className={`font-bold ${colorClass}`}>{part}</span>;
-    }
-    return part;
-  });
-};
+const highlightKeywords = (text: string, _pkgKey: string) => text;
 
 const getDurationLabel = (opt: number) => {
     const key = opt + 'm';
@@ -53,14 +26,14 @@ const getDurationLabel = (opt: number) => {
     return t.packages.durationOptions[opt as keyof typeof t.packages.durationOptions];
   };
 
-const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: boolean = false) => {
+const highlightBonusText = (text: string, _pkgKey: string, isDropdownSelected: boolean = false) => {
   const keywords = [t.packages.keywords.oneMonthFree, t.packages.keywords.twoMonthsFree];
   const regex = new RegExp(`(${keywords.join('|')})`, 'g');
   const parts = text.split(regex);
   
   const colorClass = isDropdownSelected 
     ? 'text-inherit' 
-    : (pkgKey === 'max' ? 'text-[#C4952D]' : 'text-brand-primary');
+    : 'text-slate-800';
 
   return parts.map((part, i) => {
     if (keywords.includes(part)) {
@@ -158,7 +131,7 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-[900px] mx-auto items-center px-4 sm:px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-[900px] mx-auto items-center px-4 sm:px-6">
           <div className="h-[600px] rounded-[32px] bg-slate-200 animate-pulse"></div>
           <div className="h-[600px] rounded-[32px] bg-slate-200 animate-pulse"></div>
         </div>
@@ -236,7 +209,7 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-[900px] mx-auto items-center px-4 sm:px-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-[900px] mx-auto items-center px-4 sm:px-6">
         {packages.map((pkg, idx) => {
           const currentDurationNum = durations[idx] || 3;
           const currentDurationCode = `${currentDurationNum}m` as '3m' | '6m';
@@ -301,8 +274,8 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
                 </div>
               )}
               
-              <div className="relative z-10 p-5 lg:p-6 flex flex-col h-full flex-1 pt-8 lg:pt-10">
-                <h3 className={`text-2xl sm:text-3xl font-black uppercase text-center mb-2 tracking-[0.15em] bg-clip-text text-transparent drop-shadow-sm font-en ${
+              <div className="relative z-10 p-6 lg:p-8 flex flex-col h-full flex-1 pt-10 lg:pt-12">
+                <h3 className={`text-4xl sm:text-3xl font-black uppercase text-center mb-2 tracking-[0.15em] bg-clip-text text-transparent drop-shadow-sm font-en ${
                   pkg.priceKey === 'elite' ? 'bg-gradient-to-br from-[#0284c7] via-[#38bdf8] to-[#0284c7]' : 
                   'bg-gradient-to-r from-[#C4952D] via-[#FDF0A6] to-[#C4952D] animate-shimmer-gold bg-[length:200%_auto]'
                 }`}>
@@ -347,8 +320,8 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
                   pkg.priceKey === 'max' ? 'via-[#E5B951]' : 'via-[#0ea5e9]'
                 }`} />
 
-                <div className="flex-1 w-full px-1 pb-8">
-                  <ul className="space-y-4 w-full list-none p-0 m-0" >
+                <div className="flex-1 w-full px-1 pb-10">
+                  <ul className="space-y-5 w-full list-none p-0 m-0" >
                     {pkg.features.map((feature: string, fIdx: number) => {
                       if (feature === "MAX_ADDITIONS_SEPARATOR") {
                         return (
@@ -392,7 +365,7 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
                   <div className="relative w-full mb-3 duration-dropdown-container">
                     <button 
                       onClick={() => setOpenDropdownIdx(openDropdownIdx === idx ? null : idx)}
-                      className={`bg-[#F8FAFC] border rounded-[14px] py-3.5 px-4 text-[15px] font-bold w-full flex items-center justify-center transition-all hover:bg-slate-50 focus:outline-none focus:ring-2 ${
+                      className={`bg-[#F8FAFC] border rounded-[14px] py-3.5 px-4 text-[15px] font-bold w-full flex items-center justify-center transition-all hover:bg-slate-50 focus:outline-none focus:ring-2 cursor-pointer ${
                         pkg.priceKey === 'max' ? 'text-slate-800 focus:ring-[#C4952D]/30 border-[#C4952D]/40' : 'text-slate-700 focus:ring-[#0ea5e9]/30 border-[#0ea5e9]/40'
                       }`}
                     >
@@ -430,7 +403,7 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
                                   setOpenDropdownIdx(null);
                                 }}
                                 className={cn(
-                                  "w-full px-4 py-3 rounded-[10px] text-[15px] font-bold text-center transition-all duration-200 mb-1 last:mb-0",
+                                  "w-full px-4 py-3 rounded-[10px] text-[15px] font-bold text-center transition-all duration-200 mb-1 last:mb-0 cursor-pointer",
                                   isSelected 
                                     ? activeBg 
                                     : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
@@ -449,7 +422,7 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
                   <div className="flex flex-col items-center justify-center gap-1.5 mb-5 w-full">
                     <div className="text-[14px] font-medium text-slate-600">
                       {t.packages.totalDurationPrefix}
-                      <span className={`font-bold mx-1 ${pkg.priceKey === 'max' ? 'text-[#C4952D]' : 'text-brand-primary'}`}>
+                      <span className="font-bold mx-1 text-slate-900">
                         {totalDuration} {totalDuration === 12 ? t.packages.monthLabel : t.packages.monthsLabel}
                       </span>
                     </div>
@@ -463,12 +436,12 @@ const highlightBonusText = (text: string, pkgKey: string, isDropdownSelected: bo
                       sessionStorage.setItem(token, JSON.stringify({ pkg: pkg.priceKey, duration: currentDurationCode, country: activeCountry }));
                       navigate(`/checkout?token=${token}`);
                     }} 
-                    className={`w-full rounded-[14px] py-3.5 px-4 font-bold text-[15px] flex items-center justify-center gap-2 transition-all hover:-translate-y-1 active:translate-y-0 shadow-md hover:shadow-xl ${
-                      pkg.priceKey === 'max' ? 'bg-gradient-to-r from-[#C4952D] via-[#FDF0A6] to-[#C4952D] text-slate-900 animate-shimmer-gold hover:shadow-[0_8px_25px_rgba(196,149,45,0.4)]' :
-                      'bg-[#0ea5e9] hover:bg-[#0284c7] text-white'
+                    className={`group w-full rounded-[14px] py-3.5 px-4 font-bold text-[15px] flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.98] shadow-md hover:shadow-xl cursor-pointer ${
+                      pkg.priceKey === 'max' ? 'bg-gradient-to-r from-[#C4952D] via-[#FDF0A6] to-[#C4952D] text-slate-900 animate-shimmer-gold hover:brightness-105 hover:shadow-[0_8px_25px_rgba(196,149,45,0.4)]' :
+                      'bg-[#0ea5e9] hover:bg-[#0284c7] text-white hover:shadow-[0_8px_25px_rgba(14,165,233,0.35)]'
                     }`}>
                     <span>{t.packages.selectPackagePrefix}{pkg.name}{t.packages.selectPackageDuration}{totalDuration} {totalDuration === 12 ? t.packages.monthLabel : t.packages.monthsLabel}</span>
-                    <ArrowIcon className="w-5 h-5" />
+                    <ArrowIcon className="w-5 h-5 transition-transform duration-200 group-hover:-translate-x-1" />
                   </button>
                 </div>
               </div>

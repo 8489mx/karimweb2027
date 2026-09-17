@@ -4,11 +4,12 @@ import { Button } from "../ui/Button";
 import { useLanguage } from "../../context/LanguageContext";
 import { useSettings } from "../../context/SettingsContext";
 import { trackCalculatorWhatsAppClick } from "../../utils/tracking";
-import { Info, AlertCircle } from "lucide-react";
+import { Info, AlertCircle, Droplets } from "lucide-react";
 
 export function CalculatorResults({
   results, age, isPregnantOrNursing, gender, goalLevel, goal, bodyFat, activity, clearResults,
-  resistanceTraining, weight, unitSystem, heightCm, heightFt, heightIn, getActivityLabel, setGoal, setActiveHelp, setGoalLevel
+  resistanceTraining, weight, unitSystem, heightCm, heightFt, heightIn, getActivityLabel, setGoal, setActiveHelp, setGoalLevel,
+  workoutFrequency, dailyActivity
 }: any) {
   const { t } = useLanguage();
   const { settings } = useSettings();
@@ -167,6 +168,40 @@ export function CalculatorResults({
         !isTeen &&
         ((gender === "male" && finalTdeeRounded < 1500) ||
           (gender === "female" && finalTdeeRounded < 1200));
+
+      // Dynamic Water Intake Formula (ACSM & Sports Nutrition Guidelines)
+      // 1. Base hydration: ~33ml per kg bodyweight
+      // 2. Training sweat addition: 0ml for sedentary, ~350ml for 1-2 workouts, ~550ml for 3-5 workouts, ~800ml for 6+ workouts
+      // 3. Active job addition: ~200ml - 400ml extra for standing/physical jobs
+      const baseHydrationLiters = results.weightKg * 0.033;
+      
+      let exerciseLiters = 0;
+      const wf = Number(workoutFrequency);
+      if (wf >= 0.25) {
+        exerciseLiters = 0.8; // 6+ workouts or heavy
+      } else if (wf >= 0.15) {
+        exerciseLiters = 0.55; // 3-5 workouts
+      } else if (wf >= 0.075) {
+        exerciseLiters = 0.35; // 1-2 workouts
+      } else {
+        exerciseLiters = 0.1; // sedentary
+      }
+
+      let occupationalLiters = 0;
+      const da = Number(dailyActivity);
+      if (da >= 1.6) {
+        occupationalLiters = 0.4; // physical labor
+      } else if (da >= 1.45) {
+        occupationalLiters = 0.25; // standing/walking all day
+      }
+
+      const totalTargetLiters = baseHydrationLiters + exerciseLiters + occupationalLiters;
+      
+      // Strict tight range with exactly 0.3L difference
+      const minWaterLiters = Math.max(2.0, Math.round(totalTargetLiters * 10) / 10);
+      const maxWaterLiters = Math.round((minWaterLiters + 0.3) * 10) / 10;
+      const waterIntakeDisplay = `${minWaterLiters.toFixed(1)} - ${maxWaterLiters.toFixed(1)}`;
+
       let whatsappText = `مرحباً، أريد استشارة ومتابعة بناءً على نتيجتي في الحاسبة:
 العمر: ${age}
 الجنس: ${gender === 'male' ? 'ذكر' : 'أنثى'}
@@ -186,14 +221,13 @@ export function CalculatorResults({
       if (goal !== 'maintain') {
         whatsappText += `المستوى: ${goalLevel === 'light' ? 'خفيف' : goalLevel === 'moderate' ? 'متوسط' : 'قوي'}\n`;
       }
-      whatsappText += `سعرات الحفاظ التقديرية: ${maintenanceRounded} kcal
-السعرات المستهدفة: ${minTdeeRounded} - ${maxTdeeRounded} kcal
-`;
+      whatsappText += `السعرات المستهدفة: ${finalTdeeRounded} kcal\n`;
       if (hasLowCarbWarning) {
         whatsappText += `البروتين: ${protein}g | الدهون: ${fats}g | الكارب: سالب (السعرات غير كافية)\n`;
       } else {
         whatsappText += `البروتين: ${protein}g | الدهون: ${fats}g | الكارب: ${carbs}g\n`;
       }
+      whatsappText += `احتياج الماء التقريبي: ${waterIntakeDisplay} لتر يومياً\n`;
       whatsappText += `BMI: ${currentBmi.toFixed(1)}\n`;
       if (ffmi) {
          whatsappText += `FFMI: ${ffmi.toFixed(1)}\n`;
@@ -206,32 +240,25 @@ export function CalculatorResults({
         >
           {" "}
           {!(ageNum >= 13 && ageNum <= 15) && (
-            <div
-              className="flex flex-wrap justify-center gap-3 mb-10 w-full"
-              dir="ltr"
-            >
-              {" "}
-              <button
-                onClick={() => setGoal("maintain")}
-                className={`flex-1 sm:flex-none min-w-[120px] px-4 sm:px-6 md:px-8 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300 ${goal === "maintain" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
-              >
-                {" "}
-                {t.calculator.maintain || "المحافظة على الوزن"}{" "}
-              </button>{" "}
-              <button
-                onClick={() => setGoal("cut")}
-                className={`flex-1 sm:flex-none min-w-[120px] px-4 sm:px-6 md:px-8 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300 ${goal === "cut" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
-              >
-                {" "}
-                {t.calculator.lose || "خسارة الدهون"}{" "}
-              </button>{" "}
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-6 w-full max-w-md sm:max-w-lg mx-auto px-1">
               <button
                 onClick={() => setGoal("bulk")}
-                className={`flex-1 sm:flex-none min-w-[120px] px-4 sm:px-6 md:px-8 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300 ${goal === "bulk" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
+                className={`w-full h-12 sm:h-14 px-1 rounded-xl text-[11px] sm:text-sm font-bold transition-all duration-300 flex items-center justify-center text-center leading-tight ${goal === "bulk" ? "bg-brand-primary text-white border border-brand-primary shadow-sm" : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50"}`}
               >
-                {" "}
-                {t.calculator.gain || "بناء العضلات"}{" "}
-              </button>{" "}
+                {t.calculator.gain || "بناء العضلات"}
+              </button>
+              <button
+                onClick={() => setGoal("cut")}
+                className={`w-full h-12 sm:h-14 px-1 rounded-xl text-[11px] sm:text-sm font-bold transition-all duration-300 flex items-center justify-center text-center leading-tight ${goal === "cut" ? "bg-brand-primary text-white border border-brand-primary shadow-sm" : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50"}`}
+              >
+                {t.calculator.lose || "خسارة الدهون"}
+              </button>
+              <button
+                onClick={() => setGoal("maintain")}
+                className={`w-full h-12 sm:h-14 px-1 rounded-xl text-[11px] sm:text-sm font-bold transition-all duration-300 flex items-center justify-center text-center leading-tight ${goal === "maintain" ? "bg-brand-primary text-white border border-brand-primary shadow-sm" : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50"}`}
+              >
+                {t.calculator.maintain || "المحافظة على الوزن"}
+              </button>
             </div>
           )}
           {goal !== "maintain" && (
@@ -242,36 +269,29 @@ export function CalculatorResults({
                 </label>
                 <button type="button" aria-label="مساعدة" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('goal'); }} className="cursor-pointer relative z-10 text-amber-500 hover:text-amber-600 p-2 -m-1 rounded-full transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-amber-500/40">
                   <AlertCircle className="w-4 h-4 pointer-events-none" />
-</button>
+                </button>
               </div>
               <div className="flex gap-2 justify-center" dir="ltr">
                 <button
-                  onClick={() => setGoalLevel("light")}
-                  className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${goalLevel === "light" ? "bg-brand-primary text-white" : "bg-white border border-slate-200 text-brand-muted"}`}
+                  onClick={() => setGoalLevel("aggressive")}
+                  disabled={ageNum >= 16 && ageNum <= 18}
+                  className={`flex-1 py-3 rounded-xl text-[13px] sm:text-sm font-bold transition-all duration-300 ${goalLevel === "aggressive" ? "bg-brand-primary text-white shadow-sm" : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50"} ${(ageNum >= 16 && ageNum <= 18) ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
-                  خفيف
+                  قوي
                 </button>
                 <button
                   onClick={() => setGoalLevel("moderate")}
-                  className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${goalLevel === "moderate" ? "bg-brand-primary text-white" : "bg-white border border-slate-200 text-brand-muted"}`}
+                  className={`flex-1 py-3 rounded-xl text-[13px] sm:text-sm font-bold transition-all duration-300 ${goalLevel === "moderate" ? "bg-brand-primary text-white shadow-sm" : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50"}`}
                 >
                   متوسط
                 </button>
-                
-                  <button
-                    onClick={() => setGoalLevel("aggressive")}
-                    disabled={ageNum >= 16 && ageNum <= 18}
-                    className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${goalLevel === "aggressive" ? "bg-red-500 text-white" : "bg-white border border-slate-200 text-brand-muted"} ${(ageNum >= 16 && ageNum <= 18) ? "opacity-50 cursor-not-allowed" : ""}`}
-                  >
-                    قوي
-                  </button>
-
+                <button
+                  onClick={() => setGoalLevel("light")}
+                  className={`flex-1 py-3 rounded-xl text-[13px] sm:text-sm font-bold transition-all duration-300 ${goalLevel === "light" ? "bg-brand-primary text-white shadow-sm" : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50"}`}
+                >
+                  خفيف
+                </button>
               </div>
-              {goalLevel === "aggressive" && !(ageNum >= 16 && ageNum <= 18) && (
-                <p className="text-red-500 text-xs mt-2 text-center font-medium">
-                  تحذير: المستوى القوي قد يكون صعب الاستدامة ويجب متابعته بحذر.
-                </p>
-              )}
               {(ageNum >= 16 && ageNum <= 18) && (
                  <p className="text-amber-600 text-xs mt-2 text-center font-medium bg-amber-50 rounded-lg p-2 border border-amber-100">
                   المستوى القوي غير متاح في هذه المرحلة العمرية لضمان النمو الصحي، يرجى الالتزام بالمستوى المتوسط كحد أقصى.
@@ -281,7 +301,7 @@ export function CalculatorResults({
           )}
           <div className="text-center mb-10">
             {" "}
-            <h3 className="text-lg font-bold text-brand-muted mb-2 uppercase">
+            <h3 className="text-lg font-bold text-slate-900 mb-2 uppercase">
               {isTeen
                 ? t.calculator.dailyNeed || "الاحتياج اليومي التقديري"
                 : t.calculator.macrosTitle || "السعرات اليومية المستهدفة"}
@@ -290,52 +310,11 @@ export function CalculatorResults({
               className="text-5xl md:text-7xl font-black text-brand-primary font-en tracking-tighter mb-2"
               dir="ltr"
             >
-              {minTdeeRounded} - {maxTdeeRounded}
-              <span className="text-2xl text-brand-muted font-sans font-bold ms-2 tracking-wider block md:inline mt-2 md:mt-0">
+              {finalTdeeRounded}
+              <span className="text-2xl text-brand-muted font-sans font-bold ml-2 md:ml-3 tracking-wider block md:inline mt-2 md:mt-0">
                 kcal
               </span>
             </div>
-            <p className="text-brand-text/70 text-sm mt-3 font-medium max-w-md mx-auto">
-              هذا الرقم هو نقطة بداية تقديرية، الدقة الحقيقية تعتمد على استجابة
-              جسمك ويتم ضبطها مع المتابعة.
-            </p>{" "}
-            {!isTeen && goal !== "maintain" && (
-              <p
-                className="text-brand-muted font-medium mt-2 flex items-center justify-center gap-1 flex-wrap"
-                dir="rtl"
-              >
-                <span>{t.calculator.maintenanceCaloriesText || "سعرات الحفاظ التقديرية"}:</span>
-                <strong className="text-brand-text font-en" dir="ltr">
-                  {maintenanceRounded} kcal
-                </strong>
-              </p>
-            )}
-            <p
-              className="text-brand-muted/70 text-sm font-medium mt-1 flex items-center justify-center gap-1 flex-wrap"
-              dir="rtl"
-            >
-              <span>{t.calculator.bmrLabel || "معدل الحرق التقديري (RMR)"}:</span>
-              <strong className="text-brand-muted font-en" dir="ltr">
-                {bmrRounded} kcal
-              </strong>
-            </p>{" "}
-          </div>{" "}
-
-          <div className="flex flex-wrap gap-3 justify-center mb-8 text-center" dir="rtl">
-            <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-full px-4 py-2 shadow-sm">
-              <span className="text-xs text-brand-muted font-bold">BMI:</span>
-              <span className="text-sm font-en font-black text-slate-700">{currentBmi.toFixed(1)}</span>
-              {!isTeen && !isUnder13 && (
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${currentBmi >= 30 ? 'bg-brand-primary/10 text-brand-primary' : currentBmi >= 25 ? 'bg-amber-100 text-amber-700' : currentBmi < 18.5 ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}`}>{bmiCategory}</span>
-              )}
-            </div>
-            {ffmi && !isTeen && !isUnder13 && (
-              <div className="flex items-center gap-2 bg-brand-primary/5 border border-brand-primary/10 rounded-full px-4 py-2 shadow-sm">
-                <span className="text-xs text-brand-primary font-bold">FFMI (عضلات):</span>
-                <span className="text-sm font-en font-black text-slate-700">{ffmi.toFixed(1)}</span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-primary/10 text-brand-primary">{ffmiCategory}</span>
-              </div>
-            )}
           </div>
 
           {ageNum >= 60 && (
@@ -354,30 +333,55 @@ export function CalculatorResults({
             </div>
           )}
           {!hasLowCarbWarning ? (
-            <div className="grid grid-cols-3 gap-3 md:gap-4 mb-8" dir="rtl">
-              <div className="bg-rose-50/60 backdrop-blur-sm p-4 md:p-5 rounded-[20px] border border-rose-100/50 shadow-sm flex flex-col items-center justify-center text-center space-y-1">
-                <p className="text-rose-600/80 text-sm md:text-base font-bold whitespace-nowrap">
-                  {t.calculator.protein || "بروتين"}
-                </p>
-                <p className="text-slate-700 text-lg md:text-xl font-bold font-en leading-none">
-                  {protein}g
-                </p>
+            <div className="space-y-4 md:space-y-5 mb-8" dir="rtl">
+              <div className="grid grid-cols-3 gap-3 md:gap-4">
+                <div className="bg-rose-50/60 backdrop-blur-sm p-4 md:p-5 rounded-[20px] border border-rose-100/50 shadow-sm flex flex-col items-center justify-center text-center space-y-1">
+                  <p className="text-rose-600/80 text-sm md:text-base font-bold whitespace-nowrap">
+                    {t.calculator.protein || "بروتين"}
+                  </p>
+                  <p className="text-slate-700 text-lg md:text-xl font-bold font-en leading-none">
+                    {protein}g
+                  </p>
+                </div>
+                <div className="bg-emerald-50/60 backdrop-blur-sm p-4 md:p-5 rounded-[20px] border border-emerald-100/50 shadow-sm flex flex-col items-center justify-center text-center space-y-1">
+                  <p className="text-emerald-600/80 text-sm md:text-base font-bold whitespace-nowrap">
+                    {t.calculator.carbs || "كارب"}
+                  </p>
+                  <p className="text-slate-700 text-lg md:text-xl font-bold font-en leading-none">
+                    {carbs}g
+                  </p>
+                </div>
+                <div className="bg-amber-50/60 backdrop-blur-sm p-4 md:p-5 rounded-[20px] border border-amber-100/50 shadow-sm flex flex-col items-center justify-center text-center space-y-1">
+                  <p className="text-amber-600/80 text-sm md:text-base font-bold whitespace-nowrap">
+                    {t.calculator.fats || "دهون"}
+                  </p>
+                  <p className="text-slate-700 text-lg md:text-xl font-bold font-en leading-none">
+                    {fats}g
+                  </p>
+                </div>
               </div>
-              <div className="bg-emerald-50/60 backdrop-blur-sm p-4 md:p-5 rounded-[20px] border border-emerald-100/50 shadow-sm flex flex-col items-center justify-center text-center space-y-1">
-                <p className="text-emerald-600/80 text-sm md:text-base font-bold whitespace-nowrap">
-                  {t.calculator.carbs || "كارب"}
-                </p>
-                <p className="text-slate-700 text-lg md:text-xl font-bold font-en leading-none">
-                  {carbs}g
-                </p>
-              </div>
-              <div className="bg-amber-50/60 backdrop-blur-sm p-4 md:p-5 rounded-[20px] border border-amber-100/50 shadow-sm flex flex-col items-center justify-center text-center space-y-1">
-                <p className="text-amber-600/80 text-sm md:text-base font-bold whitespace-nowrap">
-                  {t.calculator.fats || "دهون"}
-                </p>
-                <p className="text-slate-700 text-lg md:text-xl font-bold font-en leading-none">
-                  {fats}g
-                </p>
+
+              {/* Water Intake Box */}
+              <div className="bg-sky-50/70 backdrop-blur-sm p-4 md:p-5 rounded-[20px] border border-sky-100/80 shadow-sm flex items-center justify-between gap-4 px-5 md:px-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center shrink-0">
+                    <Droplets className="w-4 h-4 fill-brand-primary/20" />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-slate-800 text-xs md:text-sm font-bold">
+                      احتياج الماء اليومي المقترح
+                    </p>
+                    <p className="text-[11px] md:text-xs text-slate-500 font-medium hidden sm:block">
+                      يحافظ على نشاط الحرق والأداء الرياضي وصحة المفاصل
+                    </p>
+                  </div>
+                </div>
+                <div className="text-end shrink-0">
+                  <span className="text-base md:text-xl font-black font-en text-brand-primary" dir="ltr">
+                    {waterIntakeDisplay}
+                  </span>
+                  <span className="text-xs font-bold text-slate-600 ms-1.5">لتر / يوم</span>
+                </div>
               </div>
             </div>
           ) : (
@@ -397,14 +401,6 @@ export function CalculatorResults({
           
           
           <div className="text-center mb-10 max-w-2xl mx-auto space-y-3">
-            {" "}
-            <p className="text-sm md:text-base text-brand-text font-medium leading-relaxed px-4">
-              {" "}
-              {isTeen
-                ? "هذه الأرقام نقطة بداية تقديرية، يفضل متابعة الأداء والنمو مع مدرب أو مختص."
-                : t.calculator.macrosEstimateNote ||
-                  "هذه الأرقام نقطة بداية تقديرية. تابع متوسط الوزن والأداء والجوع لمدة أسبوعين، ثم عدّل السعرات حسب استجابة جسمك."}{" "}
-            </p>{" "}
             {isAdult && (
               <p className="text-[13px] md:text-sm text-brand-muted px-4 mt-4">
                 {goal === "cut" &&
@@ -434,38 +430,38 @@ export function CalculatorResults({
 
           
           {!(hasLowCaloriesWarning || hasLowCarbWarning) && (
-            <div className="text-center mt-6 mb-8 px-4 py-3 bg-amber-50 rounded-xl border border-amber-100 mx-auto max-w-2xl">
-              <p className="text-amber-800 font-medium text-sm">
-                السعرات دي نقطة بداية تقديرية، راقب وزنك وقياساتك في أول أسبوعين وعدل بناءً على استجابة جسمك.
+            <div className="text-center mt-6 mb-8 px-4 py-3.5 bg-amber-50 rounded-xl border border-amber-100 mx-auto max-w-2xl">
+              <p className="text-amber-800 font-medium text-sm leading-relaxed">
+                <span className="block">دي نقطة البداية ليك. راقب وزنك وأدائك أول أسبوعين، وعدّل السعرات حسب استجابة جسمك،</span>
+                <span className="block font-bold mt-1">أو خلي المتابعة علينا!</span>
               </p>
             </div>
           )}
-          <div className="bg-white/70 backdrop-blur-xl p-8 rounded-2xl border border-white/60 shadow-sm text-center">
-            <p className="text-brand-text font-bold mb-6 text-lg">
+          <div className="bg-white/70 backdrop-blur-xl p-6 sm:p-8 rounded-2xl border border-white/60 shadow-sm text-center w-full max-w-lg mx-auto">
+            <p className="text-brand-text font-bold mb-5 sm:mb-6 text-base sm:text-lg">
               هل أنت مستعد للوصول لهدفك الحقيقي؟ <br />
               {isTeen ? (
-                <span className="text-sm text-brand-muted/80 mt-1 block">لو حابب خطة مخصصة لعمر المراهقة بإشراف، تواصل معانا مباشرة</span>
+                <span className="text-xs sm:text-sm text-brand-muted/80 mt-1.5 block leading-relaxed">لو حابب خطة مخصصة لعمر المراهقة بإشراف، تواصل معانا مباشرة</span>
               ) : (
-                <span className="text-sm text-brand-muted/80 mt-1 block">لنتائج أفضل: احصل على خطة مخصصة ومتابعة أسبوعية لتحديث هذه الأرقام بدقة</span>
+                <span className="text-xs sm:text-sm text-brand-muted/80 mt-1.5 block leading-relaxed">الأرقام دي مجرد بداية.. عشان توصل لنتيجة أسرع وأضمن، ابدأ خطتك المخصصة بمتابعة مستمرة</span>
               )}
             </p>
-            <Button
-              variant="primary"
-              href={`https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(whatsappText)}`}
-              className="!px-8 min-w-[280px]"
-              onClick={() =>
-                trackCalculatorWhatsAppClick({
-                  goal,
-                  target_calories: finalTdeeRounded,
-                })
-              }
-            >
-              ابعت نتيجتي على واتساب
-            </Button>
+            <div className="px-2 sm:px-0">
+              <Button
+                variant="primary"
+                href={`https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(whatsappText)}`}
+                className="w-full sm:w-auto sm:!px-8 sm:min-w-[280px]"
+                onClick={() =>
+                  trackCalculatorWhatsAppClick({
+                    goal,
+                    target_calories: finalTdeeRounded,
+                  })
+                }
+              >
+                ابعت نتيجتي على واتساب
+              </Button>
+            </div>
           </div>
-          <p className="text-xs text-brand-muted/60 mt-6 text-center max-w-lg mx-auto leading-relaxed">
-            * النتائج تقديرية وتعليمية، وليست تشخيصًا طبيًا أو خطة علاجية، وقد تختلف الاحتياجات الفعلية حسب الحالة الصحية والاستجابة والمتابعة العملية.
-          </p>
         </motion.div>
       );
     }

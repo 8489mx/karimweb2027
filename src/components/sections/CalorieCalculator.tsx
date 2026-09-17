@@ -7,12 +7,45 @@ import { CustomSelect } from "../ui/CustomSelect";
 import { motion, AnimatePresence } from "motion/react";
 import { useLanguage } from "../../context/LanguageContext";
 import { SectionHeading } from "../ui/SectionHeading";
+import { Helmet } from "react-helmet-async";
 import { CalculatorResults } from "../calculator/CalculatorResults";
 import { getHelpTopics } from "../calculator/HelpTopics";
 import {
   trackCalculatorCompleted,
   trackCalculatorWhatsAppClick,
 } from "../../utils/tracking";
+/**
+ * Automatically converts Eastern Arabic / Persian numerals and Arabic commas
+ * to standard English ASCII numbers, filtering out non-digit characters.
+ */
+function cleanAndConvertNumber(val: string, allowDecimal = true): string {
+  if (!val) return "";
+  const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+  const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+  let converted = val;
+  for (let i = 0; i < 10; i++) {
+    converted = converted.split(arabicDigits[i]).join(i.toString());
+    converted = converted.split(persianDigits[i]).join(i.toString());
+  }
+  converted = converted.replace(/[،,٫]/g, ".");
+
+  if (allowDecimal) {
+    let result = "";
+    let hasDot = false;
+    for (const char of converted) {
+      if (char >= "0" && char <= "9") {
+        result += char;
+      } else if (char === "." && !hasDot) {
+        result += ".";
+        hasDot = true;
+      }
+    }
+    return result;
+  } else {
+    return converted.replace(/[^0-9]/g, "");
+  }
+}
+
 export function CalorieCalculator() {
   const { t, lang } = useLanguage();
   const [unitSystem, setUnitSystem] = useState<"metric" | "imperial">("metric");
@@ -163,7 +196,8 @@ export function CalorieCalculator() {
       goalLevel={goalLevel} 
       goal={goal} 
       bodyFat={bodyFat} 
-      
+      workoutFrequency={workoutFrequency}
+      dailyActivity={dailyActivity}
       clearResults={clearResults}
       resistanceTraining={resistanceTraining}
       weight={weight}
@@ -176,8 +210,38 @@ export function CalorieCalculator() {
       setGoalLevel={setGoalLevel}
     />;
   }
+
+  const calculatorSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "أدق حاسبة سعرات حرارية - كابتن كريم زكريا",
+    "alternateName": ["حاسبة السعرات", "حساب الماكروز", "حاسبة التنشيف والتضخيم", "Calorie Calculator"],
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "All",
+    "description": "أدق حاسبة سعرات حرارية مجانية لحساب احتياجك اليومي من السعرات والماكروز لإنقاص الوزن، التنشيف، أو التضخيم بناءً على وزنك، طولك، ومستوى نشاطك.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "حساب السعرات الحرارية للتخسيس",
+      "حساب الماكروز",
+      "حاسبة التنشيف والتضخيم",
+      "حساب نسبة الدهون"
+    ]
+  };
+
   return (
     <Section id="calculator" className="relative overflow-hidden">
+      <Helmet>
+        <title>حاسبة السعرات الحرارية والماكروز | كابتن كريم زكريا</title>
+        <meta name="description" content="استخدم أدق حاسبة سعرات حرارية مجانية لحساب احتياجك اليومي من الكارب والبروتين والدهون لإنقاص الوزن أو بناء العضلات." />
+        <meta name="keywords" content="حاسبة السعرات, حاسبة السعرات الحرارية, حساب الماكروز, كم سعرة حرارية احتاج, حاسبة التنشيف, حاسبة التضخيم, حساب نسبة الدهون, كابتن كريم زكريا" />
+        <script type="application/ld+json">
+          {JSON.stringify(calculatorSchema)}
+        </script>
+      </Helmet>
       {" "}
       <div className="max-w-4xl mx-auto px-4 md:px-6 relative z-10">
         {" "}
@@ -188,7 +252,7 @@ export function CalorieCalculator() {
             {t.calculator.description}
           </p>{" "}
         </div>{" "}
-        <div className="relative rounded-[32px] p-6 md:p-10 shadow-2xl border border-brand-primary/10 overflow-hidden bg-white">
+        <div className="relative rounded-[32px] p-3 sm:p-4 md:p-10 shadow-2xl border border-brand-primary/10 overflow-hidden bg-white">
           {/* Background Slanted Effect (Light Blue & White) */}
           <div className="absolute inset-0 pointer-events-none z-0">
             {/* Diagonal Stripes */}
@@ -210,7 +274,7 @@ export function CalorieCalculator() {
           </div>
           
           <div className="relative z-10">
-            <form onSubmit={calculate} className="space-y-6 md:space-y-8">
+            <form onSubmit={calculate} className="space-y-4 md:space-y-8">
             {" "}
             {/* Unit Toggle */}{" "}
             <div className="flex gap-3 w-fit mx-auto">
@@ -221,7 +285,7 @@ export function CalorieCalculator() {
                   setUnitSystem("metric");
                   clearResults();
                 }}
-                className={`px-8 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300 ${unitSystem === "metric" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
+                className={`px-4 h-[44px] md:h-[50px] md:px-8 rounded-xl text-[13px] md:text-sm font-bold transition-all duration-300 ${unitSystem === "metric" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
               >
                 {" "}
                 Metric{" "}
@@ -232,26 +296,25 @@ export function CalorieCalculator() {
                   setUnitSystem("imperial");
                   clearResults();
                 }}
-                className={`px-8 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300 ${unitSystem === "imperial" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
+                className={`px-4 h-[44px] md:h-[50px] md:px-8 rounded-xl text-[13px] md:text-sm font-bold transition-all duration-300 ${unitSystem === "imperial" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
               >
                 {" "}
                 Imperial{" "}
               </button>{" "}
             </div>{" "}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            <div className="grid grid-cols-2 gap-2.5 md:gap-8">
               {" "}
-              {/* Gender */}{" "}
-              <div className="space-y-3">
+              {/* Gender */} <div className="space-y-1 md:space-y-3 ">
                 {" "}
-                <label className="text-sm font-bold text-brand-text px-1 block">
+                <label className="text-[13px] md:text-sm font-bold text-brand-text px-1 block">
                   {t.calculator.gender}
                 </label>{" "}
-                <div className="flex gap-3">
+                <div className="flex gap-2">
                   {" "}
                   <button
                     type="button"
                     onClick={() => handleGenderChange("male")}
-                    className={`flex-1 h-[58px] rounded-2xl text-sm font-bold transition-all duration-300 ${gender === "male" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
+                    className={`flex-1 h-[44px] md:h-[50px] rounded-xl text-[13px] md:text-sm font-bold transition-all duration-300 ${gender === "male" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
                   >
                     {" "}
                     {t.calculator.male}{" "}
@@ -259,7 +322,7 @@ export function CalorieCalculator() {
                   <button
                     type="button"
                     onClick={() => handleGenderChange("female")}
-                    className={`flex-1 h-[58px] rounded-2xl text-sm font-bold transition-all duration-300 ${gender === "female" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
+                    className={`flex-1 h-[44px] md:h-[50px] rounded-xl text-[13px] md:text-sm font-bold transition-all duration-300 ${gender === "female" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
                   >
                     {" "}
                     {t.calculator.female}{" "}
@@ -267,51 +330,49 @@ export function CalorieCalculator() {
                 </div>{" "}
               </div>{" "}
               {/* Age */}{" "}
-              <div className="space-y-3">
+              <div className="space-y-1 md:space-y-3">
                 {" "}
-                <label className="text-sm font-bold text-brand-text px-1 block">
+                <label className="text-[13px] md:text-sm font-bold text-brand-text px-1 block">
                   {t.calculator.age}
                 </label>{" "}
                 <input
-                  type="number"
-                  min="5"
-                  max="119"
+                  type="text"
+                  inputMode="numeric"
                   value={age}
                   onChange={(e) => {
-                    setAge(e.target.value);
+                    setAge(cleanAndConvertNumber(e.target.value, false));
                     clearResults();
                   }}
-                  className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3.5 text-brand-text focus:outline-none focus:bg-white focus:border-brand-primary/50 focus:ring-2 focus:ring-brand-primary/20 transition-all font-en text-center text-lg"
+                  className="w-full bg-white border border-slate-200 rounded-xl px-3 h-[44px] md:h-[50px] md:px-4 text-brand-text focus:outline-none focus:bg-white focus:border-brand-primary/50 focus:ring-2 focus:ring-brand-primary/20 transition-all font-en text-center text-base md:text-lg"
                   placeholder="25"
                   dir="ltr"
                 />{" "}
               </div>{" "}
               {/* Weight */}{" "}
-              <div className="space-y-3">
+              <div className="space-y-1 md:space-y-3">
                 {" "}
-                <label className="text-sm font-bold text-brand-text px-1 block">
+                <label className="text-[13px] md:text-sm font-bold text-brand-text px-1 block">
                   {" "}
                   {unitSystem === "metric"
                     ? t.calculator.weight
                     : t.calculator.weightImperial}{" "}
                 </label>{" "}
                 <input
-                  type="number"
-                  step="0.1"
+                  type="text"
+                  inputMode="decimal"
                   value={weight}
                   onChange={(e) => {
-                    setWeight(e.target.value);
+                    setWeight(cleanAndConvertNumber(e.target.value, true));
                     clearResults();
                   }}
-                  className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3.5 text-brand-text focus:outline-none focus:bg-white focus:border-brand-primary/50 focus:ring-2 focus:ring-brand-primary/20 transition-all font-en text-center text-lg"
+                  className="w-full bg-white border border-slate-200 rounded-xl px-3 h-[44px] md:h-[50px] md:px-4 text-brand-text focus:outline-none focus:bg-white focus:border-brand-primary/50 focus:ring-2 focus:ring-brand-primary/20 transition-all font-en text-center text-base md:text-lg"
                   placeholder={unitSystem === "metric" ? "75" : "165"}
                   dir="ltr"
                 />{" "}
               </div>{" "}
-              {/* Height */}{" "}
-              <div className="space-y-3">
+              {/* Height */} <div className="space-y-1 md:space-y-3 ">
                 {" "}
-                <label className="text-sm font-bold text-brand-text px-1 block">
+                <label className="text-[13px] md:text-sm font-bold text-brand-text px-1 block">
                   {" "}
                   {unitSystem === "metric"
                     ? t.calculator.height
@@ -319,13 +380,14 @@ export function CalorieCalculator() {
                 </label>{" "}
                 {unitSystem === "metric" ? (
                   <input
-                    type="number"
+                    type="text"
+                    inputMode="decimal"
                     value={heightCm}
                     onChange={(e) => {
-                      setHeightCm(e.target.value);
+                      setHeightCm(cleanAndConvertNumber(e.target.value, true));
                       clearResults();
                     }}
-                    className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3.5 text-brand-text focus:outline-none focus:bg-white focus:border-brand-primary/50 focus:ring-2 focus:ring-brand-primary/20 transition-all font-en text-center text-lg"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3 h-[44px] md:h-[50px] md:px-4 text-brand-text focus:outline-none focus:bg-white focus:border-brand-primary/50 focus:ring-2 focus:ring-brand-primary/20 transition-all font-en text-center text-base md:text-lg"
                     placeholder="175"
                     dir="ltr"
                   />
@@ -333,24 +395,26 @@ export function CalorieCalculator() {
                   <div className="grid grid-cols-2 gap-3">
                     {" "}
                     <input
-                      type="number"
+                      type="text"
+                      inputMode="numeric"
                       value={heightFt}
                       onChange={(e) => {
-                        setHeightFt(e.target.value);
+                        setHeightFt(cleanAndConvertNumber(e.target.value, false));
                         clearResults();
                       }}
-                      className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3.5 text-brand-text focus:outline-none focus:bg-white focus:border-brand-primary/50 focus:ring-2 focus:ring-brand-primary/20 transition-all font-en text-center text-lg"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-3 h-[44px] md:h-[50px] md:px-4 text-brand-text focus:outline-none focus:bg-white focus:border-brand-primary/50 focus:ring-2 focus:ring-brand-primary/20 transition-all font-en text-center text-base md:text-lg"
                       placeholder="ft (5)"
                       dir="ltr"
                     />{" "}
                     <input
-                      type="number"
+                      type="text"
+                      inputMode="decimal"
                       value={heightIn}
                       onChange={(e) => {
-                        setHeightIn(e.target.value);
+                        setHeightIn(cleanAndConvertNumber(e.target.value, true));
                         clearResults();
                       }}
-                      className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3.5 text-brand-text focus:outline-none focus:bg-white focus:border-brand-primary/50 focus:ring-2 focus:ring-brand-primary/20 transition-all font-en text-center text-lg"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-3 h-[44px] md:h-[50px] md:px-4 text-brand-text focus:outline-none focus:bg-white focus:border-brand-primary/50 focus:ring-2 focus:ring-brand-primary/20 transition-all font-en text-center text-base md:text-lg"
                       placeholder="in (9)"
                       dir="ltr"
                     />{" "}
@@ -360,13 +424,13 @@ export function CalorieCalculator() {
               {/* Activity Level - only for 13+ */}{" "}
               {(!age || parseInt(age) >= 13) && (
                 <>
-                  <div className="space-y-3 md:col-span-2">
+                  <div className="space-y-1 md:space-y-3 col-span-2">
                     <div className="flex items-center justify-between px-1">
-                      <label className="text-sm font-bold text-brand-text">
+                      <label className="text-[13px] md:text-sm font-bold text-brand-text">
                         يومك العادي عامل إزاي؟
                       </label>
-                      <button type="button" aria-label="مساعدة" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('dailyActivity'); }} className="cursor-pointer relative z-10 text-amber-500 hover:text-amber-600 p-2 -m-1 rounded-full transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-amber-500/40">
-                        <AlertCircle className="w-4 h-4 pointer-events-none" /></button>
+                      <button type="button" aria-label="مساعدة" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('dailyActivity'); }} className="cursor-pointer relative z-10 text-amber-500 hover:text-amber-600 p-1 md:p-2 md:-m-1 rounded-full transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-amber-500/40">
+                        <AlertCircle className="w-3.5 h-3.5 md:w-4 md:h-4 pointer-events-none" /></button>
                     </div>
                     <CustomSelect
                       value={dailyActivity === "" ? 0 : (dailyActivity as number)}
@@ -381,30 +445,54 @@ export function CalorieCalculator() {
                         },
                         {
                           value: 1.2,
-                          label: "أغلب اليوم قاعد (شغل مكتبي، حركة قليلة جدًا)",
+                          label: (
+                            <span className="flex flex-col items-center">
+                              <span className="font-bold">أغلب اليوم قاعد</span>
+                              <span className="text-xs md:text-[13px] opacity-80 mt-0.5 font-normal">(شغل مكتبي، حركة قليلة جدًا)</span>
+                            </span>
+                          ),
+                          shortLabel: "أغلب اليوم قاعد (شغل مكتبي، حركة قليلة جدًا)",
                         },
                         {
                           value: 1.3,
-                          label: "بتحرك على فترات خلال اليوم (شغل بيت، مشاوير بسيطة)",
+                          label: (
+                            <span className="flex flex-col items-center">
+                              <span className="font-bold">بتحرك على فترات خلال اليوم</span>
+                              <span className="text-xs md:text-[13px] opacity-80 mt-0.5 font-normal">(شغل بيت، مشاوير بسيطة)</span>
+                            </span>
+                          ),
+                          shortLabel: "بتحرك على فترات خلال اليوم (شغل بيت، مشاوير بسيطة)",
                         },
                         {
                           value: 1.45,
-                          label: "واقف أو ماشي معظم اليوم (مدرس، بائع، ممرض)",
+                          label: (
+                            <span className="flex flex-col items-center">
+                              <span className="font-bold">واقف أو ماشي معظم اليوم</span>
+                              <span className="text-xs md:text-[13px] opacity-80 mt-0.5 font-normal">(مدرس، بائع، ممرض)</span>
+                            </span>
+                          ),
+                          shortLabel: "واقف أو ماشي معظم اليوم (مدرس، بائع، ممرض)",
                         },
                         {
                           value: 1.6,
-                          label: "شغلك فيه مجهود بدني قوي (بناء، زراعة، تحميل)",
+                          label: (
+                            <span className="flex flex-col items-center">
+                              <span className="font-bold">شغلك فيه مجهود بدني قوي</span>
+                              <span className="text-xs md:text-[13px] opacity-80 mt-0.5 font-normal">(بناء، زراعة، تحميل)</span>
+                            </span>
+                          ),
+                          shortLabel: "شغلك فيه مجهود بدني قوي (بناء، زراعة، تحميل)",
                         },
                       ]}
                     />
                   </div>
-                  <div className="space-y-3 md:col-span-2">
+                  <div className="space-y-1 md:space-y-3 col-span-2">
                     <div className="flex items-center justify-between px-1">
-                      <label className="text-sm font-bold text-brand-text">
+                      <label className="text-[13px] md:text-sm font-bold text-brand-text">
                         متوسط تمرينك خلال الأسبوع؟
                       </label>
-                      <button type="button" aria-label="مساعدة" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('workoutFrequency'); }} className="cursor-pointer relative z-10 text-amber-500 hover:text-amber-600 p-2 -m-1 rounded-full transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-amber-500/40">
-                        <AlertCircle className="w-4 h-4 pointer-events-none" /></button>
+                      <button type="button" aria-label="مساعدة" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('workoutFrequency'); }} className="cursor-pointer relative z-10 text-amber-500 hover:text-amber-600 p-1 md:p-2 md:-m-1 rounded-full transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-amber-500/40">
+                        <AlertCircle className="w-3.5 h-3.5 md:w-4 md:h-4 pointer-events-none" /></button>
                     </div>
                     <CustomSelect
                       value={workoutFrequency === "" ? -1 : (workoutFrequency as number)}
@@ -438,26 +526,24 @@ export function CalorieCalculator() {
                   </div>
                   {dailyActivity !== "" && workoutFrequency !== "" && (
                     <div className="md:col-span-2 px-1">
-                      <p className="text-sm font-medium text-brand-primary">
+                      <p className="text-[12px] md:text-sm font-medium text-slate-600">
                         تم تحديد مستوى نشاطك بناءً على يومك وتمرينك.
                       </p>
                     </div>
                   )}
                 </>
               )}{" "}
-              {/* Resistance Training - only for 13+ */}{" "}
-              {(!age || parseInt(age) >= 13) && (
-                <div className="space-y-3">
+              {/* Resistance Training - only for 13+ */} {(!age || parseInt(age) >= 13) && ( <div className="space-y-1 md:space-y-3 col-span-2">
                   {" "}
                   <div className="flex items-center justify-between px-1">
-                    <label className="text-sm font-bold text-brand-text">
+                    <label className="text-[13px] md:text-sm font-bold text-brand-text">
                       {t.calculator.resistanceTraining || "هل تمارس تمارين مقاومة بانتظام؟"}
                     </label>
-                    <button type="button" aria-label="مساعدة" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('resistance'); }} className="cursor-pointer relative z-10 text-amber-500 hover:text-amber-600 p-2 -m-1 rounded-full transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-amber-500/40">
-                      <AlertCircle className="w-4 h-4 pointer-events-none" />
+                    <button type="button" aria-label="مساعدة" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('resistance'); }} className="cursor-pointer relative z-10 text-amber-500 hover:text-amber-600 p-1 md:p-2 md:-m-1 rounded-full transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-amber-500/40">
+                      <AlertCircle className="w-3.5 h-3.5 md:w-4 md:h-4 pointer-events-none" />
 </button>
                   </div>{" "}
-                  <div className="flex gap-3">
+                  <div className="flex gap-2">
                     {" "}
                     <button
                       type="button"
@@ -465,7 +551,7 @@ export function CalorieCalculator() {
                         setResistanceTraining("yes");
                         clearResults();
                       }}
-                      className={`flex-1 h-[58px] rounded-2xl text-sm font-bold transition-all duration-300 ${resistanceTraining === "yes" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
+                      className={`flex-1 h-[44px] md:h-[50px] rounded-xl text-[13px] md:text-sm font-bold transition-all duration-300 ${resistanceTraining === "yes" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
                     >
                       {" "}
                       {t.calculator.yes || "نعم"}{" "}
@@ -476,7 +562,7 @@ export function CalorieCalculator() {
                         setResistanceTraining("no");
                         clearResults();
                       }}
-                      className={`flex-1 h-[58px] rounded-2xl text-sm font-bold transition-all duration-300 ${resistanceTraining === "no" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
+                      className={`flex-1 h-[44px] md:h-[50px] rounded-xl text-[13px] md:text-sm font-bold transition-all duration-300 ${resistanceTraining === "no" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
                     >
                       {" "}
                       {t.calculator.no || "لا"}{" "}
@@ -485,33 +571,30 @@ export function CalorieCalculator() {
                 </div>
               )}{" "}
 
-              {/* Body Fat (Optional) */}{" "}
-              <div className="space-y-3">
+              {/* Body Fat (Optional) */} <div className="space-y-1 md:space-y-3 col-span-2">
                 {" "}
                 <div className="flex items-center justify-between px-1">
-                    <label className="flex items-center gap-1.5 text-sm font-bold text-brand-text">
+                    <label className="flex items-center gap-1.5 text-[13px] md:text-sm font-bold text-brand-text">
                       <span>{t.calculator.bodyFat}</span>
                       
                     </label>
-                    <button type="button" aria-label="مساعدة" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('bodyFat'); }} className="cursor-pointer relative z-10 text-amber-500 hover:text-amber-600 p-2 -m-1 rounded-full transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-amber-500/40">
-                      <AlertCircle className="w-4 h-4 pointer-events-none" />
+                    <button type="button" aria-label="مساعدة" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('bodyFat'); }} className="cursor-pointer relative z-10 text-amber-500 hover:text-amber-600 p-1 md:p-2 md:-m-1 rounded-full transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-amber-500/40">
+                      <AlertCircle className="w-3.5 h-3.5 md:w-4 md:h-4 pointer-events-none" />
 </button>
                   </div>{" "}
                 <input
-                  type="number"
-                  min="3"
-                  max="60"
-                  step="0.1"
+                  type="text"
+                  inputMode="decimal"
                   value={bodyFat}
                   onChange={(e) => {
-                    setBodyFat(e.target.value);
+                    setBodyFat(cleanAndConvertNumber(e.target.value, true));
                     clearResults();
                   }}
-                  className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3.5 text-brand-text focus:outline-none focus:bg-white focus:border-brand-primary/50 focus:ring-2 focus:ring-brand-primary/20 transition-all font-en text-center text-lg"
+                  className="w-full bg-white border border-slate-200 rounded-xl px-3 h-[44px] md:h-[50px] md:px-4 text-brand-text focus:outline-none focus:bg-white focus:border-brand-primary/50 focus:ring-2 focus:ring-brand-primary/20 transition-all font-en text-center text-base md:text-lg"
                   placeholder="15"
                   dir="ltr"
                 />{" "}
-                <p className="text-[11px] text-slate-500 mt-1 px-1">
+                <p className="text-[12px] text-slate-500 mt-1 px-1">
                   {t.calculator.bodyFatNote}
                 </p>{" "}
               </div>{" "}
@@ -519,18 +602,18 @@ export function CalorieCalculator() {
               {gender === "female" && parseInt(age) >= 16 && (
                 <div className="space-y-3 col-span-1 md:col-span-2 mt-2">
                   <div className="flex items-center justify-between px-1">
-                    <label className="text-sm font-bold text-brand-text">
+                    <label className="text-[13px] md:text-sm font-bold text-brand-text">
                       هل توجد حالة حمل أو رضاعة؟
                     </label>
                   </div>
-                  <div className="flex gap-3">
+                  <div className="flex gap-2">
                     <button
                       type="button"
                       onClick={() => {
                         setIsPregnantOrNursing("yes");
                         clearResults();
                       }}
-                      className={`flex-1 h-[58px] rounded-2xl text-sm font-bold transition-all duration-300 ${isPregnantOrNursing === "yes" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
+                      className={`flex-1 h-[44px] md:h-[50px] rounded-xl text-[13px] md:text-sm font-bold transition-all duration-300 ${isPregnantOrNursing === "yes" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
                     >
                       نعم
                     </button>
@@ -540,7 +623,7 @@ export function CalorieCalculator() {
                         setIsPregnantOrNursing("no");
                         clearResults();
                       }}
-                      className={`flex-1 h-[58px] rounded-2xl text-sm font-bold transition-all duration-300 ${isPregnantOrNursing === "no" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
+                      className={`flex-1 h-[44px] md:h-[50px] rounded-xl text-[13px] md:text-sm font-bold transition-all duration-300 ${isPregnantOrNursing === "no" ? "bg-brand-primary text-white border border-brand-primary " : "bg-white border border-slate-200 text-brand-muted hover:border-slate-300 hover:bg-slate-50 "}`}
                     >
                       لا
                     </button>
@@ -549,17 +632,17 @@ export function CalorieCalculator() {
               )}
             </div>{" "}
             {errorMsg && (
-              <div className="text-red-500 text-sm font-medium mt-6 text-center bg-red-50/50 p-4 rounded-xl border border-red-100">
+              <div className="text-red-500 text-[12px] md:text-sm font-medium mt-6 text-center bg-red-50/50 p-4 rounded-xl border border-red-100">
                 {" "}
                 {errorMsg}{" "}
               </div>
             )}{" "}
-            <div className="flex justify-center mt-12 mb-6">
+            <div className="flex justify-center mt-6 md:mt-12 mb-2 md:mb-6">
               {" "}
               <Button
                 type="submit"
                 size="lg"
-                className="w-full sm:w-auto min-w-[280px] text-lg py-4"
+                className="px-12 md:px-16 text-base md:text-lg py-2.5 md:py-4 rounded-xl"
               >
                 {" "}
                 {t.calculator.calculate}{" "}
@@ -577,10 +660,10 @@ export function CalorieCalculator() {
           <button 
             type="button"
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('disclaimer'); }}
-            className="absolute bottom-4 left-4 md:bottom-6 md:left-6 flex items-center justify-center w-8 h-8 z-20 text-amber-500 hover:text-amber-600 rounded-full transition-colors cursor-pointer group focus:outline-none focus:ring-2 focus:ring-amber-500/40" 
+            className="absolute bottom-3 left-3 md:bottom-4 md:left-4 flex items-center justify-center w-6 h-6 md:w-8 md:h-8 z-20 text-amber-500 hover:text-amber-600 rounded-full transition-colors cursor-pointer group focus:outline-none focus:ring-2 focus:ring-amber-500/40" 
             title="إخلاء مسؤولية طبي"
           >
-            <AlertCircle className="w-6 h-6" />
+            <AlertCircle className="w-4 h-4 md:w-5 md:h-5" />
           </button>
         </div>{" "}
       </div>{" "}

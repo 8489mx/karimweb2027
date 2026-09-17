@@ -49,7 +49,7 @@ const MOCK_ORDERS_DB: Record<string, OrderDetails> = {};
 export const createOrder = async (data: CreateOrderData): Promise<{ success: boolean; order_number?: string; error?: string }> => {
     // Try to call actual backend if deployed
     try {
-        const response = await fetch('/api/orders.php?action=create', {
+        const response = await fetch('/api/orders?action=create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -102,7 +102,7 @@ export const createOrder = async (data: CreateOrderData): Promise<{ success: boo
 export const getOrder = async (orderNumber: string): Promise<{ success: boolean; order?: OrderDetails; error?: string }> => {
     // Try real API
     try {
-        const response = await fetch(`/api/orders.php?id=${orderNumber}`);
+        const response = await fetch(`/api/orders?id=${orderNumber}`);
         if (response.ok) {
             const contentType = response.headers.get("content-type");
             if (contentType && contentType.includes("application/json")) {

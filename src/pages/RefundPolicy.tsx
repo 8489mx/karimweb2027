@@ -7,7 +7,7 @@ import { FloatingWhatsApp } from '../components/ui/FloatingWhatsApp';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { SEO } from '../components/SEO';
 
-export function TermsAndConditions() {
+export function RefundPolicy() {
   const { isRTL } = useLanguage();
 
   useEffect(() => {
@@ -17,8 +17,8 @@ export function TermsAndConditions() {
   return (
     <div className="min-h-screen text-brand-text font-sans selection:bg-brand-primary selection:text-white pb-0 relative w-full flex flex-col">
       <SEO 
-        title="الشروط والأحكام | كابتن كريم زكريا" 
-        description="اقرأ الشروط والأحكام الخاصة بالاشتراك في برامج التدريب والتغذية مع كابتن كريم زكريا."
+        title="سياسة الاسترجاع واسترداد الأموال | كابتن كريم زكريا" 
+        description="تعرف على الشروط والضوابط المنظمة لعمليات الاسترجاع واسترداد الأموال للخدمات التدريبية."
       />
 
       {/* Subtle Radial Gradient Background */}
@@ -50,7 +50,7 @@ export function TermsAndConditions() {
         {/* Page Title */}
         <div className="mb-10 md:mb-12 text-center">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900">
-            الشروط والأحكام
+            سياسة الاسترجاع واسترداد الأموال
           </h1>
         </div>
 
@@ -65,17 +65,17 @@ export function TermsAndConditions() {
             {/* Intro Lead */}
             <div className="bg-gradient-to-br from-brand-primary/10 to-transparent border-r-4 border-brand-primary rounded-l-[16px] p-5 md:p-6 mb-10 md:mb-12 text-right space-y-3 md:space-y-4">
               <p className="text-[16px] md:text-[18px] font-bold text-slate-900 leading-snug">
-                تحدد هذه الشروط الإطار التنظيمي والقانوني بين المشترك وإدارة الخدمة.
+                تحدد هذه السياسة الشروط المالية الدقيقة المنظمة لعمليات الإلغاء والاسترجاع.
               </p>
               <p className="text-slate-600 text-[14px] md:text-[16px] leading-relaxed">
-                إتمامك لعملية الاشتراك وسداد الرسوم يُعد إقرارًا وموافقة صريحة وكاملة بالالتزام بكافة البنود الواردة أدناه.
+                تمت صياغة هذه السياسة بما يتماشى مع الأنظمة المصرفية وطبيعة الخدمات الاستشارية والمنتجات الرقمية المخصصة.
               </p>
             </div>
 
             {/* Section 1 */}
             <section>
               <h2 className="text-lg md:text-xl font-bold mb-5 md:mb-7 text-slate-900">
-                طبيعة الخدمة
+                طبيعة المنتجات الرقمية المصممة خصيصًا
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-8 border border-slate-100 shadow-2xs hover:shadow-xs transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed text-right">
                 <div 
@@ -87,8 +87,8 @@ export function TermsAndConditions() {
                 />
                 <div className="relative z-10 space-y-4">
                   <ul className="list-disc list-outside pr-5 space-y-3 marker:text-brand-primary">
-                    <li>يقدم كابتن كريم زكريا خدمات تدريب رياضي وتغذية غير علاجية واستشارات أونلاين مصممة خصيصًا لكل مشترك بناءً على استبيان تفصيلي فردي.</li>
-                    <li>هذه الخدمة مخصصة للأفراد الأصحاء رياضيًا، ولا تُعد بديلاً عن الرعاية الطبية، أو الفحص الإكلينيكي، أو التشخيص العلاجي للأمراض.</li>
+                    <li>تندرج خدماتنا ضمن قطاع الخدمات الاستشارية والمنتجات الرقمية المعدة خصيصًا بناءً على طلب وقياسات العميل الفردية (Custom Digital Services).</li>
+                    <li>بمجرد إعداد وإرسال البرنامج التدريبي أو الغذائي، يُعد المنتج قد تم تسليمه واستهلاكه بالكامل ولا يمكن استرجاعه أو إعادة بيعه لعميل آخر.</li>
                   </ul>
                 </div>
               </div>
@@ -97,7 +97,7 @@ export function TermsAndConditions() {
             {/* Section 2 */}
             <section>
               <h2 className="text-lg md:text-xl font-bold mb-5 md:mb-7 text-slate-900">
-                إعداد وتسليم الخطة
+                شروط وأهلية استرداد الأموال
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-8 border border-slate-100 shadow-2xs hover:shadow-xs transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed text-right">
                 <div 
@@ -109,9 +109,8 @@ export function TermsAndConditions() {
                 />
                 <div className="relative z-10 space-y-4">
                   <ul className="list-disc list-outside pr-5 space-y-3 marker:text-brand-primary">
-                    <li>تستغرق مدة إعداد الخطة التدريبية والغذائية من 3 إلى 7 أيام عمل.</li>
-                    <li>يبدأ احتساب المهلة الزمنية حصريًا من تاريخ اكتمال إرسال جميع بيانات الاستبيان والمقاسات المطلوبة بدقة من قِبل المشترك.</li>
-                    <li>تختلف مواعيد وسرعة وقنوات المتابعة حسب مميزات وتفاصيل الباقة المختارة من صفحة الاشتراكات.</li>
+                    <li><strong className="font-semibold text-slate-900">استرداد كامل بنسبة 100%:</strong> يحق للمشترك طلب استرداد المبلغ بالكامل إذا قُدم الطلب خلال مدة لا تتجاوز 48 ساعة من لحظة الدفع، وبشرط عدم البدء في دراسة الاستبيان وتجهيز البرنامج من قِبل الفريق الفني.</li>
+                    <li><strong className="font-semibold text-slate-900">استرداد جزئي بنسبة 80%:</strong> إذا قُدم طلب الإلغاء خلال فترة الـ 48 ساعة الأولى، ولكن بعد البدء الفعلي في مراجعة البيانات وتجهيز البرنامج، يتم خصم 20% فقط لتغطية رسوم بوابات الدفع الإلكتروني والمصاريف الإدارية، ورد النسبة المتبقية (80%).</li>
                   </ul>
                 </div>
               </div>
@@ -120,7 +119,7 @@ export function TermsAndConditions() {
             {/* Section 3 */}
             <section>
               <h2 className="text-lg md:text-xl font-bold mb-5 md:mb-7 text-slate-900">
-                توقعات النتائج ومسؤولية المشترك
+                الحالات غير القابلة للاسترداد نهائيًا (Non-Refundable)
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-8 border border-slate-100 shadow-2xs hover:shadow-xs transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed text-right">
                 <div 
@@ -132,9 +131,11 @@ export function TermsAndConditions() {
                 />
                 <div className="relative z-10 space-y-4">
                   <ul className="list-disc list-outside pr-5 space-y-3 marker:text-brand-primary">
-                    <li>لا نعد بنتائج خيالية أو أرقام غير علمية؛ فالاستجابة البدنية تختلف بين الأجسام بناءً على معدل الالتزام الشخصي، التاريخ الرياضي، الحالة الهرمونية، وجودة النوم والتغذية.</li>
-                    <li>يلتزم المشترك بتقديم معلومات صحيحة ودقيقة، والإفصاح الفوري عن أي إصابة سابقة، حساسية طعام، أمراض مزمنة، أو أدوية يتم تناولها.</li>
-                    <li>يتحمل المشترك وحده المسؤولية الكاملة عن أي مضاعفات ناجمة عن إخفاء معلومات صحية جوهرية أو عدم اتباع تعليمات السلامة وأداء التمارين بمسار حركي خاطئ.</li>
+                    <li><strong className="font-semibold text-slate-900">بعد استلام البرنامج:</strong> بمجرد إرسال جداول التدريب أو التغذية إلى المشترك عبر واتساب أو البريد الإلكتروني، يسقط الحق في طلب الاسترداد فورًا ونهائيًا، حتى وإن كان ذلك خلال الـ 48 ساعة الأولى من الشراء.</li>
+                    <li><strong className="font-semibold text-slate-900">مضي أكثر من 48 ساعة:</strong> بعد مرور 48 ساعة على عملية الدفع يُعد الاشتراك نهائيًا وغير قابل للإلغاء لأي سبب، حتى لو تأخر المشترك في تقديم بيانات الاستبيان، نظرًا لحجز المقعد المخصص له في جدول المتابعة.</li>
+                    <li><strong className="font-semibold text-slate-900">الظروف الشخصية بعد التسليم:</strong> حالات السفر، ضغط العمل، الامتحانات، أو انشغال المشترك لا تمنح الحق في استرداد مالي، ويمكن للمشترك الاستفادة حصرًا من ميزة "تجميد الاشتراك" وفق القواعد الموضحة في الشروط والأحكام.</li>
+                    <li><strong className="font-semibold text-slate-900">عدم الالتزام بالبرنامج:</strong> لا يُعد تراخي المشترك في تنفيذ التمارين أو عدم تطبيق الوجبات مبررًا لأي مطالبة مالية.</li>
+                    <li><strong className="font-semibold text-slate-900">المدد والعروض المجانية:</strong> أي شهور أو مدد إضافية تُمنح مجانًا ضمن العروض الترويجية ليس لها مقابل مالي ولا يُسترد عنها أي مبالغ.</li>
                   </ul>
                 </div>
               </div>
@@ -143,7 +144,7 @@ export function TermsAndConditions() {
             {/* Section 4 */}
             <section>
               <h2 className="text-lg md:text-xl font-bold mb-5 md:mb-7 text-slate-900">
-                إجراءات السلامة البدنية
+                آلية ومدد رد المبالغ المالية
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-8 border border-slate-100 shadow-2xs hover:shadow-xs transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed text-right">
                 <div 
@@ -155,8 +156,9 @@ export function TermsAndConditions() {
                 />
                 <div className="relative z-10 space-y-4">
                   <ul className="list-disc list-outside pr-5 space-y-3 marker:text-brand-primary">
-                    <li>يلتزم المشترك باختيار أوزان تتناسب مع قدرته الحالية، مع التركيز على التكنيك الصحيح الموضح بالفيديوهات الإرشادية.</li>
-                    <li>في حال الشعور بألم حاد غير طبيعي في المفاصل، ضيق تنفس، أو دوار، يجب إيقاف التمرين فورًا، وإخطار المدرب، ومراجعة الطبيب المختص.</li>
+                    <li>التزامًا بالقوانين المصرفية ومكافحة الاحتيال، تتم جميع عمليات الاسترداد حصريًا عبر نفس وسيلة الدفع الأصلية التي استخدمها المشترك (نفس البطاقة الائتمانية، نفس المحفظة الإلكترونية، أو نفس الحساب المحول منه عبر InstaPay). يُحظر تمامًا تسليم المبالغ نقدًا "كاش" أو تحويلها لحساب شخص آخر.</li>
+                    <li>تتم مراجعة واعتماد طلب الاسترداد من قِبل الإدارة المالية خلال 24 إلى 48 ساعة عمل.</li>
+                    <li>يستغرق وصول المبلغ إلى كشف حسابك البنكي أو محفظتك من 5 إلى 14 يوم عمل، وذلك تبعًا لدورة عمل البنك المصدر لبطاقتك وبوابة الدفع المستخدمة.</li>
                   </ul>
                 </div>
               </div>
@@ -165,52 +167,7 @@ export function TermsAndConditions() {
             {/* Section 5 */}
             <section>
               <h2 className="text-lg md:text-xl font-bold mb-5 md:mb-7 text-slate-900">
-                الانقطاع وتجميد الاشتراك (Freeze)
-              </h2>
-              <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-8 border border-slate-100 shadow-2xs hover:shadow-xs transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed text-right">
-                <div 
-                  className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-40 group-hover:opacity-100 z-0"
-                  style={{
-                    WebkitMaskImage: 'radial-gradient(circle at top right, black 0%, transparent 150px)',
-                    maskImage: 'radial-gradient(circle at top right, black 0%, transparent 150px)'
-                  }}
-                />
-                <div className="relative z-10 space-y-4">
-                  <ul className="list-disc list-outside pr-5 space-y-3 marker:text-brand-primary">
-                    <li>تعتمد فاعلية البرنامج على المتابعة الدورية المستمرة في الأيام المحددة لنظام الباقة.</li>
-                    <li>الانقطاع عن إرسال التحديثات دون طلب تجميد رسمي لا يوقف سريان الاشتراك الزمني، ولا يتم تعويض الأيام الضائعة بأثر رجعي.</li>
-                    <li>لتفادي خسارة الأيام عند الطوارئ (كالسفر أو الوعكات الصحية)، يُتاح للمشترك خيار تجميد الاشتراك مؤقتًا وفق المدد المحددة لكل باقة، بشرط طلب التجميد مسبقًا عبر واتساب قبل بدء فترة التوقف لاعتماده رسميًا في النظام.</li>
-                  </ul>
-                </div>
-              </div>
-            </section>
-
-            {/* Section 6 */}
-            <section>
-              <h2 className="text-lg md:text-xl font-bold mb-5 md:mb-7 text-slate-900">
-                الملكية الفكرية وحماية المحتوى
-              </h2>
-              <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-8 border border-slate-100 shadow-2xs hover:shadow-xs transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed text-right">
-                <div 
-                  className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-40 group-hover:opacity-100 z-0"
-                  style={{
-                    WebkitMaskImage: 'radial-gradient(circle at top right, black 0%, transparent 150px)',
-                    maskImage: 'radial-gradient(circle at top right, black 0%, transparent 150px)'
-                  }}
-                />
-                <div className="relative z-10 space-y-4">
-                  <ul className="list-disc list-outside pr-5 space-y-3 marker:text-brand-primary">
-                    <li>كافة الجداول، الشروحات، الأنظمة الغذائية، والمحتويات المقدمة هي ملكية فكرية حصرية لكابتن كريم زكريا، ومخصصة للاستخدام الشخصي للمشترك فقط.</li>
-                    <li>يُمنع منعًا باتًا نسخ، أو تصوير، أو إعادة بيع، أو مشاركة أي جزء من المحتوى الرقمي مع أطراف أخرى دون تصريح كتابي مسبق، ويترتب على المخالفة مساءلة قانونية وإلغاء فوري للاشتراك دون استرداد.</li>
-                  </ul>
-                </div>
-              </div>
-            </section>
-
-            {/* Section 7 */}
-            <section>
-              <h2 className="text-lg md:text-xl font-bold mb-5 md:mb-7 text-slate-900">
-                قواعد التعامل وإنهاء الخدمة
+                معالجة الخصم المكرر والأخطاء التقنية
               </h2>
               <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-8 border border-slate-100 shadow-2xs hover:shadow-xs transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed text-right">
                 <div 
@@ -222,24 +179,32 @@ export function TermsAndConditions() {
                 />
                 <div className="relative z-10 space-y-4">
                   <p>
-                    يقوم التدريب على الاحترام المتبادل والتعامل المهني. يحق للإدارة إنهاء المتابعة فورًا ومن طرف واحد دون أي التزام برد الرسوم في حال حدوث أي تجاوز لفظي، سلوكي، أو إساءة متكررة.
+                    في حال حدوث خطأ تقني أدى إلى سحب مكرر أو زيادة عن قيمة الاشتراك، يُرجى التواصل معنا فورًا عبر واتساب مع إرفاق إشعار السحب، وسيتم رد المبلغ الزائد كاملًا بنسبة 100% دون أي خصم إداري خلال 24 ساعة عمل.
                   </p>
                 </div>
               </div>
             </section>
 
-            {/* Medical Disclaimer Box */}
+            {/* Section 6 */}
             <section>
-              <div className="bg-brand-secondary/25 rounded-2xl p-5 md:p-6 border border-brand-primary/20 shadow-2xs space-y-3 text-[15px] md:text-base text-slate-700 leading-relaxed text-right">
-                <p className="font-bold text-slate-900 text-base md:text-lg">
-                  إخلاء مسؤولية صحية وطبية:
-                </p>
-                <p>
-                  برامج التدريب والتغذية الرياضية تهدف إلى تحسين نمط الحياة واللياقة العامة وليست علاجًا سريريًا.
-                </p>
-                <p>
-                  في حال وجود أمراض مزمنة (مثل السكري، ارتفاع ضغط الدم، اضطرابات القلب أو الكلى)، أو مشاكل بالعمود الفقري والمفاصل، أو أثناء فترات الحمل، يلزم المشترك الحصول على موافقة خطية صريحة من الطبيب المعالج قبل البدء في تطبيق أي نظام رياضي أو غذائي.
-                </p>
+              <h2 className="text-lg md:text-xl font-bold mb-5 md:mb-7 text-slate-900">
+                البيانات المطلوبة لتقديم طلب الاسترداد
+              </h2>
+              <div className="bg-white rounded-[16px] md:rounded-[20px] p-5 md:p-8 border border-slate-100 shadow-2xs hover:shadow-xs transition-all duration-300 relative group text-[15px] md:text-base text-slate-700 leading-relaxed text-right">
+                <div 
+                  className="absolute -top-[1.5px] -bottom-[1.5px] -left-[1.5px] -right-[1.5px] rounded-[inherit] border-[2px] md:border-[3px] border-brand-primary pointer-events-none transition-all duration-500 opacity-40 group-hover:opacity-100 z-0"
+                  style={{
+                    WebkitMaskImage: 'radial-gradient(circle at top right, black 0%, transparent 150px)',
+                    maskImage: 'radial-gradient(circle at top right, black 0%, transparent 150px)'
+                  }}
+                />
+                <div className="relative z-10 space-y-4">
+                  <ul className="list-disc list-outside pr-5 space-y-3 marker:text-brand-primary">
+                    <li><strong className="font-semibold text-slate-900">الاسم الكامل:</strong> للمشترك المسجل بالاستمارة.</li>
+                    <li><strong className="font-semibold text-slate-900">رقم الهاتف:</strong> المستخدم في عملية الدفع وتطبيق واتساب.</li>
+                    <li><strong className="font-semibold text-slate-900">الإثبات:</strong> الرمز المرجعي للمعاملة (Transaction ID) أو لقطة شاشة واضحة لإشعار الدفع البنكي الناجح.</li>
+                  </ul>
+                </div>
               </div>
             </section>
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "motion/react";
 import { X } from 'lucide-react';
 
 interface HelperModalProps {
@@ -48,7 +48,7 @@ export function HelperModal({ isOpen, onClose, title, content }: HelperModalProp
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100]"
+            className="fixed inset-0 bg-slate-900/70  z-[100]"
           />
           <div className="fixed inset-0 flex items-center justify-center z-[101] p-4 pointer-events-none">
             <motion.div

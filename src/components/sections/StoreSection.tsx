@@ -89,56 +89,13 @@ export function StoreSection() {
               عزز نتائجك ببرامج تدريبية وملفات متخصصة جاهزة للتحميل الفوري بعد الدفع.
             </p>
           </motion.div>
-
-          {/* Currency Toggle */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-8 flex items-center justify-center w-full"
-          >
-            <div className="bg-white/80 backdrop-blur-md border border-slate-200/80 shadow-sm p-1.5 rounded-full flex items-center relative z-20">
-              <button
-                onClick={() => setIsEGP(false)}
-                className={`relative px-5 py-2 rounded-full text-xs font-bold transition-all duration-300 ${!isEGP ? 'text-white' : 'text-slate-500 hover:text-slate-900'}`}
-              >
-                {!isEGP && (
-                  <motion.div 
-                    layoutId="currency-active"
-                    className="absolute inset-0 bg-slate-900 rounded-full shadow-md"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-                <span className="relative z-10 flex items-center gap-2">
-                  <span dir="ltr">USD</span>
-                  <span>دولار أمريكي</span>
-                </span>
-              </button>
-
-              <button
-                onClick={() => setIsEGP(true)}
-                className={`relative px-5 py-2 rounded-full text-xs font-bold transition-all duration-300 ${isEGP ? 'text-white' : 'text-slate-500 hover:text-slate-900'}`}
-              >
-                {isEGP && (
-                  <motion.div 
-                    layoutId="currency-active"
-                    className="absolute inset-0 bg-slate-900 rounded-full shadow-md"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-                <span className="relative z-10 flex items-center gap-2">
-                  <span dir="ltr">EGP</span>
-                  <span>جنيه مصري</span>
-                </span>
-              </button>
-            </div>
-          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex flex-wrap justify-center gap-6">
           {displayProducts.map((product, idx) => (
-            <ProductCard key={product.id} product={product} isEGP={isEGP} onBuy={() => handleBuy(product)} index={idx} />
+            <div key={product.id} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] max-w-[380px] flex">
+              <ProductCard product={product} isEGP={isEGP} onBuy={() => handleBuy(product)} index={idx} />
+            </div>
           ))}
         </div>
       </div>
@@ -155,7 +112,7 @@ const ProductCard: React.FC<{ product: Product; isEGP: boolean; onBuy: () => voi
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
-      className="group relative flex flex-col bg-white rounded-[24px] border border-slate-200/60 shadow-sm hover:shadow-xl hover:border-slate-300/80 transition-all duration-500 overflow-hidden"
+      className="group relative flex flex-col w-full bg-white rounded-[24px] border border-slate-200/60 shadow-sm hover:shadow-xl hover:border-slate-300/80 transition-all duration-500 overflow-hidden"
     >
       {/* Premium Image Container with Nested Radius */}
       <div className="p-2.5 pb-0">
@@ -176,14 +133,14 @@ const ProductCard: React.FC<{ product: Product; isEGP: boolean; onBuy: () => voi
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           
           {/* Badge */}
-          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-black text-slate-900 shadow-sm flex items-center gap-1.5 uppercase tracking-widest">
+          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-[12px] text-[10px] font-black text-slate-900 shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-white/50 flex items-center gap-1.5 uppercase tracking-widest">
             <FileText className="w-3 h-3 text-brand-primary" />
             <span>PDF</span>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col flex-1 p-5 md:p-6">
+      <div className="flex flex-col flex-1 p-6 md:p-8 md:p-6">
         <h4 className="text-xl font-black text-slate-900 mb-2 leading-snug group-hover:text-brand-primary transition-colors text-center">
           {product.title}
         </h4>

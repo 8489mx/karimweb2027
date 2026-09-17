@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "motion/react";
 import { X, CheckCircle2, Loader2, Send, User, Mail, Phone, MessageSquare } from 'lucide-react';
+import { toEnglishDigits } from '../../lib/utils';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -87,7 +88,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[100]"
+            className="fixed inset-0 bg-slate-900/60  z-[100]"
           />
           
           {/* Modal Container */}
@@ -165,7 +166,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     <input
                       type="tel"
                       value={formData.phone || ''}
-                      onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                      onChange={e => setFormData({ ...formData, phone: toEnglishDigits(e.target.value, false) })}
                       className="w-full bg-white border border-slate-100 rounded-[14px] pr-[42px] pl-4 py-3.5 text-[14px] focus:outline-none focus:border-brand-primary/50 focus:ring-4 focus:ring-brand-primary/10 transition-all font-medium placeholder:text-slate-400 text-right"
                       placeholder="رقم الهاتف (اختياري)"
                       autoComplete="tel"

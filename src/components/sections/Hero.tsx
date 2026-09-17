@@ -3,15 +3,20 @@ import { Button } from '../ui/Button';
 import { useLanguage } from '../../context/LanguageContext';
 import { useSettings } from '../../context/SettingsContext';
 import { trackStartNowClick } from '../../utils/tracking';
+import { MobileSocialProofMarquee } from './SocialProof';
 
 export function Hero() {
   const { t, lang } = useLanguage();
   const { settings } = useSettings();
 
   return (
-    <section id="hero" className="relative w-full max-w-[100vw] min-h-[85vh] md:min-h-screen flex items-center justify-center overflow-hidden bg-black">
+    <section 
+      id="hero" 
+      className="hero-mobile-viewport relative w-full max-w-[100vw] h-[100svh] min-h-[100svh] md:h-auto md:min-h-screen flex flex-col justify-between items-center overflow-hidden bg-black"
+      style={{ minHeight: '100svh' }}
+    >
       {/* Background Image & Overlay */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 pointer-events-none">
         {settings.cms?.heroVideoUrl ? (
           <video
             src={settings.cms.heroVideoUrl}
@@ -26,7 +31,7 @@ export function Hero() {
             <link rel="preload" as="image" href="https://images.unsplash.com/photo-1637430308606-86576d8fef3c?q=80&w=2070&auto=format&fit=crop" />
             <img
               src="https://images.unsplash.com/photo-1637430308606-86576d8fef3c?q=80&w=2070&auto=format&fit=crop"
-              alt={lang === 'ar' ? "صورة تدريب كابتن كريم زكريا" : "Captain Karim Zakaria Training"}
+              alt={lang === 'ar' ? "كابتن كريم زكريا - مدرب شخصي أونلاين وتخسيس" : "Captain Karim Zakaria - Online Personal Trainer & Weight Loss Coach"}
               width="2070"
               height="1380"
               fetchPriority="high"
@@ -39,18 +44,21 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/80"></div>
       </div>
 
+      {/* Top Spacer to account for fixed Header on mobile */}
+      <div className="w-full h-14 sm:h-16 md:h-0 shrink-0 pointer-events-none" aria-hidden="true" />
+
       {/* Content */}
-      <div className="relative z-10 w-full px-6 text-center mt-16 md:mt-0 pb-12 md:pb-16 flex flex-col items-center justify-center">
+      <div className="relative z-10 w-full px-5 sm:px-6 text-center flex-1 flex flex-col items-center justify-center py-2 md:py-16">
         <h1 
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase mb-4 drop-shadow-lg text-white max-w-4xl mx-auto"
+          className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black uppercase mb-3 sm:mb-4 drop-shadow-lg text-white max-w-4xl mx-auto"
           dir="auto"
-          style={{ lineHeight: 1.4 }}
+          style={{ lineHeight: 1.35 }}
         >
           {settings.cms?.heroTitle || t.hero.title}
         </h1>
         
         <p 
-          className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 w-full mb-10 leading-relaxed font-medium text-center max-w-4xl mx-auto lg:whitespace-nowrap"
+          className="text-sm sm:text-base md:text-xl lg:text-2xl text-white/90 w-full mb-6 sm:mb-8 md:mb-10 leading-relaxed font-medium text-center max-w-4xl mx-auto lg:whitespace-nowrap"
         >
           {(settings.cms?.heroSubtitle || t.hero.description).split('\n').map((line: string, i: number) => (
             <React.Fragment key={i}>
@@ -65,7 +73,7 @@ export function Hero() {
             href="/#packages"
             variant="primary" 
             size="lg" 
-            className="rounded-xl px-6 py-2 md:px-8 md:py-3" 
+            className="rounded-xl px-6 py-2.5 md:px-8 md:py-3 shadow-lg shadow-brand-primary/20" 
             showWhatsAppIcon={false}
             onClick={(e) => {
               if (window.location.pathname === '/') {
@@ -79,6 +87,9 @@ export function Hero() {
           </Button>
         </div>
       </div>
+
+      {/* Mobile Marquee Strip - Pinned at the bottom of the initial screen */}
+      <MobileSocialProofMarquee />
     </section>
   );
 }

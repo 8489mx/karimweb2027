@@ -49,11 +49,11 @@ export function Programs() {
 
         {/* Content */}
         <div className="max-w-6xl mx-auto">
-           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full">
+           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full">
              {((settings?.programs && settings.programs.length > 0) ? settings.programs : t.programs.items).map((item, idx) => (
                <div 
                  key={idx} 
-                 className="group relative bg-white/60 backdrop-blur-md rounded-[16px] md:rounded-[20px] p-5 md:p-6 transition-all duration-500 hover:shadow-md active:scale-[0.98] text-start flex flex-col border border-white/50 hover:-translate-y-1 cursor-pointer"
+                 className="group relative bg-white/60 backdrop-blur-md rounded-[16px] md:rounded-[20px] p-6 md:p-8 transition-all duration-500 hover:shadow-md active:scale-[0.98] text-start flex flex-col border border-white/50 hover:-translate-y-1 cursor-pointer"
                  onTouchStart={() => {}}
                >
                  {/* Luxurious Fluid Accent Corner */}

@@ -7,14 +7,14 @@ export function FinalCTA() {
   const { t, lang, dir } = useLanguage();
 
   return (
-    <section id="final-cta" className="relative z-10 w-full md:px-6 mb-16 md:mb-24 mt-8" dir={dir}>
+    <section id="final-cta" className="relative z-10 w-full md:px-6 mb-8 md:mb-16 mt-8" dir={dir}>
       <div className="relative max-w-5xl mx-auto md:rounded-[2rem] overflow-hidden bg-slate-900 shadow-2xl border-y md:border-x border-white/10 group">
         
         {/* Background Image & Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="/assets/images/cta/coach-action.png" 
-            alt="Gym background" 
+            src="/assets/images/cta/coach-action.webp" 
+            alt="كابتن كريم زكريا في الجيم - برامج تدريب شخصي أونلاين" 
             width="1920"
             height="1080"
             loading="lazy"

@@ -49,10 +49,13 @@ function useAutoScrollMarquee(speed: number = 1) {
         }
         
         // Loop seamlessly for both auto-scroll and manual drag
-        if (ref.current.scrollLeft >= ref.current.scrollWidth / 2) {
-           ref.current.scrollLeft -= ref.current.scrollWidth / 2;
-        } else if (ref.current.scrollLeft <= 0) {
-           ref.current.scrollLeft += ref.current.scrollWidth / 2;
+        const halfWidth = ref.current.scrollWidth / 2;
+        if (halfWidth > ref.current.clientWidth) {
+          if (ref.current.scrollLeft >= halfWidth) {
+            ref.current.scrollLeft -= halfWidth;
+          } else if (ref.current.scrollLeft <= 0 && speed < 0) {
+            ref.current.scrollLeft += halfWidth;
+          }
         }
       }
       animationFrameId = requestAnimationFrame(scroll);
@@ -152,161 +155,162 @@ export const whatsappScreenshots: string[] = [];
 export const transformations = [
   {
     id: 1,
-    name: 'Ahmed Mahmoud',
-    nameAr: 'أحمد محمود',
-    result: 'Lost 15KG Fat',
-    resultAr: 'خسارة 15 كجم دهون صافية',
-    duration: 'In 3 Months',
-    durationAr: 'في 3 أشهـر',
-    quote: 'Captain Karim changed my concept of dieting. I reached this result without feeling deprived.',
-    quoteAr: 'كابتن كريم غير مفهومي عن الدايت، وصلت للنتيجة دي من غير ما أحس بأي حرمان أو تعب في يومي.',
-    beforeImage: "/assets/images/before-after-1.jpg",
-    afterImage: "/assets/images/before-after-2.jpg"
+    name: "Ahmed Mahmoud",
+    nameAr: "أحمد محمود",
+    result: "Lost 15KG Fat",
+    resultAr: "خسارة 15 كجم دهون صافية",
+    duration: "In 3 Months",
+    durationAr: "في 3 أشهـر",
+    quote: "Captain Karim changed my concept of dieting.",
+    quoteAr: "كابتن كريم غير مفهومي عن الدايت، وصلت للنتيجة دي من غير ما أحس بأي حرمان أو تعب في يومي.",
+    beforeImage: "/assets/images/results/before_after-1.jpg",
+    afterImage: "/assets/images/results/before_after-2.jpg"
   },
   {
     id: 2,
-    name: 'Tarek Ziad',
-    nameAr: 'طارق زياد',
-    result: 'Shredding (5% Fat)',
-    resultAr: 'تنشيف للبطولات (5% دهون)',
-    duration: 'In 2 Months',
-    durationAr: 'في شهرين',
-    quote: 'The accuracy of macros and calories helped me reach the shape of my life.',
-    quoteAr: 'دقة حاسبة السعرات والماكروز اللي كابتن كريم بيعملها خلتني أوصل لفورمة عمري ما تخيلت أوصلها.',
-    beforeImage: "/assets/images/before-after-3.jpg",
-    afterImage: "/assets/images/before-after-4.jpg"
+    name: "Tarek Ziad",
+    nameAr: "طارق زياد",
+    result: "Shredding (5% Fat)",
+    resultAr: "تنشيف للبطولات (5% دهون)",
+    duration: "In 2 Months",
+    durationAr: "في شهرين",
+    quote: "The accuracy of macros and calories helped me reach the shape of my life.",
+    quoteAr: "دقة حاسبة السعرات والماكروز اللي كابتن كريم بيعملها خلتني أوصل لفورمة عمري ما تخيلت أوصلها.",
+    beforeImage: "/assets/images/results/before_after-3.jpg",
+    afterImage: "/assets/images/results/before_after-4.jpg"
   },
   {
     id: 3,
-    name: 'Omar Farouk',
-    nameAr: 'عمر فاروق',
-    result: 'Lost 20KG',
-    resultAr: 'خسارة 20 كجم',
-    duration: 'In 5 Months',
-    durationAr: 'في 5 أشهـر',
-    quote: 'Changed my whole lifestyle. Fitness is no longer a burden thanks to right guidance.',
-    quoteAr: 'غيرت أسلوب حياتي بالكامل، الفتنس مابقاش عبء، بقى جزء من يومي بفضل التوجيه الصح.',
-    beforeImage: "/assets/images/before-after-5.jpg",
-    afterImage: "/assets/images/before-after-6.jpg"
+    name: "Omar Farouk",
+    nameAr: "عمر فاروق",
+    result: "Lost 20KG",
+    resultAr: "خسارة 20 كجم",
+    duration: "In 5 Months",
+    durationAr: "في 5 أشهـر",
+    quote: "Changed my whole lifestyle.",
+    quoteAr: "غيرت أسلوب حياتي بالكامل، الفتنس مابقاش عبء، بقى جزء من يومي بفضل التوجيه الصح.",
+    beforeImage: "/assets/images/results/before_after-5.jpg",
+    afterImage: "/assets/images/results/before_after-6.jpg"
   },
   {
     id: 4,
-    name: 'Mohamed Ali',
-    nameAr: 'محمد علي',
-    result: 'Gained Muscle Mass',
-    resultAr: 'زيادة كتلة عضلية',
-    duration: 'In 4 Months',
-    durationAr: 'في 4 أشهـر',
-    quote: 'The personalized program helped me break my plateau and see real muscle growth.',
-    quoteAr: 'البرنامج المخصص ساعدني أكسر ثبات الوزن وأشوف زيادة حقيقية في العضلات.',
-    beforeImage: "/assets/images/before-after-7.jpg",
-    afterImage: "/assets/images/before-after-8.jpg"
+    name: "Mohamed Ali",
+    nameAr: "محمد علي",
+    result: "Gained Muscle Mass",
+    resultAr: "زيادة كتلة عضلية",
+    duration: "In 4 Months",
+    durationAr: "في 4 أشهـر",
+    quote: "The personalized program helped me break my plateau.",
+    quoteAr: "البرنامج المخصص ساعدني أكسر ثبات الوزن وأشوف زيادة حقيقية في العضلات.",
+    beforeImage: "/assets/images/results/before_after-7.jpg",
+    afterImage: "/assets/images/results/before_after-8.jpg"
   },
   {
     id: 5,
-    name: 'Client',
-    nameAr: 'عميل',
-    result: 'Great Transformation',
-    resultAr: 'تغيير ممتاز',
-    duration: 'In 3 Months',
-    durationAr: 'في 3 أشهـر',
-    quote: 'A great transformation with proper guidance and commitment.',
-    quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "/assets/images/before-after-9.jpg",
-    afterImage: "/assets/images/before-after-10.jpg"
+    name: "Client",
+    nameAr: "عميل",
+    result: "Great Transformation",
+    resultAr: "تغيير ممتاز",
+    duration: "In 3 Months",
+    durationAr: "في 3 أشهـر",
+    quote: "A great transformation with proper guidance and commitment.",
+    quoteAr: "نتيجة ممتازة من الالتزام والمتابعة المستمرة.",
+    beforeImage: "/assets/images/results/before_after-9.jpg",
+    afterImage: "/assets/images/results/before_after-10.jpg"
   },
   {
     id: 6,
-    name: 'Client',
-    nameAr: 'عميل',
-    result: 'Great Transformation',
-    resultAr: 'تغيير ممتاز',
-    duration: 'In 3 Months',
-    durationAr: 'في 3 أشهـر',
-    quote: 'A great transformation with proper guidance and commitment.',
-    quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "/assets/images/before-after-11.jpg",
-    afterImage: "/assets/images/before-after-12.jpg"
+    name: "Client",
+    nameAr: "عميل",
+    result: "Great Transformation",
+    resultAr: "تغيير ممتاز",
+    duration: "In 3 Months",
+    durationAr: "في 3 أشهـر",
+    quote: "A great transformation with proper guidance and commitment.",
+    quoteAr: "نتيجة ممتازة من الالتزام والمتابعة المستمرة.",
+    beforeImage: "/assets/images/results/before_after-11.jpg",
+    afterImage: "/assets/images/results/before_after-12.jpg"
   },
   {
     id: 7,
-    name: 'Client',
-    nameAr: 'عميل',
-    result: 'Great Transformation',
-    resultAr: 'تغيير ممتاز',
-    duration: 'In 3 Months',
-    durationAr: 'في 3 أشهـر',
-    quote: 'A great transformation with proper guidance and commitment.',
-    quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "/assets/images/before-after-0013.jpg",
-    afterImage: "/assets/images/before-after-013.jpg"
+    name: "Client",
+    nameAr: "عميل",
+    result: "Great Transformation",
+    resultAr: "تغيير ممتاز",
+    duration: "In 3 Months",
+    durationAr: "في 3 أشهـر",
+    quote: "A great transformation with proper guidance and commitment.",
+    quoteAr: "نتيجة ممتازة من الالتزام والمتابعة المستمرة.",
+    beforeImage: "/assets/images/results/before_after-0013.jpg",
+    afterImage: "/assets/images/results/before_after-013.jpg"
   },
   {
     id: 8,
-    name: 'Client',
-    nameAr: 'عميل',
-    result: 'Great Transformation',
-    resultAr: 'تغيير ممتاز',
-    duration: 'In 3 Months',
-    durationAr: 'في 3 أشهـر',
-    quote: 'A great transformation with proper guidance and commitment.',
-    quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "/assets/images/before-after-13.jpg",
-    afterImage: "/assets/images/before-after-14.jpg"
+    name: "Client",
+    nameAr: "عميل",
+    result: "Great Transformation",
+    resultAr: "تغيير ممتاز",
+    duration: "In 3 Months",
+    durationAr: "في 3 أشهـر",
+    quote: "A great transformation with proper guidance and commitment.",
+    quoteAr: "نتيجة ممتازة من الالتزام والمتابعة المستمرة.",
+    beforeImage: "/assets/images/results/before_after-13.jpg",
+    afterImage: "/assets/images/results/before_after-14.jpg"
   },
   {
     id: 9,
-    name: 'Client',
-    nameAr: 'عميل',
-    result: 'Great Transformation',
-    resultAr: 'تغيير ممتاز',
-    duration: 'In 3 Months',
-    durationAr: 'في 3 أشهـر',
-    quote: 'A great transformation with proper guidance and commitment.',
-    quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "/assets/images/before-after-15.jpg",
-    afterImage: "/assets/images/before-after-16.jpg"
+    name: "Client",
+    nameAr: "عميل",
+    result: "Great Transformation",
+    resultAr: "تغيير ممتاز",
+    duration: "In 3 Months",
+    durationAr: "في 3 أشهـر",
+    quote: "A great transformation with proper guidance and commitment.",
+    quoteAr: "نتيجة ممتازة من الالتزام والمتابعة المستمرة.",
+    beforeImage: "/assets/images/results/before_after-15.jpg",
+    afterImage: "/assets/images/results/before_after-16.jpg"
   },
   {
     id: 10,
-    name: 'Client',
-    nameAr: 'عميل',
-    result: 'Great Transformation',
-    resultAr: 'تغيير ممتاز',
-    duration: 'In 3 Months',
-    durationAr: 'في 3 أشهـر',
-    quote: 'A great transformation with proper guidance and commitment.',
-    quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "/assets/images/before-after-17.jpg",
-    afterImage: "/assets/images/before-after-18.jpg"
+    name: "Client",
+    nameAr: "عميل",
+    result: "Great Transformation",
+    resultAr: "تغيير ممتاز",
+    duration: "In 3 Months",
+    durationAr: "في 3 أشهـر",
+    quote: "A great transformation with proper guidance and commitment.",
+    quoteAr: "نتيجة ممتازة من الالتزام والمتابعة المستمرة.",
+    beforeImage: "/assets/images/results/before_after-17.jpg",
+    afterImage: "/assets/images/results/before_after-18.jpg"
   },
   {
     id: 11,
-    name: 'Client',
-    nameAr: 'عميل',
-    result: 'Great Transformation',
-    resultAr: 'تغيير ممتاز',
-    duration: 'In 3 Months',
-    durationAr: 'في 3 أشهـر',
-    quote: 'A great transformation with proper guidance and commitment.',
-    quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "/assets/images/before-after-0019.jpg",
-    afterImage: "/assets/images/before-after-019.jpg"
+    name: "Client",
+    nameAr: "عميل",
+    result: "Great Transformation",
+    resultAr: "تغيير ممتاز",
+    duration: "In 3 Months",
+    durationAr: "في 3 أشهـر",
+    quote: "A great transformation with proper guidance and commitment.",
+    quoteAr: "نتيجة ممتازة من الالتزام والمتابعة المستمرة.",
+    beforeImage: "/assets/images/results/before_after-0019.jpg",
+    afterImage: "/assets/images/results/before_after-019.jpg"
   },
   {
     id: 12,
-    name: 'Client',
-    nameAr: 'عميل',
-    result: 'Great Transformation',
-    resultAr: 'تغيير ممتاز',
-    duration: 'In 3 Months',
-    durationAr: 'في 3 أشهـر',
-    quote: 'A great transformation with proper guidance and commitment.',
-    quoteAr: 'نتيجة ممتازة من الالتزام والمتابعة المستمرة.',
-    beforeImage: "/assets/images/before-after-19.jpg",
-    afterImage: "/assets/images/before-after-20.jpg"
+    name: "Client",
+    nameAr: "عميل",
+    result: "Great Transformation",
+    resultAr: "تغيير ممتاز",
+    duration: "In 3 Months",
+    durationAr: "في 3 أشهـر",
+    quote: "A great transformation with proper guidance and commitment.",
+    quoteAr: "نتيجة ممتازة من الالتزام والمتابعة المستمرة.",
+    beforeImage: "/assets/images/results/before_after-19.jpg",
+    afterImage: "/assets/images/results/before_after-20.jpg"
   }
 ];
+
 
 const TransformationCard: React.FC<{ item: any, t: any, lang: string }> = ({ item, t, lang }) => {
   return (
@@ -315,12 +319,12 @@ const TransformationCard: React.FC<{ item: any, t: any, lang: string }> = ({ ite
       <div className="relative w-1/2 h-full border-r border-white/20 overflow-hidden">
         {/* Logo Overlay */}
         <div className="absolute top-4 left-4 z-30 w-6 sm:w-8 opacity-80 drop-shadow-md">
-          <img loading="lazy" referrerPolicy="no-referrer" src="/assets/images/logo/2.png" alt="Logo" width="180" height="45" draggable={false} className="w-full h-auto brightness-0 invert select-none pointer-events-none" />
+          <img loading="lazy" src="/assets/images/logo/2.webp" alt="كابتن كريم زكريا - نتائج العملاء في التخسيس وبناء العضلات" width="180" height="45" draggable={false} className="w-full h-auto brightness-0 invert select-none pointer-events-none" />
         </div>
-        <img loading="lazy" referrerPolicy="no-referrer"
-          src={item.beforeImage} onError={(e) => { 
-            const idx = ((item.id || 0) % 12);
-            e.currentTarget.src = `/assets/generated/result_${idx}_before.jpg`; 
+        <img loading="lazy"
+          src={item.beforeImage} 
+          onError={(e) => { 
+            e.currentTarget.onerror = null;
           }}
           alt={t.results.before}
           width="600"
@@ -343,10 +347,10 @@ const TransformationCard: React.FC<{ item: any, t: any, lang: string }> = ({ ite
 
       {/* Right Half: After (Full Color) */}
       <div className="relative w-1/2 h-full overflow-hidden bg-slate-900/40">
-        <img loading="lazy" referrerPolicy="no-referrer"
-          src={item.afterImage} onError={(e) => { 
-            const idx = ((item.id || 0) % 12);
-            e.currentTarget.src = `/assets/generated/result_${idx}_after.jpg`; 
+        <img loading="lazy"
+          src={item.afterImage} 
+          onError={(e) => { 
+            e.currentTarget.onerror = null;
           }}
           alt={t.results.after}
           width="600"
@@ -392,6 +396,18 @@ export function ClientResults() {
 
   const finalTransformations = (loadedResults && loadedResults.length > 0) ? loadedResults : transformations;
 
+  // Duplicate single or few items to create a smooth, visually full infinite marquee
+  const displayTransformations = React.useMemo(() => {
+    if (!finalTransformations || finalTransformations.length === 0) return [];
+    if (finalTransformations.length === 1) {
+      return [finalTransformations[0], finalTransformations[0], finalTransformations[0], finalTransformations[0]];
+    }
+    if (finalTransformations.length === 2) {
+      return [...finalTransformations, ...finalTransformations];
+    }
+    return finalTransformations;
+  }, [finalTransformations]);
+
   const loadedScreenshots = settings?.whatsappScreenshots?.map(sanitizeUrl).filter(Boolean);
   const finalScreenshots = (loadedScreenshots && loadedScreenshots.length > 0) ? loadedScreenshots : whatsappScreenshots;
 
@@ -423,6 +439,7 @@ export function ClientResults() {
         {t.results.subtitle && (
           <p 
             className="text-base sm:text-[1.1rem] md:text-xl lg:text-2xl text-brand-muted leading-relaxed px-2 font-medium max-w-3xl mx-auto mb-6" 
+            dir="auto"
           >
             {t.results.subtitle}
           </p>
@@ -439,14 +456,14 @@ export function ClientResults() {
         dir="ltr"
       >
         <div className={cn("flex w-max px-4 sm:px-6", drag1.isDragging && "pointer-events-none")}>
-          <div className="flex gap-4 sm:gap-6 pr-4 sm:pr-6 shrink-0">
-            {finalTransformations.map((item, i) => (
-              <TransformationCard key={`set1-${item.id || i}`} item={item} t={t} lang={language} />
+          <div className="flex gap-6 sm:gap-6 pr-4 sm:pr-6 shrink-0">
+            {displayTransformations.map((item, i) => (
+              <TransformationCard key={`set1-${item.id || i}-${i}`} item={item} t={t} lang={language} />
             ))}
           </div>
-          <div className="flex gap-4 sm:gap-6 pr-4 sm:pr-6 shrink-0">
-            {finalTransformations.map((item, i) => (
-              <TransformationCard key={`set2-${item.id || i}`} item={item} t={t} lang={language} />
+          <div className="flex gap-6 sm:gap-6 pr-4 sm:pr-6 shrink-0">
+            {displayTransformations.map((item, i) => (
+              <TransformationCard key={`set2-${item.id || i}-${i}`} item={item} t={t} lang={language} />
             ))}
           </div>
         </div>
@@ -462,26 +479,26 @@ export function ClientResults() {
         dir="ltr"
       >
         {finalScreenshots.length <= 2 ? (
-          <div className="flex w-full justify-center gap-4 sm:gap-6 px-4 sm:px-6">
+          <div className="flex w-full justify-center gap-6 sm:gap-6 px-4 sm:px-6">
             {finalScreenshots.map((item, index) => (
               <div key={`wa1-${index}`} className="relative w-[240px] sm:w-[280px] md:w-[320px] lg:w-[360px] h-auto aspect-[9/16] rounded-2xl overflow-hidden border border-white/5 bg-slate-900 shadow-xl shrink-0 pointer-events-none">
-                <img src={item} loading="lazy" referrerPolicy="no-referrer" alt="WhatsApp Testimonial" onError={(e) => { e.currentTarget.src = `/assets/generated/wa_${index % 17}.jpg`; }} width={1080} height={1920} draggable={false} className="w-full h-full object-contain pointer-events-none select-none" />
+                <img src={item} loading="lazy" alt="WhatsApp Testimonial" onError={(e) => { e.currentTarget.onerror = null; }} width={1080} height={1920} draggable={false} className="w-full h-full object-contain pointer-events-none select-none" />
               </div>
             ))}
           </div>
         ) : (
         <div className={cn("flex w-max px-4 sm:px-6", drag2.isDragging && "pointer-events-none")}>
-          <div className="flex gap-4 sm:gap-6 pr-4 sm:pr-6 shrink-0">
+          <div className="flex gap-6 sm:gap-6 pr-4 sm:pr-6 shrink-0">
             {finalScreenshots.map((item, index) => (
               <div key={`wa1-${index}`} className="relative w-[240px] sm:w-[280px] md:w-[320px] lg:w-[360px] h-auto aspect-[9/16] rounded-2xl overflow-hidden border border-white/5 bg-slate-900 shadow-xl shrink-0 pointer-events-none">
-                <img src={item} loading="lazy" referrerPolicy="no-referrer" alt="WhatsApp Testimonial" onError={(e) => { e.currentTarget.src = `/assets/generated/wa_${index % 17}.jpg`; }} width={1080} height={1920} draggable={false} className="w-full h-full object-contain pointer-events-none select-none" />
+                <img src={item} loading="lazy" alt="WhatsApp Testimonial" onError={(e) => { e.currentTarget.onerror = null; }} width={1080} height={1920} draggable={false} className="w-full h-full object-contain pointer-events-none select-none" />
               </div>
             ))}
           </div>
-          <div className="flex gap-4 sm:gap-6 pr-4 sm:pr-6 shrink-0">
+          <div className="flex gap-6 sm:gap-6 pr-4 sm:pr-6 shrink-0">
             {finalScreenshots.map((item, index) => (
               <div key={`wa2-${index}`} className="relative w-[240px] sm:w-[280px] md:w-[320px] lg:w-[360px] h-auto aspect-[9/16] rounded-2xl overflow-hidden border border-white/5 bg-slate-900 shadow-xl shrink-0 pointer-events-none">
-                <img src={item} loading="lazy" referrerPolicy="no-referrer" alt="WhatsApp Testimonial" onError={(e) => { e.currentTarget.src = `/assets/generated/wa_${index % 17}.jpg`; }} width={1080} height={1920} draggable={false} className="w-full h-full object-contain pointer-events-none select-none" />
+                <img src={item} loading="lazy" alt="WhatsApp Testimonial" onError={(e) => { e.currentTarget.onerror = null; }} width={1080} height={1920} draggable={false} className="w-full h-full object-contain pointer-events-none select-none" />
               </div>
             ))}
           </div>

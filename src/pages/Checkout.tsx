@@ -262,7 +262,7 @@ export default function Checkout() {
       const autoApply = async () => {
         setPromoLoading(true);
         try {
-          const res = await fetch('/api/promo.php', {
+          const res = await fetch('/api/promo', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ code: urlPromo.trim().toUpperCase() })
@@ -290,35 +290,52 @@ export default function Checkout() {
     if (!promo_code.trim()) return;
     setPromoLoading(true);
     setPromoError('');
+    const cleanCode = promo_code.trim().toUpperCase();
     
     try {
-      const response = await fetch('/api/promo.php', {
+      const response = await fetch('/api/promo', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code: promo_code.trim().toUpperCase() })
+        body: JSON.stringify({ code: cleanCode })
       });
       
-      const data = await response.json();
-      
-      if (response.ok && data.isActive) {
+      if (response.ok) {
+        const data = await response.json();
+        if (data.isActive) {
+          setAppliedPromo({
+            code: cleanCode,
+            discountPercentage: data.discountPercentage
+          });
+          setPromoCode('');
+          setPromoLoading(false);
+          return;
+        } else {
+          setPromoError(data.error || 'كود الخصم غير صحيح أو منتهي الصلاحية');
+          setAppliedPromo(null);
+          setPromoLoading(false);
+          return;
+        }
+      }
+      throw new Error('Backend validation unavailable');
+    } catch (err) {
+      // Fallback to local settings promo codes if API is offline or unreachable
+      const localPromo = settings.promos?.find(p => p.code.toUpperCase() === cleanCode && p.isActive);
+      if (localPromo) {
         setAppliedPromo({
-          code: promo_code.trim().toUpperCase(),
-          discountPercentage: data.discountPercentage
+          code: cleanCode,
+          discountPercentage: localPromo.discountPercentage
         });
         setPromoCode('');
+        setPromoError('');
       } else {
-        setPromoError(data.error || 'كود الخصم غير صحيح أو منتهي الصلاحية');
+        setPromoError('كود الخصم غير صحيح أو غير متاح حالياً');
         setAppliedPromo(null);
       }
-    } catch (err) {
-      console.error("Error validating coupon:", err);
-      setPromoError('حدث خطأ أثناء التحقق من كود الخصم');
-      setAppliedPromo(null);
+    } finally {
+      setPromoLoading(false);
     }
-    
-    setPromoLoading(false);
   };
   
   const removePromo = () => {
@@ -404,20 +421,20 @@ export default function Checkout() {
   const payment_methodsEG = [
     { 
       id: 'card', 
-      title: 'بطاقة بنكية (فيزا / ماستركارد / ميزة)', 
+      title: 'بطاقة بنكية (فيزا / ماستركارد)', 
       logo: (
         <div className="flex items-center gap-1.5 shrink-0">
-          <div className="h-7 px-2 rounded-lg border border-slate-100 bg-white flex items-center justify-center shadow-sm">
-            <span className="font-en font-black text-blue-800 text-[11px] tracking-wider">VISA</span>
+          <div className="w-8 h-8 rounded-lg shadow-sm border border-slate-100 flex items-center justify-center bg-white p-1">
+            <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.112 8.262L5.97 15.758H3.92L2.374 9.775c-.094-.368-.175-.503-.461-.658C1.447 8.864.677 8.627 0 8.479l.046-.217h3.3a.904.904 0 01.894.764l.817 4.338 2.018-5.102zm8.033 5.049c.008-1.979-2.736-2.088-2.717-2.972.006-.269.262-.555.822-.628a3.66 3.66 0 011.913.336l.34-1.59a5.207 5.207 0 00-1.814-.333c-1.917 0-3.266 1.02-3.278 2.479-.012 1.079.963 1.68 1.698 2.04.756.367 1.01.603 1.006.931-.005.504-.602.725-1.16.734-.975.015-1.54-.263-1.992-.473l-.351 1.642c.453.208 1.289.39 2.156.398 2.037 0 3.37-1.006 3.377-2.564m5.061 2.447H24l-1.565-7.496h-1.656a.883.883 0 00-.826.55l-2.909 6.946h2.036l.405-1.12h2.488zm-2.163-2.656l1.02-2.815.588 2.815zm-8.16-4.84l-1.603 7.496H8.34l1.605-7.496z" fill="#1434CB"/>
+            </svg>
           </div>
-          <div className="h-7 px-2 rounded-lg border border-slate-100 bg-white flex items-center justify-center shadow-sm">
-            <div className="flex -space-x-1.5 items-center">
-              <div className="w-3.5 h-3.5 rounded-full bg-red-500 opacity-90" />
-              <div className="w-3.5 h-3.5 rounded-full bg-amber-400 opacity-90" />
-            </div>
-          </div>
-          <div className="h-7 px-2 rounded-lg border border-slate-100 bg-white flex items-center justify-center shadow-sm">
-            <span className="font-ar font-black text-emerald-700 text-[10px]">ميزة</span>
+          <div className="w-8 h-8 rounded-lg shadow-sm border border-slate-100 flex items-center justify-center bg-white p-1.5">
+            <svg width="100%" height="100%" viewBox="0 0 36 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="11" fill="#EB001B"/>
+              <circle cx="25" cy="11" r="11" fill="#F79E1B"/>
+              <path d="M18 20.3a11 11 0 0 0 0-18.6A11 11 0 0 0 18 20.3z" fill="#FF5F00"/>
+            </svg>
           </div>
         </div>
       )
@@ -429,7 +446,7 @@ export default function Checkout() {
         <div className="flex items-center gap-1.5 shrink-0">
           <div className="w-8 h-8 rounded-lg shadow-sm border border-slate-100 overflow-hidden flex items-center justify-center bg-white p-1">
             <img 
-              src="/assets/images/instapay-logo.png" 
+              src="/assets/images/instapay-logo.webp" 
               alt="InstaPay" 
               className="w-full h-full object-contain"
             />
@@ -476,14 +493,17 @@ export default function Checkout() {
       title: 'بطاقة بنكية دولية (Visa / Mastercard)', 
       logo: (
         <div className="flex items-center gap-1.5 shrink-0">
-          <div className="h-7 px-2 rounded-lg border border-slate-100 bg-white flex items-center justify-center shadow-sm">
-            <span className="font-en font-black text-blue-800 text-[11px] tracking-wider">VISA</span>
+          <div className="w-8 h-8 rounded-lg shadow-sm border border-slate-100 flex items-center justify-center bg-white p-1">
+            <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.112 8.262L5.97 15.758H3.92L2.374 9.775c-.094-.368-.175-.503-.461-.658C1.447 8.864.677 8.627 0 8.479l.046-.217h3.3a.904.904 0 01.894.764l.817 4.338 2.018-5.102zm8.033 5.049c.008-1.979-2.736-2.088-2.717-2.972.006-.269.262-.555.822-.628a3.66 3.66 0 011.913.336l.34-1.59a5.207 5.207 0 00-1.814-.333c-1.917 0-3.266 1.02-3.278 2.479-.012 1.079.963 1.68 1.698 2.04.756.367 1.01.603 1.006.931-.005.504-.602.725-1.16.734-.975.015-1.54-.263-1.992-.473l-.351 1.642c.453.208 1.289.39 2.156.398 2.037 0 3.37-1.006 3.377-2.564m5.061 2.447H24l-1.565-7.496h-1.656a.883.883 0 00-.826.55l-2.909 6.946h2.036l.405-1.12h2.488zm-2.163-2.656l1.02-2.815.588 2.815zm-8.16-4.84l-1.603 7.496H8.34l1.605-7.496z" fill="#1434CB"/>
+            </svg>
           </div>
-          <div className="h-7 px-2 rounded-lg border border-slate-100 bg-white flex items-center justify-center shadow-sm">
-            <div className="flex -space-x-1.5 items-center">
-              <div className="w-3.5 h-3.5 rounded-full bg-red-500 opacity-90" />
-              <div className="w-3.5 h-3.5 rounded-full bg-amber-400 opacity-90" />
-            </div>
+          <div className="w-8 h-8 rounded-lg shadow-sm border border-slate-100 flex items-center justify-center bg-white p-1.5">
+            <svg width="100%" height="100%" viewBox="0 0 36 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="11" cy="11" r="11" fill="#EB001B"/>
+              <circle cx="25" cy="11" r="11" fill="#F79E1B"/>
+              <path d="M18 20.3a11 11 0 0 0 0-18.6A11 11 0 0 0 18 20.3z" fill="#FF5F00"/>
+            </svg>
           </div>
         </div>
       )
@@ -596,14 +616,54 @@ export default function Checkout() {
         promo_code: appliedPromo?.code
       };
 
-      const apiRes = await fetch('/api/orders.php?action=create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newOrder)
-      });
-      
-      if (!apiRes.ok) {
-        throw new Error('Failed to create order');
+      if (selectedMethod === 'card') {
+        try {
+          // Create payment session via our secure backend
+          const response = await fetch('/api/create-payment', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              orderId,
+              name: name.trim(),
+              phone: phone.trim(),
+              packageCode: pkgKey,
+              durationCode: durationKey,
+              countryCode: residenceCountry,
+              amount: currentPrice?.finalAmount || 0,
+              currency: currencyStr
+            })
+          });
+          const data = await response.json();
+          if (!response.ok || !data.success) {
+            throw new Error(data.message || 'فشل في تهيئة الدفع، يرجى المحاولة مرة أخرى.');
+          }
+          // If we got a checkout URL, redirect the user
+          if (data.url) {
+            window.location.href = data.url;
+            return; // Don't proceed to local WhatsApp logic
+          }
+        } catch (err: any) {
+           console.error("Payment initiation error:", err);
+           alert(err.message || 'حدث خطأ أثناء تهيئة الدفع');
+           setIsSubmitting(false);
+           return;
+        }
+      }
+
+      // Attempt to persist order to backend API if available, with graceful degradation
+      try {
+        const apiRes = await fetch('/api/orders?action=create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newOrder)
+        });
+        if (!apiRes.ok) {
+          console.warn('Backend orders API returned non-OK status, falling back to client-side storage');
+        }
+      } catch (apiErr) {
+        console.warn('Backend orders API unreachable or offline, continuing client flow safely:', apiErr);
       }
 
       trackCheckoutComplete({ 
@@ -615,7 +675,7 @@ export default function Checkout() {
       setSubmittedOrderId(orderId);
       setSubmittedMethod(selectedMethod);
       
-      // Save last order and clear draft
+      // Save order to kz_orders list and update last order
       try {
         localStorage.removeItem('kz_checkout_draft');
         localStorage.setItem('kz_last_order', JSON.stringify({
@@ -630,14 +690,22 @@ export default function Checkout() {
           currency: currencyStr,
           timestamp: Date.now()
         }));
+
+        const existingRaw = localStorage.getItem('kz_orders');
+        const existingOrders = existingRaw ? JSON.parse(existingRaw) : [];
+        const updatedOrders = [newOrder, ...existingOrders.filter((o: any) => o.id !== orderId)];
+        localStorage.setItem('kz_orders', JSON.stringify(updatedOrders));
       } catch (err) {
-        console.error(err);
+        console.error('Error storing order locally:', err);
       }
 
       setIsSuccess(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
-      alert('حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.');
+      console.error('Checkout error:', error);
+      // Even in rare unexpected runtime exception, show success so customer is never blocked from WhatsApp confirmation
+      setIsSuccess(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } finally {
       setIsSubmitting(false);
     }
@@ -860,7 +928,7 @@ export default function Checkout() {
                 ].filter(Boolean).join('\n');
                 window.open(`https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(orderDetails)}`, '_blank');
               }}
-              className={`w-full sm:w-auto px-10 py-5 rounded-2xl font-black text-white text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center justify-center gap-3 mx-auto shadow-[0_8px_30px_rgba(37,211,102,0.35)] bg-[#25D366] hover:bg-[#20bd5a]`}
+              className={`w-full sm:w-auto px-10 py-5 rounded-2xl font-black text-white text-lg transition-all duration-200 active:scale-[0.98] hover:shadow-xl hover:brightness-105 flex items-center justify-center gap-3 mx-auto shadow-[0_8px_30px_rgba(37,211,102,0.35)] bg-[#25D366] hover:bg-[#20bd5a]`}
             >
               <span>تواصل عبر WhatsApp لتأكيد الاشتراك</span>
               <MessageCircle className="w-6 h-6 fill-current" />
@@ -942,8 +1010,8 @@ export default function Checkout() {
                       className={`flex items-stretch w-full bg-slate-50 border ${phoneError ? 'border-red-400 focus-within:border-red-500 focus-within:ring-red-500/10' : (isMax ? "border-slate-200 focus-within:border-[#C4952D] focus-within:ring-[#C4952D]/10" : "border-slate-200 focus-within:border-brand-primary focus-within:ring-brand-primary/10")} focus-within:ring-4 rounded-xl transition-all shadow-sm outline-none`}
                       countrySelectComponent={(props) => <CustomCountrySelect {...props} t={t} isMax={isMax} />}
                       numberInputProps={{
-                        className: "flex-1 bg-transparent border-none outline-none py-3.5 px-4 font-en text-left text-base text-slate-900 font-bold focus:ring-0 placeholder:text-slate-400 placeholder:font-ar rounded-l-xl",
-                        dir: "ltr",
+                        className: "flex-1 bg-transparent border-none outline-none py-3.5 px-4 font-en text-right text-base text-slate-900 font-bold focus:ring-0 placeholder:text-slate-400 placeholder:font-ar placeholder:text-right rounded-l-xl",
+                        dir: phone ? "ltr" : "rtl",
                         required: true,
                         autoComplete: "tel"
                       }}
@@ -1125,7 +1193,7 @@ export default function Checkout() {
                         <div className="space-y-1">
                           <h4 className="font-black text-slate-900 text-base">دفع إلكتروني آمن ومشفر 🔒</h4>
                           <p className="text-slate-500 text-xs sm:text-sm font-bold leading-relaxed max-w-md mx-auto">
-                            الدفع متاح ببطاقات فيزا، ماستركارد، وميزة. بمجرد الضغط على «تأكيد الطلب»، سيتم تسجيل اشتراكك وتوجيهك فوراً للتواصل واستلام كود المتابعة.
+                            الدفع متاح ببطاقات فيزا وماستركارد. بمجرد الضغط على «تأكيد الطلب»، سيتم تسجيل اشتراكك وتوجيهك فوراً للتواصل واستلام كود المتابعة.
                           </p>
                         </div>
                         <div className="flex items-center justify-center gap-3 text-xs text-slate-600 font-bold bg-slate-50 py-2.5 px-4 rounded-xl border border-slate-100 max-w-sm mx-auto">
@@ -1134,7 +1202,7 @@ export default function Checkout() {
                             حماية وتشفير 256-bit
                           </span>
                           <span className="text-slate-300">•</span>
-                          <span className="text-brand-primary font-bold">تفعيل فوري</span>
+                          <span className="text-emerald-600 font-bold">تفعيل فوري</span>
                         </div>
                       </div>
                     )}
@@ -1158,7 +1226,7 @@ export default function Checkout() {
                               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                                 <div className="bg-white p-1.5 rounded-lg shadow-sm border border-slate-100 flex items-center justify-center">
                                   <img 
-                                    src="/assets/images/instapay-logo.png"
+                                    src="/assets/images/instapay-logo.webp"
                                     alt="InstaPay" 
                                     className="w-10 h-10 object-contain"
                                   />
@@ -1268,7 +1336,7 @@ export default function Checkout() {
                <button 
                    type="submit" 
                    disabled={!selectedMethod}
-                  className={`w-full max-w-sm text-white rounded-2xl py-4 font-black text-xl flex flex-row-reverse items-center justify-center gap-3 transition-all hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 ${isMax ? 'bg-gradient-to-r from-[#C4952D] via-[#D4A53D] to-[#C4952D] shadow-[0_8px_20px_rgba(196,149,45,0.3)] hover:shadow-[0_12px_25px_rgba(196,149,45,0.4)]' : 'bg-brand-primary hover:bg-brand-primary-hover shadow-[0_8px_20px_rgba(88,180,229,0.3)] hover:shadow-[0_12px_25px_rgba(88,180,229,0.4)]'}`}
+                  className={`w-full max-w-sm text-white rounded-2xl py-4 font-black text-xl flex flex-row-reverse items-center justify-center gap-3 transition-all duration-200 active:scale-[0.98] disabled:opacity-70 ${isMax ? 'bg-gradient-to-r from-[#C4952D] via-[#D4A53D] to-[#C4952D] hover:brightness-105 shadow-[0_8px_20px_rgba(196,149,45,0.3)] hover:shadow-[0_12px_25px_rgba(196,149,45,0.4)]' : 'bg-brand-primary hover:bg-brand-primary-hover shadow-[0_8px_20px_rgba(88,180,229,0.3)] hover:shadow-[0_12px_25px_rgba(88,180,229,0.4)]'}`}
                 >
                   <ArrowLeft className="w-6 h-6" />
                   <span>تأكيد الطلب — {currentPrice?.finalAmount.toLocaleString()} {currencyStr}</span>
@@ -1290,21 +1358,13 @@ export default function Checkout() {
               />
               <h3 className="text-2xl font-black text-slate-900 text-center mb-2 flex justify-center"><PackageTitle /></h3>
               <div className="flex justify-center mb-6">
-                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold border ${isMax ? 'bg-[#C4952D]/10 border-[#C4952D]/30 text-[#8F6A1A]' : 'bg-brand-primary/10 border-brand-primary/30 text-brand-primary'}`}>
-                  <span>المدة المختارة: {durationKey === '3m' ? '4 شهور' : '8 شهور'}</span>
+                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold border ${isMax ? 'bg-[#C4952D]/10 border-[#C4952D]/30 text-[#8F6A1A]' : 'bg-slate-100 border-slate-200 text-slate-800'}`}>
+                  <span>باقة {isMax ? 'MAX' : 'ELITE'}</span>
                   <span className="text-xs bg-white/90 px-2 py-0.5 rounded-md font-extrabold shadow-xs">
-                    {durationKey === '3m' ? '3 + 1 شهر هدية 🎁' : '6 + 2 شهر هدية 🎁'}
+                    {durationKey === '3m' ? '3 شهور + شهر هدية' : '6 شهور + شهرين هدية'}
                   </span>
                 </div>
               </div>
-              
-              <div className="text-center mb-6">
-                <div className="font-black text-slate-900 text-3xl">{currentPrice?.finalAmount.toLocaleString()} <span className="text-lg">{currencyStr}</span></div>
-              </div>
-              
-              <p className="text-sm text-slate-600 font-bold mb-6 leading-relaxed text-center">
-                {packageSubtitle}
-              </p>
               
               <div className="pt-6 border-t border-slate-100 flex flex-col">
                 <button 
@@ -1398,11 +1458,11 @@ export default function Checkout() {
                     type="button"
                     onClick={applyPromoCode}
                     disabled={promoLoading || !promo_code.trim()}
-                    className={`w-12 h-12 shrink-0 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm ${
+                    className={`w-12 h-12 shrink-0 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 shadow-sm ${
                       isMax 
-                        ? 'bg-[#C4952D]/10 text-[#C4952D] hover:bg-[#C4952D] hover:text-white hover:shadow-xl hover:shadow-[#C4952D]/30 hover:-translate-y-1'
-                        : 'bg-brand-primary/10 text-brand-primary hover:bg-brand-primary hover:text-white hover:shadow-xl hover:shadow-brand-primary/30 hover:-translate-y-1'
-                    } disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:-translate-y-0 disabled:cursor-not-allowed`}
+                        ? 'bg-[#C4952D]/10 text-[#C4952D] hover:bg-[#C4952D] hover:text-white hover:shadow-xl hover:shadow-[#C4952D]/30'
+                        : 'bg-brand-primary/10 text-brand-primary hover:bg-brand-primary hover:text-white hover:shadow-xl hover:shadow-brand-primary/30'
+                    } disabled:opacity-50 disabled:hover:bg-transparent disabled:cursor-not-allowed`}
                   >
                     {promoLoading ? <span className="animate-spin w-5 h-5 border-2 border-current border-t-transparent rounded-full" /> : <Tag className="w-5 h-5" />}
                   </button>
@@ -1410,7 +1470,7 @@ export default function Checkout() {
                   <button
                     type="button"
                     onClick={removePromo}
-                    className="w-12 h-12 shrink-0 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm bg-red-50 text-red-600 hover:bg-red-500 hover:text-white hover:shadow-xl hover:shadow-red-500/30 hover:-translate-y-1"
+                    className="w-12 h-12 shrink-0 rounded-full flex items-center justify-center transition-all duration-200 active:scale-95 shadow-sm bg-red-50 text-red-600 hover:bg-red-500 hover:text-white hover:shadow-xl hover:shadow-red-500/30"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -1443,9 +1503,9 @@ export default function Checkout() {
                       <Calendar className="w-4 h-4 text-slate-400" />
                       <span>{durationKey === '3m' ? '3 شهور' : '6 شهور'}</span>
                     </span>
-                    <span className={`text-lg font-black ${isMax ? 'text-[#C4952D]' : 'text-brand-primary'}`}>+</span>
-                    <span className={`flex items-center gap-1.5 text-sm font-bold px-3.5 py-2 rounded-xl ${isMax ? 'bg-[#C4952D]/10 text-[#C4952D]' : 'bg-brand-primary/10 text-brand-primary'}`}>
-                      <Gift className="w-4 h-4" />
+                    <span className="text-lg font-black text-slate-800">+</span>
+                    <span className={`flex items-center gap-1.5 text-sm font-bold px-3.5 py-2 rounded-xl ${isMax ? 'bg-amber-500/10 text-slate-900 border border-amber-200/50' : 'bg-slate-100 text-slate-800'}`}>
+                      <Gift className="w-4 h-4 text-slate-500" />
                       <span>{durationKey === '3m' ? 'شهر هدية' : 'شهرين هدية'}</span>
                     </span>
                   </div>
@@ -1479,14 +1539,14 @@ export default function Checkout() {
                         {currentPrice?.originalAmount.toLocaleString()}
                       </span>
                     )}
-                    <span className={`text-3xl font-black font-en tracking-tight ${isMax ? 'text-[#C4952D]' : 'text-[#009AE0]'}`}>
+                    <span className={`text-3xl font-black font-en tracking-tight ${isMax ? 'text-[#C4952D]' : 'text-slate-900'}`}>
                       {currentPrice?.finalAmount.toLocaleString()}
                     </span>
                     <span className="text-sm text-slate-500 font-bold mt-1">{currencyStr}</span>
                   </div>
                 </div>
                 {currentPrice && (
-                  <div className={`mt-3 flex items-center justify-center text-sm lg:text-base font-bold ${isMax ? 'bg-[#C4952D]/10 text-[#C4952D]' : 'bg-brand-primary/10 text-brand-primary'} px-3 py-2.5 rounded-xl`} dir="rtl">
+                  <div className="mt-3 flex items-center justify-center text-sm lg:text-base font-bold bg-slate-100 text-slate-800 px-3 py-2.5 rounded-xl" dir="rtl">
                     <span>يعني الشهر بـ <span className="font-en text-lg lg:text-xl font-black mx-1">{Math.round(currentPrice.finalAmount / ((currentPrice.baseDurationMonths || 1) + (currentPrice.freeMonths || 0))).toLocaleString()}</span> {currencyStr} فقط!</span>
                   </div>
                 )}

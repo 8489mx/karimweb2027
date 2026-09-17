@@ -28,12 +28,12 @@ export function Button({
   ...props
 }: ButtonProps) {
   const { settings } = useSettings();
-  const baseStyles = "inline-flex items-center justify-center w-fit font-bold uppercase transition-all duration-200 gap-2";
+  const baseStyles = "inline-flex items-center justify-center w-fit font-bold uppercase transition-all duration-200 gap-2 active:scale-[0.98]";
   
   const variants = {
-    primary: "bg-brand-primary text-white hover:bg-brand-primary-hover hover:-translate-y-0.5",
+    primary: "bg-brand-primary text-white hover:bg-brand-primary-hover shadow-md hover:shadow-lg",
     secondary: "bg-brand-surface text-brand-text hover:bg-brand-secondary",
-    outline: "bg-white border-2 border-brand-border text-brand-primary hover:border-brand-primary hover:-translate-y-0.5",
+    outline: "bg-white border-2 border-brand-border text-brand-primary hover:border-brand-primary shadow-sm hover:shadow-md",
   };
 
   const sizes = {

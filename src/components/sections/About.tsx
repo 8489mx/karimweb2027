@@ -17,7 +17,7 @@ export function About() {
 
   // Video URL (configurable via CMS, with fallback to responsive explainer video)
   const videoUrl = settings.cms?.aboutVideoUrl || "";
-  const thumbnailUrl = settings.cms?.aboutVideoThumbnail || "/assets/images/about/profile-photo.jpg";
+  const thumbnailUrl = settings.cms?.aboutVideoThumbnail || "/assets/images/about/profile-photo.webp";
 
   const isYouTube = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
   const isVimeo = videoUrl.includes('vimeo.com');
@@ -137,7 +137,7 @@ export function About() {
                 {/* Background Cover Image */}
                 <img
                   src={thumbnailUrl}
-                  alt={lang === 'ar' ? "فيديو شرح برنامج كابتن كريم زكريا" : "Captain Karim Zakaria Explainer Video"}
+                  alt={lang === 'ar' ? "شرح برامج التدريب الشخصي والدايت مع كابتن كريم زكريا" : "Captain Karim Zakaria Personal Training & Diet Programs Explained"}
                   width="1280"
                   height="720"
                   loading="lazy"
@@ -171,6 +171,14 @@ export function About() {
             )}
           </div>
         </div>
+
+        {/* Optional CMS Bio/About text if provided */}
+        {settings.cms?.aboutText && (
+          <div 
+            className="max-w-2xl mx-auto mb-8 text-center text-slate-700 leading-relaxed text-base font-medium prose prose-slate"
+            dangerouslySetInnerHTML={{ __html: settings.cms.aboutText }}
+          />
+        )}
 
         {/* CTA Button under video */}
         <div className="text-center">

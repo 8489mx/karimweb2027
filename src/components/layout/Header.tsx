@@ -77,7 +77,7 @@ export function Header() {
         className={cn(
           "mx-auto pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] relative flex items-center justify-between lg:gap-4",
           headerActive 
-            ? "w-[calc(100%-32px)] max-w-7xl md:w-[calc(100%-40px)] bg-white shadow-[0_14px_40px_rgba(0,0,0,0.05)] h-[46px] md:h-[62px] px-5 sm:px-6 lg:px-8 rounded-full mt-3 md:mt-4"
+            ? "w-[calc(100%-32px)] max-w-7xl md:w-[calc(100%-40px)] bg-white shadow-[0_14px_40px_rgba(0,0,0,0.05)] h-[46px] md:h-[62px] px-5 sm:px-6 lg:px-8 rounded-[16px] md:rounded-[20px] mt-3 md:mt-4"
             : "w-full bg-transparent h-[60px] md:h-[96px] px-5 sm:px-6 lg:px-10 mt-0"
         )}
       >
@@ -94,8 +94,8 @@ export function Header() {
             className="block transition-opacity hover:opacity-80"
           >
             <img 
-              src="/assets/images/logo/2.png"
-              alt={lang === 'ar' ? "لوجو كابتن كريم زكريا" : "Karim Zakaria Logo"}
+              src="/assets/images/logo/2.webp"
+              alt={lang === 'ar' ? "شعار كابتن كريم زكريا - مدرب شخصي أونلاين" : "Captain Karim Zakaria Logo - Online Personal Trainer"}
               width="180"
               height="45"
               loading="eager"
@@ -124,7 +124,7 @@ export function Header() {
               trackStartNowClick({ cta_location: "header", button_text: t.hero.cta });
             }} 
             className={cn(
-              "px-4 py-1.5 text-[11px] sm:text-xs font-bold rounded-full shadow-sm whitespace-nowrap transition-all duration-300",
+              "px-4 py-1.5 text-[11px] sm:text-xs font-bold rounded-xl shadow-sm whitespace-nowrap transition-all duration-300",
               headerActive 
                 ? "bg-brand-primary text-white hover:bg-brand-primary-hover border-transparent"
                 : "bg-transparent text-white border border-white/40 hover:bg-white hover:text-slate-900"
@@ -200,7 +200,7 @@ export function Header() {
               trackStartNowClick({ cta_location: "header", button_text: t.hero.cta });
             }} 
             className={cn(
-              "rounded-full font-bold whitespace-nowrap transition-all duration-300 px-6 xl:px-7 py-2 text-xs xl:text-sm shadow-sm",
+              "rounded-xl font-bold whitespace-nowrap transition-all duration-300 px-6 xl:px-7 py-2 text-xs xl:text-sm shadow-sm",
               headerActive 
                 ? "bg-brand-primary text-white hover:bg-brand-primary-hover" 
                 : "bg-white/10 backdrop-blur-md border border-white/30 text-white hover:bg-white hover:text-slate-900"
