@@ -65,60 +65,71 @@ export const getHelpTopics = () => {
     bodyFatVisual: {
       title: "دليل تقدير نسبة الدهون التقريبية",
       content: (
-        <div className="space-y-6 text-sm leading-relaxed text-slate-700 text-right text-base">
-          <p className="text-slate-500 font-medium">لو معندكش جهاز InBody، دي طريقة تقريبية ممتازة بناءً على شكل الجسم العام في المراية لتسهيل الحساب:</p>
+        <div className="space-y-6 text-sm leading-relaxed text-slate-700 text-right text-base" dir="rtl">
+          <p className="text-slate-500 font-medium">لو معندكش جهاز InBody، تقدر تقارن شكل جسمك في المراية بالدليل التقريبي ده لتسهيل الحساب:</p>
           
-          <div>
-            <h4 className="font-black text-brand-primary mb-3 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-blue-500 block"></span> للرجال
+          <div className="relative">
+            <h4 className="font-black text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-500 mb-4 flex items-center gap-2 text-lg">
+              <span className="w-2 h-6 rounded-full bg-blue-500 block"></span> للرجال
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
-                <span className="font-bold text-lg text-slate-800">10% - 12%</span>
-                <p className="text-slate-600 mt-1">تقسيمات البطن الستة (Six-pack) واضحة جداً، وعضلات الجسم بارزة ومفصلة.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300">
+                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-blue-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50"></div>
+                <span className="relative z-10 font-black text-2xl text-slate-800 tracking-tight">10-12<span className="text-sm text-slate-400 font-bold">%</span></span>
+                <p className="text-slate-600 mt-2 font-medium leading-relaxed">تقسيمات البطن الستة (Six-pack) واضحة جداً، وعضلات الجسم بارزة ومفصلة بقوة.</p>
               </div>
-              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
-                <span className="font-bold text-lg text-slate-800">15%</span>
-                <p className="text-slate-600 mt-1">تحديد بسيط لعضلات البطن العلوية، جسم رياضي ومشدود.</p>
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300">
+                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-blue-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50"></div>
+                <span className="relative z-10 font-black text-2xl text-slate-800 tracking-tight">15<span className="text-sm text-slate-400 font-bold">%</span></span>
+                <p className="text-slate-600 mt-2 font-medium leading-relaxed">تحديد بسيط لعضلات البطن العلوية، جسم رياضي ومشدود بشكل عام.</p>
               </div>
-              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
-                <span className="font-bold text-lg text-slate-800">20%</span>
-                <p className="text-slate-600 mt-1">مفيش تقسيمات بطن، بداية ظهور الكرش البسيط وتخزين دهون في الخصر.</p>
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300">
+                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-blue-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50"></div>
+                <span className="relative z-10 font-black text-2xl text-slate-800 tracking-tight">20<span className="text-sm text-slate-400 font-bold">%</span></span>
+                <p className="text-slate-600 mt-2 font-medium leading-relaxed">بدون تقسيمات للبطن، بداية ظهور الكرش البسيط وتخزين دهون في الخصر.</p>
               </div>
-              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
-                <span className="font-bold text-lg text-slate-800">25% - 30%+</span>
-                <p className="text-slate-600 mt-1">كرش واضح، وزن زائد ملحوظ وتراكم كبير للدهون في الجناب والصدر.</p>
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300">
+                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-blue-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50"></div>
+                <span className="relative z-10 font-black text-2xl text-slate-800 tracking-tight">25-30<span className="text-sm text-slate-400 font-bold">%+</span></span>
+                <p className="text-slate-600 mt-2 font-medium leading-relaxed">كرش واضح، وزن زائد ملحوظ وتراكم كبير للدهون في الجناب والصدر.</p>
               </div>
             </div>
           </div>
 
-          <div className="pt-2">
-            <h4 className="font-black text-pink-500 mb-3 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-pink-500 block"></span> للنساء
+          <div className="pt-4 relative">
+            <h4 className="font-black text-transparent bg-clip-text bg-gradient-to-l from-pink-500 to-rose-400 mb-4 flex items-center gap-2 text-lg">
+              <span className="w-2 h-6 rounded-full bg-pink-500 block"></span> للنساء
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
-                <span className="font-bold text-lg text-slate-800">18% - 20%</span>
-                <p className="text-slate-600 mt-1">جسم رياضي جداً وناشف، تقسيمات خفيفة في البطن (شكل الفيتنس).</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300">
+                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-pink-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50"></div>
+                <span className="relative z-10 font-black text-2xl text-slate-800 tracking-tight">18-20<span className="text-sm text-slate-400 font-bold">%</span></span>
+                <p className="text-slate-600 mt-2 font-medium leading-relaxed">جسم رياضي جداً وناشف، تقسيمات خفيفة في البطن (شكل الفيتنس).</p>
               </div>
-              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
-                <span className="font-bold text-lg text-slate-800">25%</span>
-                <p className="text-slate-600 mt-1">جسم مشدود ورفيع، بدون تقسيمات عضلية واضحة (النسبة المثالية).</p>
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300">
+                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-pink-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50"></div>
+                <span className="relative z-10 font-black text-2xl text-slate-800 tracking-tight">25<span className="text-sm text-slate-400 font-bold">%</span></span>
+                <p className="text-slate-600 mt-2 font-medium leading-relaxed">جسم مشدود ورفيع، بدون تقسيمات عضلية واضحة (النسبة المثالية).</p>
               </div>
-              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
-                <span className="font-bold text-lg text-slate-800">30%</span>
-                <p className="text-slate-600 mt-1">بداية تخزين الدهون بشكل ملحوظ في الأرداف، الفخذين، والبطن السفلية.</p>
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300">
+                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-pink-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50"></div>
+                <span className="relative z-10 font-black text-2xl text-slate-800 tracking-tight">30<span className="text-sm text-slate-400 font-bold">%</span></span>
+                <p className="text-slate-600 mt-2 font-medium leading-relaxed">بداية تخزين الدهون بشكل ملحوظ في الأرداف، الفخذين، والبطن السفلية.</p>
               </div>
-              <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
-                <span className="font-bold text-lg text-slate-800">35% - 40%+</span>
-                <p className="text-slate-600 mt-1">وزن زائد وممتلئ، توزيع كبير للدهون في أغلب مناطق الجسم.</p>
+              <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 rounded-2xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300">
+                <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-pink-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50"></div>
+                <span className="relative z-10 font-black text-2xl text-slate-800 tracking-tight">35-40<span className="text-sm text-slate-400 font-bold">%+</span></span>
+                <p className="text-slate-600 mt-2 font-medium leading-relaxed">وزن زائد وممتلئ، توزيع كبير للدهون في أغلب مناطق الجسم.</p>
               </div>
             </div>
           </div>
 
-          <p className="bg-blue-50 text-blue-700 p-3 rounded-lg border border-blue-100/50 font-medium text-sm text-center">
-            بمجرد تحديدك للنسبة الأقرب لجسمك، اكتبها في الخانة وهنحسبلك السعرات بدقة.
-          </p>
+          <div className="mt-6 bg-gradient-to-l from-slate-900 to-slate-800 p-4 rounded-2xl shadow-lg relative overflow-hidden">
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+            <p className="relative z-10 text-white font-medium text-sm text-center leading-relaxed">
+              اختر النسبة الأقرب لشكل جسمك واكتبها في الخانة، وسنحسب لك السعرات بدقة عالية.
+            </p>
+          </div>
         </div>
       )
     },
