@@ -50,9 +50,8 @@ export function Hero() {
       {/* Content */}
       <div className="relative z-10 w-full px-5 sm:px-6 text-center flex-1 flex flex-col items-center justify-center py-2 md:py-16">
         <h1 
-          className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black uppercase mb-3 sm:mb-4 drop-shadow-lg text-white max-w-4xl mx-auto"
+          className="text-[clamp(1.4rem,5.5vw,1.8rem)] whitespace-nowrap leading-[1.3] sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase mb-3 sm:mb-4 drop-shadow-lg text-white max-w-4xl mx-auto"
           dir="auto"
-          style={{ lineHeight: 1.35 }}
         >
           {settings.cms?.heroTitle || t.hero.title}
         </h1>
@@ -72,8 +71,8 @@ export function Hero() {
           <Button 
             href="/#packages"
             variant="primary" 
-            size="lg" 
-            className="rounded-xl px-6 py-2.5 md:px-8 md:py-3 shadow-lg shadow-brand-primary/20" 
+            size="md" 
+            className="rounded-xl px-6 py-2.5 md:px-8 md:py-3.5 shadow-lg shadow-brand-primary/20 md:text-lg" 
             showWhatsAppIcon={false}
             onClick={(e) => {
               if (window.location.pathname === '/') {
