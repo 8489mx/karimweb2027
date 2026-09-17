@@ -72,7 +72,7 @@ export const getHelpTopics = () => {
             <h4 className="font-black text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-500 mb-4 flex items-center gap-2 text-lg">
               <span className="w-2 h-6 rounded-full bg-blue-500 block shrink-0"></span> للرجال
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 gap-3 sm:gap-4">
               <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 sm:p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 text-right">
                 <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-blue-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50 pointer-events-none"></div>
                 <div className="relative z-10 flex items-baseline gap-1 mb-2">
@@ -112,7 +112,7 @@ export const getHelpTopics = () => {
             <h4 className="font-black text-transparent bg-clip-text bg-gradient-to-l from-pink-500 to-rose-400 mb-4 flex items-center gap-2 text-lg">
               <span className="w-2 h-6 rounded-full bg-pink-500 block shrink-0"></span> للنساء
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 gap-3 sm:gap-4">
               <div className="group relative bg-white/50 backdrop-blur-sm border border-slate-200/60 p-4 sm:p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 text-right">
                 <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-pink-100 to-transparent rounded-tr-2xl rounded-bl-3xl opacity-50 pointer-events-none"></div>
                 <div className="relative z-10 flex items-baseline gap-1 mb-2">
