@@ -67,6 +67,24 @@ export function Hero() {
         
         <div className="flex flex-row items-center justify-center gap-3 sm:gap-4 flex-wrap max-w-full">
           <Button 
+            href="/#packages"
+            variant="primary" 
+            size="md" 
+            className="rounded-xl px-5 sm:px-6 py-2.5 shadow-xl shadow-brand-primary/20 sm:text-lg min-w-[100px] sm:min-w-[120px] flex items-center gap-2" 
+            showWhatsAppIcon={false}
+            onClick={(e) => {
+              if (window.location.pathname === '/') {
+                e.preventDefault();
+                document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' });
+              }
+              trackStartNowClick({ cta_location: 'hero', button_text: t.hero.cta });
+            }}
+          >
+            <span>{t.hero.cta}</span>
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
+          </Button>
+
+          <Button 
             href="/#calculator"
             variant="outline" 
             size="md" 
@@ -81,24 +99,6 @@ export function Hero() {
             }}
           >
             <span>احسب سعراتك</span>
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
-          </Button>
-
-          <Button 
-            href="/#packages"
-            variant="primary" 
-            size="md" 
-            className="rounded-xl px-5 sm:px-6 py-2.5 shadow-xl shadow-brand-primary/20 sm:text-lg min-w-[100px] sm:min-w-[120px] flex items-center gap-2" 
-            showWhatsAppIcon={false}
-            onClick={(e) => {
-              if (window.location.pathname === '/') {
-                e.preventDefault();
-                document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' });
-              }
-              trackStartNowClick({ cta_location: 'hero', button_text: 'الباقات' });
-            }}
-          >
-            <span>الباقات</span>
             <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
           </Button>
         </div>
