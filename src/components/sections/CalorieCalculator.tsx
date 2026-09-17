@@ -593,14 +593,14 @@ export function CalorieCalculator() {
                   placeholder="15"
                   dir="ltr"
                 />{" "}
-                <div className="flex flex-col items-center justify-center gap-2 mt-3 px-1 text-center">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mt-3 px-1 text-center sm:text-right">
                   <p className="text-[12px] text-slate-500">
                     {t.calculator.bodyFatNote}
                   </p>
                   <button 
                     type="button" 
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('bodyFatVisual'); }} 
-                    className="text-[13px] font-bold text-brand-primary hover:text-brand-secondary transition-colors inline-flex items-center justify-center w-fit mx-auto"
+                    className="text-[13px] font-bold text-brand-primary hover:text-brand-secondary transition-colors inline-flex items-center justify-center sm:justify-end w-fit mx-auto sm:mx-0 shrink-0"
                   >
                     مش عارف نسبتك؟ شوف الدليل
                   </button>
