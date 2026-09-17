@@ -602,7 +602,7 @@ export function CalorieCalculator() {
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveHelp('bodyFatVisual'); }} 
                     className="text-[12px] font-bold text-brand-primary hover:text-brand-secondary transition-colors text-right flex items-center gap-1 w-fit"
                   >
-                    مش عارف نسبتك؟ شوف الدليل بالصور 📸
+                    📸 مش عارف نسبتك؟ شوف الدليل بالصور
                   </button>
                 </div>
               </div>{" "}

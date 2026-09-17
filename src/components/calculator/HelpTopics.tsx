@@ -66,7 +66,7 @@ export const getHelpTopics = () => {
       title: "دليل تقدير نسبة الدهون التقريبية",
       content: (
         <div className="space-y-6 text-sm leading-relaxed text-slate-700 text-right text-base" dir="rtl">
-          <p className="text-slate-500 font-medium">لو معندكش جهاز InBody، تقدر تقارن شكل جسمك في المراية بالدليل التقريبي ده لتسهيل الحساب:</p>
+          <p className="text-slate-500 font-medium">تقدر تقارن شكل جسمك في المراية بالدليل التقريبي ده لتسهيل الحساب:</p>
           
           <div className="relative">
             <h4 className="font-black text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-cyan-500 mb-4 flex items-center gap-2 text-lg">

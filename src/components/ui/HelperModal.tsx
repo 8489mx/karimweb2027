@@ -19,18 +19,24 @@ export function HelperModal({ isOpen, onClose, title, content }: HelperModalProp
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-      // Prevent iOS Safari bounce
+      const scrollY = window.scrollY;
       document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
       document.body.style.width = '100%';
-      document.body.style.height = '100%';
+      document.body.style.overflow = 'hidden';
+      // Store the scroll position on the body dataset so it persists across renders
+      document.body.dataset.scrollY = scrollY.toString();
     } else {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
+      const scrollY = document.body.dataset.scrollY;
       document.body.style.position = '';
+      document.body.style.top = '';
       document.body.style.width = '';
-      document.body.style.height = '';
+      document.body.style.overflow = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0'));
+        // Clean up
+        delete document.body.dataset.scrollY;
+      }
     }
 
     const handleEscape = (e: KeyboardEvent) => {
@@ -40,11 +46,15 @@ export function HelperModal({ isOpen, onClose, title, content }: HelperModalProp
     };
     document.addEventListener('keydown', handleEscape);
     return () => {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
+      const scrollY = document.body.dataset.scrollY;
       document.body.style.position = '';
+      document.body.style.top = '';
       document.body.style.width = '';
-      document.body.style.height = '';
+      document.body.style.overflow = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0'));
+        delete document.body.dataset.scrollY;
+      }
       document.removeEventListener('keydown', handleEscape);
     }
   }, [isOpen, onClose]);
